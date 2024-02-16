@@ -61,7 +61,7 @@ private:
 	std::vector<std::pair<const PlayingCard*, unsigned short int>> findMatches() const;
 	bool checkStraight() const;
 	bool checkFlush() const;
-	void storeTieBreakers(std::vector<std::pair<const PlayingCard*, unsigned short int>> matches);
+	void storeTieBreakers(const std::vector<std::pair<const PlayingCard*, unsigned short int>>& matches);
 
 };
 

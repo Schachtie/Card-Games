@@ -147,7 +147,7 @@ void Hand5::setRank() {
 	cout << "m_Rank is: " << m_iRank << endl;
 	cout << "Rank: " << s_HandRanks[m_iRank] << endl;
 
-	//call store tieBreakers function
+	storeTieBreakers(matches);
 }
 
 size_t Hand5::size() const {
@@ -362,7 +362,7 @@ bool Hand5::checkFlush() const {
 }
 
 //storeTieBreakers()
-void Hand5::storeTieBreakers(vector<pair<const PlayingCard*, unsigned short int>> matches) {
+void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned short int>>& matches) {
 	switch (m_iRank)
 	{
 	case 0: // High Card
@@ -370,9 +370,8 @@ void Hand5::storeTieBreakers(vector<pair<const PlayingCard*, unsigned short int>
 		//needs to store all 5 cards (order of faceValue)
 			//PROBABLY GOING TO USE "find_if" using a lambda expression
 
-		//WORKING HERE - reinterpret_cast
-		const PlayingCard* maxHandA = max_element(m_Cards.cbegin(), m_Cards.cend());
-		while (maxHandA != &(*m_Cards.cend()))
+		const PlayingCard* pCurrentCard = &(*max_element(m_Cards.cbegin(), m_Cards.cend()));
+		while (pCurrentCard != &(*m_Cards.cend()))
 		{
 			m_ptrsTieBreakers.push_back(pCurrentCard);
 			//Find next highest card
@@ -404,7 +403,7 @@ void Hand5::storeTieBreakers(vector<pair<const PlayingCard*, unsigned short int>
 
 		break;
 	}
-	case 4: // Straight - DONE - UNTESTED
+	case 4: // Straight - done and working
 	{
 		//needs 1 card (high card)
 		m_ptrsTieBreakers.push_back(&(*max_element(m_Cards.cbegin(), m_Cards.cend())));
@@ -417,7 +416,7 @@ void Hand5::storeTieBreakers(vector<pair<const PlayingCard*, unsigned short int>
 
 		break;
 	}
-	case 6: // Full House - DONE - UNTESTED
+	case 6: // Full House - done and working
 	{
 		//needs 3k + pair
 		m_ptrsTieBreakers.push_back(get<0>(matches[0]));
@@ -425,7 +424,7 @@ void Hand5::storeTieBreakers(vector<pair<const PlayingCard*, unsigned short int>
 		//If tieBreakers were put into vector in incorrect order, swap them
 		if (get<1>(matches[0]) < get<1>(matches[1]))
 		{
-			swap(matches[0], matches[1]);
+			swap(m_ptrsTieBreakers[0], m_ptrsTieBreakers[1]);
 		}
 		break;
 	}
@@ -451,5 +450,11 @@ void Hand5::storeTieBreakers(vector<pair<const PlayingCard*, unsigned short int>
 		cout << "Error with \"m_iRank\" member's stored value: " << m_iRank << endl;
 		break;
 	}
+	}
+
+	cout << "Tiebreaker cards stored below in order: " << endl;
+	for (auto pCard : m_ptrsTieBreakers)
+	{
+		cout << *pCard << endl;
 	}
 }
