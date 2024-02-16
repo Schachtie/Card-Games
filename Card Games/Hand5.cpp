@@ -369,6 +369,7 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 	{
 		//needs to store all 5 cards (order of faceValue)
 			//PROBABLY GOING TO USE "find_if" using a lambda expression
+			//Or you could just make a copy of the m_Cards, order it, then assign tieBreakers from that (uses space)
 
 		const PlayingCard* pCurrentCard = &(*max_element(m_Cards.cbegin(), m_Cards.cend()));
 		while (pCurrentCard != &(*m_Cards.cend()))
@@ -386,6 +387,7 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 	{
 		//needs pair + 3 cards (order of faceValue)
 		unsigned short int cardsToStore = 4;
+		//could do copying (as mentioned above: case 0) but with remove_copy (for all matches + x cards)
 
 		break;
 	}
