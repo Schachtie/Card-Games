@@ -41,11 +41,11 @@ int main()
 	cout << hand << endl;
 	cout << deck << endl;*/
 
-	PlayingCard card1(5, 1);
+	PlayingCard card1(6, 1);
 	PlayingCard card2(5, 2);
 	PlayingCard card3(2, 3);
-	PlayingCard card4(2, 3);
-	PlayingCard card5(5, 4);
+	PlayingCard card4(9, 3);
+	PlayingCard card5(3, 4);
 
 	Hand5 hand1;
 
@@ -58,6 +58,8 @@ int main()
 	cout << hand1 << endl;
 
 	hand1.setRank();
+
+	cout << endl << hand1 << endl;
 }
 
 //Function Bodies

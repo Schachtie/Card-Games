@@ -365,22 +365,14 @@ bool Hand5::checkFlush() const {
 void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned short int>>& matches) {
 	switch (m_iRank)
 	{
-	case 0: // High Card
+	case 0: // High Card - done and working
 	{
 		//needs to store all 5 cards (order of faceValue)
-			//PROBABLY GOING TO USE "find_if" using a lambda expression
-			//Or you could just make a copy of the m_Cards, order it, then assign tieBreakers from that (uses space)
-
-		const PlayingCard* pCurrentCard = &(*max_element(m_Cards.cbegin(), m_Cards.cend()));
-		while (pCurrentCard != &(*m_Cards.cend()))
-		{
-			m_ptrsTieBreakers.push_back(pCurrentCard);
-			//Find next highest card
+		for (auto itCard = m_Cards.cbegin(); itCard != m_Cards.cend(); ++itCard) {
+			m_ptrsTieBreakers.push_back(&(*itCard));
 		}
-
-		
-		
-
+		sort(m_ptrsTieBreakers.begin(), m_ptrsTieBreakers.end(),
+			[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs > *rhs; });
 		break;
 	}
 	case 1: // Pair
@@ -411,11 +403,14 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 		m_ptrsTieBreakers.push_back(&(*max_element(m_Cards.cbegin(), m_Cards.cend())));
 		break;
 	}
-	case 5: // Flush
+	case 5: // Flush - done and working
 	{
 		//needs all 5 cards (order of faceValue)
-		unsigned short int cardsToStore = 5;
-
+		for (auto itCard = m_Cards.cbegin(); itCard != m_Cards.cend(); ++itCard) {
+			m_ptrsTieBreakers.push_back(&(*itCard));
+		}
+		sort(m_ptrsTieBreakers.begin(), m_ptrsTieBreakers.end(),
+			[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs > *rhs; });
 		break;
 	}
 	case 6: // Full House - done and working
@@ -436,7 +431,7 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 
 		break;
 	}
-	case 8: // Straight Flush - DONE - UNTESTED
+	case 8: // Straight Flush - done and working
 	{
 		//needs 1 card (high card)
 		m_ptrsTieBreakers.push_back(&(*max_element(m_Cards.cbegin(), m_Cards.cend())));
