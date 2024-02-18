@@ -378,16 +378,32 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 	case 1: // Pair
 	{
 		//needs pair + 3 cards (order of faceValue)
-		unsigned short int cardsToStore = 4;
-		//could do copying (as mentioned above: case 0) but with remove_copy (for all matches + x cards)
-
+		m_ptrsTieBreakers.push_back(get<0>(matches[0]));
+		for (auto itCard = m_Cards.cbegin(); itCard != m_Cards.cend(); ++itCard) {
+			if (*itCard != *m_ptrsTieBreakers[0]) {
+				m_ptrsTieBreakers.push_back(&(*itCard));
+			}
+		}
+		sort(m_ptrsTieBreakers.begin() + 1, m_ptrsTieBreakers.end(),
+			[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs > *rhs; });
 		break;
 	}
-	case 2: // Two Pair
+	case 2: // Two Pair - done and working
 	{
 		//needs pair + pair + 1 card (order of faceValue)
-		unsigned short int cardsToStore = 3;
-
+		m_ptrsTieBreakers.push_back(get<0>(matches[0]));
+		m_ptrsTieBreakers.push_back(get<0>(matches[1]));
+		//If tieBreakers were put into vector in incorrect order, swap them
+		if (*get<0>(matches[0]) < *get<0>(matches[1]))
+		{
+			swap(m_ptrsTieBreakers[0], m_ptrsTieBreakers[1]);
+		}
+		//find and add final tiebreaker card
+		for (auto itCard = m_Cards.cbegin(); itCard != m_Cards.cend(); ++itCard) {
+			if (*itCard != *m_ptrsTieBreakers[0] && *itCard != *m_ptrsTieBreakers[1]) {
+				m_ptrsTieBreakers.push_back(&(*itCard));
+			}
+		}
 		break;
 	}
 	case 3: // Three of a Kind
