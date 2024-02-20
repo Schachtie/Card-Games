@@ -39,16 +39,6 @@ Hand5::Hand5(const Hand5& oldHand) {
 const array<string, 10> Hand5::s_HandRanks = { "High Card", "Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush" };
 
 //Public Set and Get Functions
-unsigned short int Hand5::getRankValue() const {
-	return m_iRank;
-}
-
-string Hand5::getRankString() const {
-	return s_HandRanks[m_iRank];
-}
-
-//Public Member Functions
-
 void Hand5::setRank() {
 	//Variables used for determining rank
 	vector<pair<const PlayingCard*, unsigned short int>> matches = findMatches();
@@ -150,6 +140,15 @@ void Hand5::setRank() {
 	storeTieBreakers(matches);
 }
 
+unsigned short int Hand5::getRankValue() const {
+	return m_iRank;
+}
+
+string Hand5::getRankString() const {
+	return s_HandRanks[m_iRank];
+}
+
+//Public Member Functions
 size_t Hand5::size() const {
 	return m_Cards.size();
 }
@@ -218,6 +217,7 @@ bool Hand5::operator!=(const Hand5& secondHand) const {
 //Private Member Functions
 
 //Returns a pointer to the "greater" hand, NULL if hands tieBreakers are equal
+//UNTESTED
 const Hand5* Hand5::breakTie(const Hand5* hand1, const Hand5* hand2) const {
 	//Check for empty tieBreakers vector (Royal Flush Tie)
 	if (hand1->m_ptrsTieBreakers.size() == 0)
@@ -275,20 +275,20 @@ vector<pair<const PlayingCard*, unsigned short int>> Hand5::findMatches() const 
 	return matchesVec;
 }
 
-//Should rewrite to avoid retyping same code
+//Should rewrite to avoid retyping same code - come back to this!
 bool Hand5::checkStraight() const {
 	int straightCounter = 1;
 	bool bStraight = true;
-	auto itCurrentCard = min_element(m_Cards.cbegin(), m_Cards.cend());
+	auto itCurrentCard = max_element(m_Cards.cbegin(), m_Cards.cend());
 
 	//Check if minimum card is an Ace
 	if (itCurrentCard->getFaceString() == PlayingCard::s_CardFaces[1])
 	{
-		//Check for an Ace High Straight (searches for a King as well)
-		auto itMaxCard = max_element(m_Cards.cbegin(), m_Cards.cend());
-		if (itMaxCard->getFaceString() == PlayingCard::s_CardFaces[13])
+		//Check for an Ace Low Straight (searches for a Duece as well)
+		auto itMinCard = min_element(m_Cards.cbegin(), m_Cards.cend());
+		if (itMinCard->getFaceString() == PlayingCard::s_CardFaces[2])
 		{
-			//Update counter to reflect Ace & King
+			//Update counter to reflect Ace & Duece
 			++straightCounter;
 			
 			while (bStraight)
@@ -300,8 +300,8 @@ bool Hand5::checkStraight() const {
 
 				try
 				{
-					if ((itMaxCard = find_if(m_Cards.cbegin(), m_Cards.cend(),
-						[&itMaxCard](PlayingCard otherCard) { return otherCard.getFaceString() == PlayingCard::s_CardFaces.at(itMaxCard->getFaceValue() - 1); }))
+					if ((itMinCard = find_if(m_Cards.cbegin(), m_Cards.cend(),
+						[&itMinCard](PlayingCard otherCard) { return otherCard.getFaceString() == PlayingCard::s_CardFaces.at(itMinCard->getFaceValue() + 1); }))
 						!= m_Cards.cend())
 					{
 						++straightCounter;
@@ -314,7 +314,7 @@ bool Hand5::checkStraight() const {
 				catch (out_of_range& e)
 				{
 					//this is if there is an error with the "at()" function
-					cout << "ERROR" << endl;
+					cout << "ERROR1" << endl;
 				}
 			}
 		}
@@ -323,7 +323,7 @@ bool Hand5::checkStraight() const {
 	//reset variables for normal straight check
 	bStraight = true;
 	straightCounter = 1;
-
+	itCurrentCard = min_element(m_Cards.cbegin(), m_Cards.cend());
 	
 	while (bStraight)
 	{
@@ -334,7 +334,18 @@ bool Hand5::checkStraight() const {
 		
 		try
 		{
-			if ((itCurrentCard = find_if(m_Cards.cbegin(), m_Cards.cend(),
+			if (itCurrentCard->getFaceString() == PlayingCard::s_CardFaces[13])
+			{
+				if (straightCounter == m_Cards.size() - 1)
+				{
+					if (find_if(m_Cards.cbegin(), m_Cards.cend(), [](PlayingCard card) { return card.getFaceString() == PlayingCard::s_CardFaces[1]; }) != m_Cards.cend())
+					{
+						return true;
+					}
+				}
+				bStraight = false;
+			}
+			else if ((itCurrentCard = find_if(m_Cards.cbegin(), m_Cards.cend(),
 				[&itCurrentCard](PlayingCard otherCard) { return otherCard.getFaceString() == PlayingCard::s_CardFaces.at(itCurrentCard->getFaceValue() + 1); }))
 				!= m_Cards.cend())
 			{
@@ -348,7 +359,7 @@ bool Hand5::checkStraight() const {
 		catch (const out_of_range& e)
 		{
 			//this is if there is an error with the "at()" function
-			cout << "ERROR" << endl;
+			cout << "ERROR2" << endl;
 		}
 	}
 
@@ -361,7 +372,7 @@ bool Hand5::checkFlush() const {
 		!= m_Cards.cend();
 }
 
-//storeTieBreakers()
+//storeTieBreakers() - come back to this to reduce code replication
 void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned short int>>& matches) {
 	switch (m_iRank)
 	{
@@ -375,7 +386,7 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 			[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs > *rhs; });
 		break;
 	}
-	case 1: // Pair
+	case 1: // Pair  - done and working
 	{
 		//needs pair + 3 cards (order of faceValue)
 		m_ptrsTieBreakers.push_back(get<0>(matches[0]));
@@ -406,11 +417,17 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 		}
 		break;
 	}
-	case 3: // Three of a Kind
+	case 3: // Three of a Kind - done and working
 	{
 		//needs 3k + 2 cards (order of faceValue)
-		unsigned short int cardsToStore = 3;
-
+		m_ptrsTieBreakers.push_back(get<0>(matches[0]));
+		for (auto itCard = m_Cards.cbegin(); itCard != m_Cards.cend(); ++itCard) {
+			if (*itCard != *m_ptrsTieBreakers[0]) {
+				m_ptrsTieBreakers.push_back(&(*itCard));
+			}
+		}
+		sort(m_ptrsTieBreakers.begin() + 1, m_ptrsTieBreakers.end(),
+			[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs > *rhs; });
 		break;
 	}
 	case 4: // Straight - done and working
@@ -441,10 +458,17 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 		}
 		break;
 	}
-	case 7: // Four of a Kind
+	case 7: // Four of a Kind - done and working
 	{
 		//needs 4k + 1 card 
-
+		m_ptrsTieBreakers.push_back(get<0>(matches[0]));
+		for (auto itCard = m_Cards.cbegin(); itCard != m_Cards.cend(); ++itCard) {
+			if (*itCard != *m_ptrsTieBreakers[0]) {
+				m_ptrsTieBreakers.push_back(&(*itCard));
+			}
+		}
+		sort(m_ptrsTieBreakers.begin() + 1, m_ptrsTieBreakers.end(),
+			[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs > *rhs; });
 		break;
 	}
 	case 8: // Straight Flush - done and working

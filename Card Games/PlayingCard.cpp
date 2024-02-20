@@ -104,7 +104,18 @@ bool PlayingCard::isEmpty() const {
 
 //Operator Overloads
 bool PlayingCard::operator<(const PlayingCard& card2) const {
-	if (this->getFaceValue() < card2.getFaceValue())
+	//Check if lhs is an Ace
+	if (this->getFaceString() == PlayingCard::s_CardFaces[1])
+	{
+		return false;
+	}
+	//Check if rhs is an Ace
+	else if (card2.getFaceString() == PlayingCard::s_CardFaces[1])
+	{
+		return true;
+	}
+	//Normal comparisons
+	else if (this->getFaceValue() < card2.getFaceValue())
 	{
 		return true;
 	}

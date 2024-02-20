@@ -41,14 +41,14 @@ int main()
 	cout << hand << endl;
 	cout << deck << endl;*/
 
-	PlayingCard card1(2, 1);
-	PlayingCard card2(1, 2);
-	PlayingCard card3(5, 3);
-	PlayingCard card4(2, 3);
-	PlayingCard card5(10, 4);
+	PlayingCard card1(7, 1);
+	PlayingCard card2(7, 2);
+	PlayingCard card3(7, 3);
+	PlayingCard card4(1, 3);
+	PlayingCard card5(7, 4);
 
 	Hand5 hand1;
-
+	cout << hand1 << endl;
 	hand1.addCard(card1);
 	hand1.addCard(card2);
 	hand1.addCard(card3);

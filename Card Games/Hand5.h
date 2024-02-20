@@ -48,9 +48,6 @@ public:
 	
 
 private:
-	//Private enumerations
-	
-	
 	//Private Data Members
 	unsigned short int m_iRank;
 	std::array<PlayingCard, 5> m_Cards;
@@ -62,7 +59,6 @@ private:
 	bool checkStraight() const;
 	bool checkFlush() const;
 	void storeTieBreakers(const std::vector<std::pair<const PlayingCard*, unsigned short int>>& matches);
-
 };
 
 #endif
