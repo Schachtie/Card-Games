@@ -19,22 +19,25 @@ class Hand5
 public:
 	//Constructors
 	Hand5(); //default
-	Hand5(const Hand5& oldHand); //copy - not written
+	Hand5(const Hand5& oldHand); //copy
 	//Destructor
 
 	//Public Data Members
 	static const std::array<std::string, 10> s_HandRanks;
 
 	//Set and Get Functions
-	void setRank(); //currently writing and testing
-	unsigned short int getRankValue() const; //not written
-		//setRank is private - only should be used within class itself
+	Hand5 getHand() const;
+	unsigned short int getRankValue() const;
 	std::string getRankString() const;
+	void setRank();
 
 	//Public Member Functions
-	size_t size() const;
-	int count() const;
 	void addCard(const PlayingCard& card);
+	int count() const;
+	void printHandStrings() const;
+	void printHandArt() const;
+	void replaceCardAt(size_t index, const PlayingCard& newCard);
+	size_t size() const;
 
 
 	//Operator Overloads - these will need testing once determineRank has been written. currently all hands are equal as each hand's rank is 0 and all ptrsTieBreakers point to NULL

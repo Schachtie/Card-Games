@@ -129,13 +129,25 @@
   <ItemGroup>
     <ClCompile Include="CardGames.cpp" />
     <ClCompile Include="DeckOfCards.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game_5CardDraw.cpp" />
+    <ClCompile Include="Game_VideoPoker.cpp" />
     <ClCompile Include="Hand5.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player5Card.cpp" />
     <ClCompile Include="PlayingCard.cpp" />
+    <ClCompile Include="User5Card.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeckOfCards.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Game_5CardDraw.h" />
+    <ClInclude Include="Game_VideoPoker.h" />
     <ClInclude Include="Hand5.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Player5Card.h" />
     <ClInclude Include="PlayingCard.h" />
+    <ClInclude Include="User5Card.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

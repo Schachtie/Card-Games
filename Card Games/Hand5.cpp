@@ -1,13 +1,13 @@
 /*
 *	Class Definitions: Hand5
-*		//TEST 2:41AM 2-15-2024
-*	
-*	Working Notes: Currently on "setRank()", seems to be functioning properly needs to call...
-*					Time to write "storeTieBreakers()"
-* 
 */
 
+/*
+*	Working Notes:
+*		(1) Might want to add validation of cards for setRank()
+*/
 
+//Header Files
 #include "Hand5.h"
 #include <algorithm>
 #include <stdexcept>
@@ -39,22 +39,19 @@ Hand5::Hand5(const Hand5& oldHand) {
 const array<string, 10> Hand5::s_HandRanks = { "High Card", "Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush" };
 
 //Public Set and Get Functions
+unsigned short int Hand5::getRankValue() const {
+	return m_iRank;
+}
+
+string Hand5::getRankString() const {
+	return s_HandRanks[m_iRank];
+}
+
 void Hand5::setRank() {
 	//Variables used for determining rank
 	vector<pair<const PlayingCard*, unsigned short int>> matches = findMatches();
 	bool bStraight = checkStraight();
 	bool bFlush = checkFlush();
-
-
-	//TESTING COUT MESSAGES==============================================
-	cout << boolalpha << "SET RANK TESTING" << endl;
-	cout << "Checking for matches" << endl;
-	for (auto it = matches.cbegin(); it != matches.cend(); ++it)
-	{
-		cout << get<0>(*it)->getFaceString() << "\twas found " << get<1>(*it) << " times" << endl;
-	}
-	cout << "bStraight is: " << bStraight << endl;
-	cout << "bFlush is: " << bFlush << endl;
 
 	//Probability (most to least)
 		// High Card - (cmp)
@@ -133,19 +130,7 @@ void Hand5::setRank() {
 			m_iRank = 8;
 		}
 	}
-
-	cout << "m_Rank is: " << m_iRank << endl;
-	cout << "Rank: " << s_HandRanks[m_iRank] << endl;
-
 	storeTieBreakers(matches);
-}
-
-unsigned short int Hand5::getRankValue() const {
-	return m_iRank;
-}
-
-string Hand5::getRankString() const {
-	return s_HandRanks[m_iRank];
 }
 
 //Public Member Functions

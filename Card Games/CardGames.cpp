@@ -14,9 +14,9 @@
 #include <array>
 
 //Self-Made Classes Headers
-#include "PlayingCard.h"
 #include "DeckOfCards.h"
 #include "Hand5.h"
+
 
 
 //Using Statements
@@ -60,6 +60,9 @@ int main()
 	hand1.setRank();
 
 	cout << endl << hand1 << endl;
+
+
+	
 }
 
 //Function Bodies
