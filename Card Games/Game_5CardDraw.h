@@ -30,7 +30,7 @@ protected:
 private:
 	void buyInRound(); //tested and working
 	void dealHands(); //tested and working
-	void bettingRound();
+	void bettingRound(); //needs dynamic betting
 	void replaceRound();
 	void showdown(); //tested and working
 

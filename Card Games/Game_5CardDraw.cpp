@@ -100,26 +100,14 @@ Player* Game_5CardDraw::createUser() {
 
 //Game Loop Function: Returns true to continue, false to end
 bool Game_5CardDraw::gameLoop() {
-
-	//Check if all players can afford to play
-
 	//All Players buy in / blinds
 	buyInRound();
 
-	//Deal cards to all players (all hands should fill)
-	dealHands(); //this is looking great!
-
-	//Announce starting pot
-	cout << endl << "The pot is: " << m_iCurrentPot << " credits." << endl;
-
-	//TESTING CLEAR THIS OR MOVE THIS
-	printHands();
+	//Deal cards to all players
+	dealHands();
 
 	//Betting Round (1 time around)
 	bettingRound();
-
-	//Announce current pot
-	cout << endl << "The pot is: " << m_iCurrentPot << " credits." << endl;
 	
 	//Draw/Replace Round (up to 5 cards per player)
 	replaceRound();
@@ -127,12 +115,11 @@ bool Game_5CardDraw::gameLoop() {
 	//Betting Round (1 time around, unless down to 2 players)
 	bettingRound();
 
-	//Announce final pot
-	cout << endl << "The pot is: " << m_iCurrentPot << " credits." << endl;
-
 	//Showdown (determine winner & give payout)
 	showdown();
 	
+	//PRINTING ALL PLAYERS' HANDS FOR TESTING PURPOSES
+	printHands();
 
 	//PREP FOR NEW GAME
 
@@ -142,28 +129,39 @@ bool Game_5CardDraw::gameLoop() {
 
 	//Ask user to continue playing (check if user can't buy in again)
 	return false;
-}
+} //end of "gameLoop()"
 
 
 //Private Member Functions
 void Game_5CardDraw::buyInRound() {
+	//Announce buy in amount for game
+	cout << "Buy-in for this game is " << m_iBuyIn << " credits." << endl;
+	
 	//Iterate through all players backwards, have them place bets of the buyIn amounts, add to pot
-	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
-		//Check if player has enough credits to buy in
-		if ((*revItPlayer)->getCredits() > m_iBuyIn) {
-			m_iCurrentPot += (*revItPlayer)->Player::placeBet(m_iBuyIn);
+	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
+		//Check if player has enough credits to buy in and state if they buy in
+		if ((*itPlayer)->getCredits() > m_iBuyIn) {
+			m_iCurrentPot += (*itPlayer)->Player::placeBet(m_iBuyIn);
+
+			cout << '\t' << (*itPlayer)->getName() << " has bought in!" << endl;
 		}
 		else {
-			(*revItPlayer)->setActiveStatus(false);
+			(*itPlayer)->setActiveStatus(false);
 		}
 	}
-}
+
+	//Announce update pot
+	cout << "The starting pot for this game is " << m_iCurrentPot << " credits." << endl;
+} //end of "buyInRound()"
 
 void Game_5CardDraw::dealHands() {
 	//Shuffle deck
+	cout << "Shuffling deck... ";
 	m_Deck.shuffle();
+	cout << "Deck shuffled." << endl;
 
-	//Deal up to 5 cards per player
+	//Deal up to 5 cards per player (uses number of cards dealt to User to check)
+	cout << "Dealing cards to each player... ";
 	while (m_ptrsPlayers[0]->getHandCount() < m_ptrsPlayers[0]->getHandSize()) {
 		//Iterate through all players backwards, deal 1 card to each active player
 		for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
@@ -172,6 +170,7 @@ void Game_5CardDraw::dealHands() {
 			}
 		}
 	}
+	cout << "All cards have been dealt." << endl;
 
 	//Set each active player's hand rank
 	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
@@ -179,7 +178,7 @@ void Game_5CardDraw::dealHands() {
 			(*itPlayer)->determineHandRank();
 		}
 	}
-}
+} //end of "dealHands()"
 
 void Game_5CardDraw::bettingRound() {
 	//Minimum bet starts at 1
@@ -188,16 +187,21 @@ void Game_5CardDraw::bettingRound() {
 	//Iterate through all players backwards, have them place bet. Each bet must be >= the previous bet or person is out of the game
 	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 		if ((*revItPlayer)->getActiveStatus() && (*revItPlayer)->getCredits() >= minimumBet) {
-			m_iCurrentPot += (*revItPlayer)->placeBet(minimumBet);
+			unsigned int iBet = (*revItPlayer)->placeBet(minimumBet);
+			m_iCurrentPot += iBet;
+			cout << (*revItPlayer)->getName() << "bet " << iBet << " credit" << ((iBet == 1) ? "s." : ".") << endl;
 		}
 		else {
 			(*revItPlayer)->setActiveStatus(false);
 		}
 	}
-}
+
+	//Announce the updated pot
+	cout << "The pot is now " << m_iCurrentPot << " credits." << endl;
+} //end of "bettingRound()"
 
 void Game_5CardDraw::replaceRound() {
-	;
+	cout << "\nNEED TO CODE REPLACE ROUND\n" << endl;
 }
 
 void Game_5CardDraw::showdown() {
@@ -228,8 +232,10 @@ void Game_5CardDraw::showdown() {
 
 		//Give payout
 		(*itWinner)->givePayout(payout);
-	}
-}
+	} 
+	
+	//Any leftover credits in pot from integer rounding will be rolled over into next pot
+} //end of "showdown()"
 
 //Testing Functions
 

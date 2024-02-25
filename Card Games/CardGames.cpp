@@ -7,6 +7,7 @@
 *	Working Notes: 
 *		- Need to go through all code and "standardize" my variable names and {} use
 *		- Need to name NPCs to make it easier to debug
+*		- Need to make dynamic betting in 5 card draw
 */
 
 //Header Files
