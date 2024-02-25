@@ -109,11 +109,17 @@ bool Game_5CardDraw::gameLoop() {
 	//Deal cards to all players (all hands should fill)
 	dealHands(); //this is looking great!
 
+	//Announce starting pot
+	cout << endl << "The pot is: " << m_iCurrentPot << " credits." << endl;
+
 	//TESTING CLEAR THIS OR MOVE THIS
 	printHands();
 
 	//Betting Round (1 time around)
 	bettingRound();
+
+	//Announce current pot
+	cout << endl << "The pot is: " << m_iCurrentPot << " credits." << endl;
 	
 	//Draw/Replace Round (up to 5 cards per player)
 	replaceRound();
@@ -121,11 +127,14 @@ bool Game_5CardDraw::gameLoop() {
 	//Betting Round (1 time around, unless down to 2 players)
 	bettingRound();
 
-	//Showdown (determine winner)
+	//Announce final pot
+	cout << endl << "The pot is: " << m_iCurrentPot << " credits." << endl;
+
+	//Showdown (determine winner & give payout)
 	showdown();
 	
-	//Distribute payout
-	distributePayout();
+
+	//PREP FOR NEW GAME
 
 	//Clear all hands
 
@@ -167,7 +176,7 @@ void Game_5CardDraw::dealHands() {
 	//Set each active player's hand rank
 	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
 		if ((*itPlayer)->getActiveStatus()) {
-			(*itPlayer)->setHandRank();
+			(*itPlayer)->determineHandRank();
 		}
 	}
 }
@@ -179,7 +188,7 @@ void Game_5CardDraw::bettingRound() {
 	//Iterate through all players backwards, have them place bet. Each bet must be >= the previous bet or person is out of the game
 	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 		if ((*revItPlayer)->getActiveStatus() && (*revItPlayer)->getCredits() >= minimumBet) {
-			(*revItPlayer)->placeBet(minimumBet);
+			m_iCurrentPot += (*revItPlayer)->placeBet(minimumBet);
 		}
 		else {
 			(*revItPlayer)->setActiveStatus(false);
@@ -208,24 +217,19 @@ void Game_5CardDraw::showdown() {
 		}
 	}
 
-	//print all winners to check if stored correctly
-	cout << "NOW TESTING TO SEE IF WINNERS STORED CORRECTLY" << endl;
-	for (auto itPlayer = ptrsWinners.cbegin(); itPlayer != ptrsWinners.cend(); ++itPlayer) {
-		cout << endl;
-		cout << (*itPlayer)->getName() << endl;
-		cout << "Credits: " << (*itPlayer)->getCredits() << endl;
-		cout << (*itPlayer)->getHand() << endl;
+	//Distribute pot to winners
+	for (itWinner = ptrsWinners.begin(); itWinner != ptrsWinners.end(); ++itWinner) {
+		//Determine split for each person
+		unsigned int payout = m_iCurrentPot / iWinners;
+		m_iCurrentPot -= payout;
+		
+		//Announce winner and payout
+		cout << (*itWinner)->getName() << " was awarded " << payout << " credits for winning with a " << (*itWinner)->getHandRankString() << "." << endl;
+
+		//Give payout
+		(*itWinner)->givePayout(payout);
 	}
-
-	//put distributePayout in here instead
-	
-	;
 }
-
-void Game_5CardDraw::distributePayout() {
-	;
-}
-
 
 //Testing Functions
 

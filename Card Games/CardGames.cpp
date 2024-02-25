@@ -6,6 +6,7 @@
 * 
 *	Working Notes: 
 *		- Need to go through all code and "standardize" my variable names and {} use
+*		- Need to name NPCs to make it easier to debug
 */
 
 //Header Files
@@ -32,32 +33,6 @@ void dealFullHand(DeckOfCards& deck, Hand5& hand);
 //Main Function
 int main()
 {
-	/*DeckOfCards deck;
-	cout << deck << endl;
-	deck.shuffle();
-	cout << deck << endl;
-	Hand5 hand;
-	cout << hand << endl;
-	dealFullHand(deck, hand);
-	cout << hand << endl;
-	cout << deck << endl;*/
-
-	PlayingCard card1(7, 1);
-	PlayingCard card2(7, 2);
-	PlayingCard card3(7, 3);
-	PlayingCard card4(1, 3);
-	PlayingCard card5(7, 4);
-
-	Hand5 hand1;
-	cout << hand1 << endl;
-	hand1.addCard(card1);
-	hand1.addCard(card2);
-	hand1.addCard(card3);
-	hand1.addCard(card4);
-	hand1.addCard(card5);
-
-	cout << hand1 << endl;
-
 	cout << "Now testing game object..." << endl << endl;
 
 	Game_5CardDraw fiveCardDraw;

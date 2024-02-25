@@ -46,8 +46,8 @@ bool Player::getActiveStatus() const {
 	return m_bActiveStatus;
 }
 
-void Player::setHandRank() {
-	m_pHand->setRank();
+string Player::getHandRankString() const {
+	return m_pHand->getRankString();
 }
 
 //Public Member Functions

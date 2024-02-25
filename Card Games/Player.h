@@ -25,7 +25,7 @@ public:
 	bool getActiveStatus() const;
 	virtual unsigned short int getHandCount() const = 0;
 	virtual size_t getHandSize() const = 0;
-	void setHandRank();
+	std::string getHandRankString() const;
 
 	//Public Member Functions
 	virtual void addCard(const PlayingCard& card) = 0;
