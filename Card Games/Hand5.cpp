@@ -20,6 +20,9 @@ ostream& operator<<(ostream& output, const Hand5& hand) {
 	{
 		output << card << endl;
 	}
+
+	cout << "Hand rank is: " << Hand5::s_HandRanks[hand.m_iRank] << endl;
+
 	return output;
 }
 
@@ -138,8 +141,8 @@ size_t Hand5::size() const {
 	return m_Cards.size();
 }
 
-int Hand5::count() const {
-	return (int)count_if(m_Cards.cbegin(), m_Cards.cend(), [](PlayingCard c) { return !c.isEmpty(); });
+unsigned short int Hand5::count() const {
+	return (unsigned short int)count_if(m_Cards.cbegin(), m_Cards.cend(), [](PlayingCard c) { return !c.isEmpty(); });
 }
 
 void Hand5::addCard(const PlayingCard& card) {
@@ -472,11 +475,5 @@ void Hand5::storeTieBreakers(const vector<pair<const PlayingCard*, unsigned shor
 		cout << "Error with \"m_iRank\" member's stored value: " << m_iRank << endl;
 		break;
 	}
-	}
-
-	cout << "Tiebreaker cards stored below in order: " << endl;
-	for (auto pCard : m_ptrsTieBreakers)
-	{
-		cout << *pCard << endl;
 	}
 }

@@ -45,6 +45,9 @@
     <ClCompile Include="Game_VideoPoker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NPC5Card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayingCard.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game_VideoPoker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC5Card.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -33,7 +33,7 @@ public:
 
 	//Public Member Functions
 	void addCard(const PlayingCard& card);
-	int count() const;
+	unsigned short int count() const;
 	void printHandStrings() const;
 	void printHandArt() const;
 	void replaceCardAt(size_t index, const PlayingCard& newCard);

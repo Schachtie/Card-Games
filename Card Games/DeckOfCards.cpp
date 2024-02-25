@@ -30,11 +30,9 @@ DeckOfCards::DeckOfCards() {
 		for (int faceIndex = 1; faceIndex < PlayingCard::s_CardFaces.size(); ++faceIndex)
 		{
 			PlayingCard newCard(faceIndex, suitIndex);
-			this->addCard(newCard); //LOOK INTO EMPLACE TO REWRITE THIS
+			this->addCard(newCard);
 		}
 	}
-
-	this->m_bAceHigh = false;
 }
 
 DeckOfCards::DeckOfCards(const DeckOfCards& oldDeck) {
@@ -42,8 +40,6 @@ DeckOfCards::DeckOfCards(const DeckOfCards& oldDeck) {
 	{
 		this->addCard(card);
 	}
-
-	this->m_bAceHigh = oldDeck.isAceHigh();
 }
 
 //Set and Get Functions
@@ -72,30 +68,6 @@ void DeckOfCards::printDeck() {
 	{
 		cout << card.toString() << endl;
 	}
-}
-
-void DeckOfCards::setAceHigh() {
-	for (deque< PlayingCard >::iterator it = m_Cards.begin(); it != m_Cards.end(); ++it) {
-		if (it->getFaceString() == "Ace") {
-			it->setFaceValue((int)PlayingCard::s_CardFaces.size());
-		}
-	}
-
-	m_bAceHigh = true;
-}
-
-void DeckOfCards::setAceLow() {
-	for (deque< PlayingCard >::iterator it = m_Cards.begin(); it != m_Cards.end(); ++it) {
-		if (it->getFaceString() == "Ace") {
-			it->setFaceValue(1);
-		}
-	}
-
-	m_bAceHigh = false;
-}
-
-bool DeckOfCards::isAceHigh() const {
-	return m_bAceHigh;
 }
 
 void DeckOfCards::shuffle() {

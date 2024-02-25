@@ -4,6 +4,7 @@
 //Header Files
 #include <vector>
 #include "Player.h"
+#include "DeckOfCards.h"
 
 class Game
 {
@@ -15,9 +16,16 @@ public:
 
 protected:
 	//Protected Data Members
+	size_t numPlayers;
 	std::vector<Player*> m_ptrsPlayers;
+	unsigned int m_iBuyIn;
+	unsigned int m_iMinBet;
+	unsigned int m_iCurrentPot;
+	DeckOfCards m_Deck;
 
 	//Protected Member Functions
+	virtual Player* createNPC() = 0;
+	virtual Player* createUser() = 0;
 	virtual bool gameLoop() = 0;
 private:
 };

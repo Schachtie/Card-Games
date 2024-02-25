@@ -16,6 +16,7 @@
 //Self-Made Classes Headers
 #include "DeckOfCards.h"
 #include "Hand5.h"
+#include "Game_5CardDraw.h"
 
 
 
@@ -57,12 +58,10 @@ int main()
 
 	cout << hand1 << endl;
 
-	hand1.setRank();
+	cout << "Now testing game object..." << endl << endl;
 
-	cout << endl << hand1 << endl;
-
-
-	
+	Game_5CardDraw fiveCardDraw;
+	fiveCardDraw.run();
 }
 
 //Function Bodies

@@ -30,10 +30,7 @@ public:
 	size_t size() const;
 
 	//Public Member Functions
-	void printDeck(); //rework this maybe toString?, dont think so
-	void setAceHigh();
-	void setAceLow();
-	bool isAceHigh() const;
+	void printDeck();
 	void shuffle();
 	//unshuffle?
 	PlayingCard popNextCard();
@@ -45,7 +42,6 @@ public:
 private:
 	//Private Data Members
 	std::deque< PlayingCard > m_Cards;
-	bool m_bAceHigh;
 	static std::mt19937 m_RandGen;
 	
 

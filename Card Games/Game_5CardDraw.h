@@ -7,16 +7,34 @@
 class Game_5CardDraw : public Game
 {
 public:
-	//Constructors & Deconstructor
-	Game_5CardDraw(); //defaul
+	//Constructors & Destructor
+	Game_5CardDraw(); //default
+	//copy
+	virtual ~Game_5CardDraw(); //virtual destructor
+
+	//Public Static Data Members
+	static const unsigned short int s_iMAXPLAYERS = 5;
 
 	//Public Member Functions
 	virtual void run();
 
+	//Testing Area
+
+	void printHands() const;
+
 protected:
 	//Protected Member Functions
+	virtual Player* createNPC();
+	virtual Player* createUser();
 	virtual bool gameLoop();
 private:
+	void buyInRound(); //tested and working
+	void dealHands(); //tested and working
+	void bettingRound();
+	void replaceRound();
+	void showdown();
+	void distributePayout();
+
 };
 
 #endif

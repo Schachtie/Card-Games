@@ -9,21 +9,23 @@ using namespace std;
 
 //Default Constructor
 User5Card::User5Card() {
-	;
+	m_sName = "USER";
 }
 
 //Copy Constructor
 
 
 //Public Member Functions
-unsigned int User5Card::placeBet() {
+
+//Allows user to specify bet (need to actually code this)
+unsigned int User5Card::placeBet(unsigned int minBet) {
 	unsigned int bet = 0;
 
 	//ask user for bet
 
 
 	//apply bet
-	iCredits -= bet;
+	m_iCredits -= bet;
 
 	//return bet
 	return bet;
