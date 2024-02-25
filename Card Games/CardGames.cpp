@@ -4,8 +4,8 @@
 *	Simulates select Card Games on Console/Terminal
 * 
 * 
-*	Working Notes: Currently on "Hand5" class, final project is to store tieBreakers
-*					Next class: Player (user... inheritance?)
+*	Working Notes: 
+*		- Need to go through all code and "standardize" my variable names and {} use
 */
 
 //Header Files

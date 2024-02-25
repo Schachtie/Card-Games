@@ -132,7 +132,6 @@ bool Game_5CardDraw::gameLoop() {
 	//Reset deck
 
 	//Ask user to continue playing (check if user can't buy in again)
-	printHands();
 	return false;
 }
 
@@ -193,6 +192,33 @@ void Game_5CardDraw::replaceRound() {
 }
 
 void Game_5CardDraw::showdown() {
+	//Find winner based on largest hand
+	auto itWinner = max_element(m_ptrsPlayers.begin(), m_ptrsPlayers.end(), [](Player* pLHS, Player* pRHS) { return pLHS->getHand() < pRHS->getHand(); });
+
+	//Check if there are multiple winners
+	int iWinners = count_if(m_ptrsPlayers.cbegin(), m_ptrsPlayers.cend(), [&itWinner](Player* pOtherPlayer) { return (*itWinner)->getHand() == pOtherPlayer->getHand(); });
+	
+	//Add all winners to vector of Player*
+	vector<Player*> ptrsWinners;
+	auto itCurrentPlayer = m_ptrsPlayers.begin();
+	for (int i = 0; i < iWinners; ++i) {
+		itCurrentPlayer = find_if(itCurrentPlayer, m_ptrsPlayers.end(), [&itWinner](Player* pOtherPlayer) { return (*itWinner)->getHand() == pOtherPlayer->getHand(); });
+		if (itCurrentPlayer != m_ptrsPlayers.end()) {
+			ptrsWinners.push_back(&(**itCurrentPlayer));
+		}
+	}
+
+	//print all winners to check if stored correctly
+	cout << "NOW TESTING TO SEE IF WINNERS STORED CORRECTLY" << endl;
+	for (auto itPlayer = ptrsWinners.cbegin(); itPlayer != ptrsWinners.cend(); ++itPlayer) {
+		cout << endl;
+		cout << (*itPlayer)->getName() << endl;
+		cout << "Credits: " << (*itPlayer)->getCredits() << endl;
+		cout << (*itPlayer)->getHand() << endl;
+	}
+
+	//put distributePayout in here instead
+	
 	;
 }
 
