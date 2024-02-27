@@ -18,11 +18,25 @@ User5Card::User5Card() {
 //Public Member Functions
 
 //Allows user to specify bet (need to actually code this)
+
+unsigned int User5Card::determineBet(unsigned int minBet) {
+	unsigned int bet = 0;
+
+	//ask user for bet
+	bet = minBet;
+
+	//apply bet
+	m_iCurrentBet = bet;
+
+	//return bet
+	return bet;
+}
+
 unsigned int User5Card::placeBet(unsigned int minBet) {
 	unsigned int bet = 0;
 
 	//ask user for bet
-
+	bet = minBet;
 
 	//apply bet
 	m_iCredits -= bet;
@@ -35,6 +49,7 @@ void User5Card::printCards() const {
 
 }
 
-void User5Card::takeTurn() {
-	;
+vector<size_t> User5Card::determineReplaceCardsIndexes() {
+	vector<size_t> replaceIndexes;
+	return replaceIndexes;
 }

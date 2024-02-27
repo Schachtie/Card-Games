@@ -26,13 +26,17 @@ public:
 	static const std::array<std::string, 10> s_HandRanks;
 
 	//Set and Get Functions
-	Hand5 getHand() const;
+	const PlayingCard* getCPtrCardAt(size_t index) const;
 	unsigned short int getRankValue() const;
 	std::string getRankString() const;
 	void setRank();
+	std::vector<const PlayingCard*> getTieBreakersAll() const;
+	const PlayingCard* getTieBreakerAt(size_t index) const;
+	size_t getNumOfTieBreakers() const;
 
 	//Public Member Functions
 	void addCard(const PlayingCard& card);
+	void clearHand();
 	unsigned short int count() const;
 	void printHandStrings() const;
 	void printHandArt() const;

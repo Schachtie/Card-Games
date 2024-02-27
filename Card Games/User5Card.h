@@ -13,9 +13,10 @@ public:
 	virtual ~User5Card() { } //virtual deconstructor in case of dynamic memory
 
 	//Public Member Functions
+	virtual unsigned int determineBet(unsigned int minBet);
 	virtual unsigned int placeBet(unsigned int minBet) final; //incomplete: need to ask user for bet & validate
 	virtual void printCards() const;
-	virtual void takeTurn();
+	virtual std::vector<size_t> determineReplaceCardsIndexes();
 
 protected:
 

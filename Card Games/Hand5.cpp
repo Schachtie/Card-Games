@@ -42,6 +42,16 @@ Hand5::Hand5(const Hand5& oldHand) {
 const array<string, 10> Hand5::s_HandRanks = { "High Card", "Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush" };
 
 //Public Set and Get Functions
+const PlayingCard* Hand5::getCPtrCardAt(size_t index) const {
+	try {
+		const PlayingCard* retPtr = &m_Cards.at(index);
+		return retPtr;
+	}
+	catch (const out_of_range& e) {
+		return nullptr;
+	}
+}
+
 unsigned short int Hand5::getRankValue() const {
 	return m_iRank;
 }
@@ -136,6 +146,23 @@ void Hand5::setRank() {
 	storeTieBreakers(matches);
 }
 
+vector<const PlayingCard*> Hand5::getTieBreakersAll() const {
+	return m_ptrsTieBreakers;
+}
+
+const PlayingCard* Hand5::getTieBreakerAt(size_t index) const {
+	try {
+		return m_ptrsTieBreakers.at(index);
+	}
+	catch (const out_of_range& e) {
+		return nullptr;
+	}
+}
+
+size_t Hand5::getNumOfTieBreakers() const {
+	return m_ptrsTieBreakers.size();
+}
+
 //Public Member Functions
 size_t Hand5::size() const {
 	return m_Cards.size();
@@ -153,6 +180,22 @@ void Hand5::addCard(const PlayingCard& card) {
 	catch (const out_of_range& e)
 	{
 		cout << "Exception occurred: " << e.what();
+	}
+}
+
+void Hand5::clearHand() {
+	m_ptrsTieBreakers.clear();
+	m_Cards.fill(PlayingCard());
+	m_iRank = 0;
+}
+
+void Hand5::replaceCardAt(size_t index, const PlayingCard& card) {
+	try {
+		m_Cards.at(index) = card;
+	}
+	catch (const out_of_range& e) {
+		cout << "Exception occurred: " << e.what();
+		throw e;
 	}
 }
 

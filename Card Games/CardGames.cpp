@@ -8,6 +8,8 @@
 *		- Need to go through all code and "standardize" my variable names and {} use
 *		- Need to name NPCs to make it easier to debug
 *		- Need to make dynamic betting in 5 card draw
+*			~ Seems to have some bugs with numbers generated, though works like half the time right now
+*		- Need to make replace/draw round in game
 */
 
 //Header Files
@@ -25,11 +27,12 @@
 //Using Statements
 using namespace std;
 
-//Enumerations
-
+//Generators
+static mt19937 randGen(chrono::steady_clock::now().time_since_epoch().count());
 
 //Function Prototypes
 void dealFullHand(DeckOfCards& deck, Hand5& hand);
+unsigned int rollNumber(unsigned int low, unsigned int high);
 
 //Main Function
 int main()
@@ -48,4 +51,8 @@ void dealFullHand(DeckOfCards& deck, Hand5& hand) {
 	{
 		hand.addCard(deck.popNextCard());
 	}
+}
+
+unsigned int rollNumber(unsigned int low, unsigned int high) {
+	return uniform_int_distribution<unsigned int> {low, high} (randGen);
 }

@@ -121,11 +121,8 @@ bool Game_5CardDraw::gameLoop() {
 	//PRINTING ALL PLAYERS' HANDS FOR TESTING PURPOSES
 	printHands();
 
-	//PREP FOR NEW GAME
-
-	//Clear all hands
-
-	//Reset deck
+	//Prep for new game
+	resetGame();
 
 	//Ask user to continue playing (check if user can't buy in again)
 	return false;
@@ -138,16 +135,10 @@ void Game_5CardDraw::buyInRound() {
 	cout << "Buy-in for this game is " << m_iBuyIn << " credits." << endl;
 	
 	//Iterate through all players backwards, have them place bets of the buyIn amounts, add to pot
-	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
-		//Check if player has enough credits to buy in and state if they buy in
-		if ((*itPlayer)->getCredits() > m_iBuyIn) {
-			m_iCurrentPot += (*itPlayer)->Player::placeBet(m_iBuyIn);
-
-			cout << '\t' << (*itPlayer)->getName() << " has bought in!" << endl;
-		}
-		else {
-			(*itPlayer)->setActiveStatus(false);
-		}
+	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
+		unsigned int iBuyInRet = (*revItPlayer)->placeBuyIn(m_iBuyIn);
+		cout << '\t' << (*revItPlayer)->getName() << ((iBuyInRet != 0) ? " has bought in!" : " doesn't have enough credits to play.") << endl;
+		m_iCurrentPot += iBuyInRet;
 	}
 
 	//Announce update pot
@@ -181,19 +172,40 @@ void Game_5CardDraw::dealHands() {
 } //end of "dealHands()"
 
 void Game_5CardDraw::bettingRound() {
-	//Minimum bet starts at 1
-	unsigned int minimumBet = 1;
+	//Minimum bet starts at 0
+	unsigned int iMinimumBet = 0;
 
-	//Iterate through all players backwards, have them place bet. Each bet must be >= the previous bet or person is out of the game
-	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
-		if ((*revItPlayer)->getActiveStatus() && (*revItPlayer)->getCredits() >= minimumBet) {
-			unsigned int iBet = (*revItPlayer)->placeBet(minimumBet);
-			m_iCurrentPot += iBet;
-			cout << (*revItPlayer)->getName() << "bet " << iBet << " credit" << ((iBet == 1) ? "s." : ".") << endl;
+	//Iterate through all players backwards, if they're active have them determine bets until all bets are equalized
+	auto revItPlayer = m_ptrsPlayers.rbegin();
+	while (revItPlayer != m_ptrsPlayers.rend()) {
+		//cycle through players to bet
+		for (revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
+			if ((*revItPlayer)->getActiveStatus()) {
+				unsigned int iCurrentBet = (*revItPlayer)->determineBet(iMinimumBet);
+
+				cout << (*revItPlayer)->getName() << " ";
+				if (iCurrentBet == iMinimumBet) {
+					if ((*revItPlayer)->getActiveStatus()) {
+						cout << "called the previous bet." << endl;
+					}
+				}
+				else if (!(*revItPlayer)->getActiveStatus()) {
+					cout << "folded." << endl;
+				}
+				else {
+					cout << "raised the bet to " << iCurrentBet << " credit" << ((iCurrentBet == 1) ? "." : "s.") << endl;
+					iMinimumBet = iCurrentBet;
+				}
+			}
 		}
-		else {
-			(*revItPlayer)->setActiveStatus(false);
-		}
+
+		//search for an active player who does not have an updated bet
+		revItPlayer = find_if_not(m_ptrsPlayers.rbegin(), m_ptrsPlayers.rend(), [&iMinimumBet](Player* player) { return (player->getActiveStatus() && player->getCurrentBet() == iMinimumBet) || !player->getActiveStatus(); });
+	}
+
+	//Apply everyone's stored bet to the pot
+	for (revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
+		m_iCurrentPot += (*revItPlayer)->placeCurrentBet();
 	}
 
 	//Announce the updated pot
@@ -201,21 +213,66 @@ void Game_5CardDraw::bettingRound() {
 } //end of "bettingRound()"
 
 void Game_5CardDraw::replaceRound() {
-	cout << "\nNEED TO CODE REPLACE ROUND\n" << endl;
+	cout << "\nNEED TO CODE REPLACE ROUND" << endl;
+
+	printHands();
+
+	//Iterate through all players backwards, if they're active have them take their replace card round turn.
+	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
+		if ((*revItPlayer)->getActiveStatus()) {
+			vector<size_t> replaceCardsIndexes = (*revItPlayer)->determineReplaceCardsIndexes();
+
+			//replace cards here
+			if (replaceCardsIndexes.size() > 0) {
+				for (auto it = replaceCardsIndexes.cbegin(); it != replaceCardsIndexes.cend(); ++it) {
+					(*revItPlayer)->replaceCardAt(*it, m_Deck.popNextCard());
+				}
+			}
+
+			//announce number of cards replaced
+			cout << '\t' << (*revItPlayer)->getName();
+			if (replaceCardsIndexes.size() == 0) {
+				cout << " kept all their cards." << endl;
+			}
+			else {
+				cout << " replaced " << replaceCardsIndexes.size() << " card" << ((replaceCardsIndexes.size() == 1) ? "." : "s.") << endl;
+			}
+
+			//update hand rank
+			(*revItPlayer)->determineHandRank();
+		}
+	}
+
+	cout << endl;
+}
+
+void Game_5CardDraw::resetGame() {
+	//Reset each player's hands and active status
+	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
+		(*itPlayer)->clearHand();
+		(*itPlayer)->setActiveStatus(true);
+		//check for new variables added
+	}
+
+	//Reinitialize the deck
+	m_Deck.initDeck();
 }
 
 void Game_5CardDraw::showdown() {
 	//Find winner based on largest hand
-	auto itWinner = max_element(m_ptrsPlayers.begin(), m_ptrsPlayers.end(), [](Player* pLHS, Player* pRHS) { return pLHS->getHand() < pRHS->getHand(); });
+	auto itWinner = max_element(m_ptrsPlayers.begin(), m_ptrsPlayers.end(), [](Player* pLHS, Player* pRHS) 
+		{ return pLHS->getHand() < pRHS->getHand() && pLHS->getActiveStatus() && pRHS->getActiveStatus(); });
 
 	//Check if there are multiple winners
-	int iWinners = count_if(m_ptrsPlayers.cbegin(), m_ptrsPlayers.cend(), [&itWinner](Player* pOtherPlayer) { return (*itWinner)->getHand() == pOtherPlayer->getHand(); });
+	int iWinners = count_if(m_ptrsPlayers.cbegin(), m_ptrsPlayers.cend(), [&itWinner](Player* pOtherPlayer) 
+		{ return (*itWinner)->getHand() == pOtherPlayer->getHand() && pOtherPlayer->getActiveStatus(); });
 	
 	//Add all winners to vector of Player*
 	vector<Player*> ptrsWinners;
 	auto itCurrentPlayer = m_ptrsPlayers.begin();
 	for (int i = 0; i < iWinners; ++i) {
-		itCurrentPlayer = find_if(itCurrentPlayer, m_ptrsPlayers.end(), [&itWinner](Player* pOtherPlayer) { return (*itWinner)->getHand() == pOtherPlayer->getHand(); });
+		itCurrentPlayer = find_if(itCurrentPlayer, m_ptrsPlayers.end(), [&itWinner](Player* pOtherPlayer) 
+			{ return (*itWinner)->getHand() == pOtherPlayer->getHand() && pOtherPlayer->getActiveStatus(); });
 		if (itCurrentPlayer != m_ptrsPlayers.end()) {
 			ptrsWinners.push_back(&(**itCurrentPlayer));
 		}

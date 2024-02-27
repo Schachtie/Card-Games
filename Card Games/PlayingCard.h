@@ -39,7 +39,6 @@ public:
 
 	//Public Member Functions
 	std::string toString() const;
-	bool faceEqual(const PlayingCard& card2) const;
 	bool isEmpty() const;
 
 	//Operator Overloads

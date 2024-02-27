@@ -30,7 +30,8 @@ public:
 	size_t size() const;
 
 	//Public Member Functions
-	void printDeck();
+	void initDeck();
+	void printDeck() const;
 	void shuffle();
 	//unshuffle?
 	PlayingCard popNextCard();
@@ -42,7 +43,7 @@ public:
 private:
 	//Private Data Members
 	std::deque< PlayingCard > m_Cards;
-	static std::mt19937 m_RandGen;
+	static std::mt19937 s_RandGen;
 	
 
 	//Private Member Functions

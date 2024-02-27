@@ -80,17 +80,6 @@ string PlayingCard::toString() const
 	return getFaceString().append(" of ").append(getSuit()).append("\n\tFace value is: ").append(to_string(getFaceValue()));
 }  //end of "toString"
 
-bool PlayingCard::faceEqual(const PlayingCard& card2) const {
-	if (this->getFaceValue() == card2.getFaceValue())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}  //end of "faceEqual"
-
 bool PlayingCard::isEmpty() const {
 	if (m_sFaceString == s_CardFaces[0] || m_sSuit == s_CardSuits[0])
 	{

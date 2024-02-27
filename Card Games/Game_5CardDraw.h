@@ -32,6 +32,7 @@ private:
 	void dealHands(); //tested and working
 	void bettingRound(); //needs dynamic betting
 	void replaceRound();
+	void resetGame();
 	void showdown(); //tested and working
 
 };

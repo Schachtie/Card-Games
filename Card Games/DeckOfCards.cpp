@@ -11,7 +11,7 @@
 using namespace std;
 
 //Static Private Data Members
-mt19937 DeckOfCards::m_RandGen(chrono::steady_clock::now().time_since_epoch().count());
+mt19937 DeckOfCards::s_RandGen(chrono::steady_clock::now().time_since_epoch().count());
 
 //Non Member Functions
 ostream& operator<<(ostream& output, const DeckOfCards& deck) {
@@ -62,7 +62,23 @@ size_t DeckOfCards::size() const {
 
 
 //Public Member Functions
-void DeckOfCards::printDeck() {
+
+void DeckOfCards::initDeck() {
+	//Empty deck just in case
+	m_Cards.clear();
+
+	//Add each unique card to deck
+	for (int suitIndex = 1; suitIndex < PlayingCard::s_CardSuits.size(); ++suitIndex)
+	{
+		for (int faceIndex = 1; faceIndex < PlayingCard::s_CardFaces.size(); ++faceIndex)
+		{
+			PlayingCard newCard(faceIndex, suitIndex);
+			this->addCard(newCard);
+		}
+	}
+}
+
+void DeckOfCards::printDeck() const {
 	cout << "Number of cards in deck: " << size() << endl;
 	for (PlayingCard card : m_Cards)
 	{
@@ -71,7 +87,7 @@ void DeckOfCards::printDeck() {
 }
 
 void DeckOfCards::shuffle() {
-	std::shuffle(m_Cards.begin(), m_Cards.end(), m_RandGen);
+	std::shuffle(m_Cards.begin(), m_Cards.end(), s_RandGen);
 }
 
 PlayingCard DeckOfCards::popNextCard() {
