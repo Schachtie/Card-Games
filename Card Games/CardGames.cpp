@@ -10,6 +10,7 @@
 *		- Need to make dynamic betting in 5 card draw
 *			~ Seems to have some bugs with numbers generated, though works like half the time right now
 *		- Need to make replace/draw round in game
+*			~ Seems good to go for NPCs, need to add User functionality/interaction
 */
 
 //Header Files

@@ -77,87 +77,37 @@ void NPC5Card::printCards() {
 
 }
 
-//look into rewritting this to avoid repeated code
+// add appropriate header comments
 vector<size_t> NPC5Card::determineReplaceCardsIndexes() {
 	vector<size_t> replaceIndexes;
 	
 	switch (m_pHand->getRankValue()) {
+		//Check all tiebreakers for potential replacement
 		case 0: //High Card
 		{
-			//only replace cards that are worth less than a 10
-			for (size_t tieBreakerIndex = 0; tieBreakerIndex < m_pHand->getNumOfTieBreakers(); ++tieBreakerIndex) {
-				if (m_pHand->getTieBreakerAt(tieBreakerIndex)->getFaceValue() < 10
-					&& m_pHand->getTieBreakerAt(tieBreakerIndex)->getFaceValue() != 1) {
-					for (size_t counter = 0; counter < m_pHand->size(); ++counter) {
-						if (m_pHand->getTieBreakerAt(tieBreakerIndex) == m_pHand->getCPtrCardAt(counter)) {
-							replaceIndexes.push_back(counter);
-							break;
-						}
-					}
-				}
-				
-				
-			}
+			storeReplaceCardIndexes(0, &replaceIndexes);
 			break;
 		}
+		//Check all tiebreakers that do not affect current rank (grouped by identical starting TB indexes)
 		case 1: //Pair
+		case 3: //Three of a kind
+		case 7: //Four of a kind
 		{
-			//Store replacement indexes
-			for (size_t tieBreakerIndex = 1; tieBreakerIndex < m_pHand->getNumOfTieBreakers(); ++tieBreakerIndex) {
-				for (size_t counter = 0; counter < m_pHand->size(); ++counter) {
-					if (m_pHand->getTieBreakerAt(tieBreakerIndex) == m_pHand->getCPtrCardAt(counter)) {
-						replaceIndexes.push_back(counter);
-						break;
-					}
-				}
-			}
+			storeReplaceCardIndexes(1, &replaceIndexes);
 			break;
 		}
 		case 2: //Two Pair
 		{
-			//Store replacement indexes
-			for (size_t tieBreakerIndex = 2; tieBreakerIndex < m_pHand->getNumOfTieBreakers(); ++tieBreakerIndex) {
-				for (size_t counter = 0; counter < m_pHand->size(); ++counter) {
-					if (m_pHand->getTieBreakerAt(tieBreakerIndex) == m_pHand->getCPtrCardAt(counter)) {
-						replaceIndexes.push_back(counter);
-						break;
-					}
-				}
-			}
-			break;
-		}
-		case 3: //Three of a kind
-		{
-			for (size_t tieBreakerIndex = 1; tieBreakerIndex < m_pHand->getNumOfTieBreakers(); ++tieBreakerIndex) {
-				for (size_t counter = 0; counter < m_pHand->size(); ++counter) {
-					if (m_pHand->getTieBreakerAt(tieBreakerIndex) == m_pHand->getCPtrCardAt(counter)) {
-						replaceIndexes.push_back(counter);
-						break;
-					}
-				}
-			}
-			break;
-		}
-		case 7: //Four of a kind
-		{
-			//Store replacement indexes
-			for (size_t tieBreakerIndex = 1; tieBreakerIndex < m_pHand->getNumOfTieBreakers(); ++tieBreakerIndex) {
-				for (size_t counter = 0; counter < m_pHand->size(); ++counter) {
-					if (m_pHand->getTieBreakerAt(tieBreakerIndex) == m_pHand->getCPtrCardAt(counter)) {
-						replaceIndexes.push_back(counter);
-						break;
-					}
-				}
-			}
+			storeReplaceCardIndexes(2, &replaceIndexes);
 			break;
 		}
 	
 		//No replacements
-		case 4:
-		case 5:
-		case 6:
-		case 8:
-		case 9:
+		case 4: //Straight
+		case 5: //Flush
+		case 6: //Full House
+		case 8: //Straight Flush
+		case 9:	//Royal Flush
 		{
 			break;
 		}
@@ -171,4 +121,21 @@ vector<size_t> NPC5Card::determineReplaceCardsIndexes() {
 //Private Member Functions
 unsigned int NPC5Card::rollNumber(unsigned int low, unsigned int high) {
 	return uniform_int_distribution<unsigned int> {low, high}(s_RandGen);
+}
+
+void NPC5Card::storeReplaceCardIndexes(size_t startingTBIndex, vector<size_t>* pStoredIndexes) {
+	//Loop through each TB that is not associated with the player's rank
+	for (size_t tieBreakerIndex = startingTBIndex; tieBreakerIndex < m_pHand->getNumOfTieBreakers(); ++tieBreakerIndex) {
+		//Only replace cards that are not face cards (10, J, Q, K, A)
+		if (m_pHand->getTieBreakerAt(tieBreakerIndex)->getFaceValue() < 10
+			&& m_pHand->getTieBreakerAt(tieBreakerIndex)->getFaceValue() != 1) {
+			//Loop through the hand and find the tiebreaker card
+			for (size_t counter = 0; counter < m_pHand->size(); ++counter) {
+				if (m_pHand->getTieBreakerAt(tieBreakerIndex) == m_pHand->getCPtrCardAt(counter)) {
+					pStoredIndexes->push_back(counter);
+					break;
+				}
+			}
+		}
+	}
 }

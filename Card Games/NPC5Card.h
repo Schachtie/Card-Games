@@ -24,6 +24,7 @@ private:
 	static std::mt19937 s_RandGen;
 
 	unsigned int rollNumber(unsigned int low, unsigned int high);
+	void storeReplaceCardIndexes(size_t startingTBIndex, std::vector<size_t>* pStoredIndexes);
 	//add "compare card pointers" function for "determineReplaceCards"
 };
 
