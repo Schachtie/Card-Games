@@ -28,7 +28,7 @@ Game_5CardDraw::Game_5CardDraw() {
 	m_ptrsPlayers.push_back(createUser());
 	while (m_ptrsPlayers.size() < numPlayers)
 	{
-		m_ptrsPlayers.push_back(createNPC());
+		m_ptrsPlayers.push_back(createNPC(m_ptrsPlayers.size()));
 	}
 } //end of default constructor
 
@@ -63,14 +63,14 @@ void Game_5CardDraw::run() {
 
 //Protected Member Functions
 
-Player* Game_5CardDraw::createNPC() {
+Player* Game_5CardDraw::createNPC(int i) {
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
 
 	//Attempt to create new NPC
 	try
 	{
-		pNewPlayer = new NPC5Card();
+		pNewPlayer = new NPC5Card(i);
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{

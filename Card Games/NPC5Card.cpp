@@ -20,6 +20,17 @@ NPC5Card::NPC5Card() {
 	m_sName = "NPC";
 }
 
+//TESTING
+NPC5Card::NPC5Card(int i) {
+	/*m_bActiveStatus = true;
+	m_iCredits = 2500;
+	m_iCurrentBet = 0;
+	m_iRaisesLeft = 2;
+	*/
+	m_sName = "NPC ";
+	m_sName += i + 49;
+}
+
 //Public Member Functions
 
 //returns 0 if player folds or does not need to update their bet
@@ -50,7 +61,7 @@ unsigned int NPC5Card::determineBet(unsigned int minBet) {
 			iBet = rollNumber(lowBound, highBound);
 			--m_iRaisesLeft;
 			m_iCurrentBet = iBet;
-			cout << '\t' << m_sName << " raised the bet to " << iBet << "credit" << ((iBet == 1) ? "." : "s.") << endl;
+			cout << '\t' << m_sName << " raised the bet to " << iBet << " credit" << ((iBet == 1) ? "." : "s.") << endl;
 		} //end of raise
 		else {
 			//If player has a no face card roll to fold (90%)
