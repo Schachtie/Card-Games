@@ -24,7 +24,7 @@ public:
 
 protected:
 	//Protected Member Functions
-	virtual Player* createNPC();
+	virtual Player* createNPC(int i);
 	virtual Player* createUser();
 	virtual bool gameLoop();
 private:
