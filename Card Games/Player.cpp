@@ -17,6 +17,7 @@ Player::Player() {
 	m_sName = "Player"; //can get rid of this potentially
 	m_iCredits = 2500;
 	m_iCurrentBet = 0;
+	m_iRaisesLeft = 2;
 	m_bActiveStatus = true;
 }
 

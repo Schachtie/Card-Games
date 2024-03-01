@@ -172,8 +172,7 @@ void Game_5CardDraw::dealHands() {
 } //end of "dealHands()"
 
 void Game_5CardDraw::bettingRound() {
-	//Minimum bet starts at 0
-	unsigned int iMinimumBet = 0;
+	unsigned int iMinimumBet = m_iMinBet;
 
 	//Iterate through all players backwards, if they're active have them determine bets until all bets are equalized
 	auto revItPlayer = m_ptrsPlayers.rbegin();
@@ -182,25 +181,15 @@ void Game_5CardDraw::bettingRound() {
 		for (revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 			if ((*revItPlayer)->getActiveStatus()) {
 				unsigned int iCurrentBet = (*revItPlayer)->determineBet(iMinimumBet);
-
-				cout << (*revItPlayer)->getName() << " ";
-				if (iCurrentBet == iMinimumBet) {
-					if ((*revItPlayer)->getActiveStatus()) {
-						cout << "called the previous bet." << endl;
-					}
-				}
-				else if (!(*revItPlayer)->getActiveStatus()) {
-					cout << "folded." << endl;
-				}
-				else {
-					cout << "raised the bet to " << iCurrentBet << " credit" << ((iCurrentBet == 1) ? "." : "s.") << endl;
+				if (iCurrentBet != 0) {
 					iMinimumBet = iCurrentBet;
 				}
 			}
 		}
 
 		//search for an active player who does not have an updated bet
-		revItPlayer = find_if_not(m_ptrsPlayers.rbegin(), m_ptrsPlayers.rend(), [&iMinimumBet](Player* player) { return (player->getActiveStatus() && player->getCurrentBet() == iMinimumBet) || !player->getActiveStatus(); });
+		revItPlayer = find_if_not(m_ptrsPlayers.rbegin(), m_ptrsPlayers.rend(), [&iMinimumBet](Player* player) 
+			{ return (player->getActiveStatus() && player->getCurrentBet() == iMinimumBet) || !player->getActiveStatus(); });
 	}
 
 	//Apply everyone's stored bet to the pot

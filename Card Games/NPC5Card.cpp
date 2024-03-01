@@ -22,54 +22,56 @@ NPC5Card::NPC5Card() {
 
 //Public Member Functions
 
+//returns 0 if player folds or does not need to update their bet
 unsigned int NPC5Card::determineBet(unsigned int minBet) {
+	//Check if player has already placed the appropriate bet
+	if (m_iCurrentBet == minBet) {
+		return 0;
+	}
+	
+	
 	unsigned int iBet = 0;
 	//Check if player has enough credits to bet
 	if (m_iCredits >= minBet) {
-		//Use randomly generated number to determine betting behavior
-		unsigned int randomRoll = rollNumber(1, 10);
-		//Call/Fold roll (40%)
-		if (randomRoll >= 1 && randomRoll <= 4) {
-			//Checks if player has "High Card" as their rank, and a card that is a 9 or lower (excluding aces) and rolls for fold (90%)
-			if (m_pHand->getRankValue() == 0 && m_pHand->getTieBreakerAt(0)->getFaceValue() <= 9 && m_pHand->getTieBreakerAt(0)->getFaceValue() != 1) {
-				randomRoll = rollNumber(1, 10);
-				if (randomRoll >= 1 && randomRoll <= 9) {
-					m_bActiveStatus = false;
-				}
-				//No fold
-				else {
-					iBet = minBet;
-				}
+		//If player has raises left, roll to raise (25%)
+		if (m_iRaisesLeft > 0 && rollNumber(1, 4) == 1) {
+			unsigned int lowBound = 0;
+			unsigned int highBound = 0;
+			//Roll for "high raise" (10%)
+			if (rollNumber(1, 10) == 1) {
+				lowBound = static_cast<unsigned int>(ceil(1.75 * (minBet + 1)));
+				highBound = static_cast<unsigned int>(ceil(2.00 * (minBet + 1)));
 			}
-			//Otherwise, have player call the previous bet
+			else {
+				lowBound = static_cast<unsigned int>(ceil(1.05 * (minBet + 1)));
+				highBound = static_cast<unsigned int>(ceil(1.10 * (minBet + 1)));
+			}
+			//Determine raise amount, decrement player's remaining raises, and announce to terminal
+			iBet = rollNumber(lowBound, highBound);
+			--m_iRaisesLeft;
+			m_iCurrentBet = iBet;
+			cout << '\t' << m_sName << " raised the bet to " << iBet << "credit" << ((iBet == 1) ? "." : "s.") << endl;
+		} //end of raise
+		else {
+			//If player has a no face card roll to fold (90%)
+			if (m_pHand->getRankValue() == 0 && m_pHand->getTieBreakerAt(0)->getFaceValue() <= 9
+				&& m_pHand->getTieBreakerAt(0)->getFaceValue() != 1 && rollNumber(1, 10) != 1) {
+				m_bActiveStatus = false;
+				cout << '\t' << m_sName << " folded." << endl;
+			}
 			else {
 				iBet = minBet;
+				m_iCurrentBet = iBet;
+				cout << '\t' << m_sName << " called the previous bet (" << iBet << ")." << endl;
 			}
-		}
-		//Raise (normal) (50%)
-		else if (randomRoll >= 5 && randomRoll <= 9) {
-			unsigned int lowBet = (unsigned int)ceil(1.0 * (minBet + 1) * 0.05);
-			unsigned int highBet = (unsigned int)ceil(1.0 * (minBet + 1) * 0.10);
-			iBet = minBet + rollNumber(lowBet, highBet);
-		}
-		//Raise (high, potential bluff) (10%)
-		else if (randomRoll == 10) {
-			unsigned int lowBet = (unsigned int)ceil(1.0 * (minBet + 1) * 0.75);
-			unsigned int highBet = (unsigned int)ceil(1.0 * (minBet + 1) * 1.25);
-			iBet = minBet + rollNumber(lowBet, highBet);
-		}
-		//Catch for any randomRoll incorrect generation
-		else {
-			//PUT ERROR MESSAGE
 		}
 	}
 	//Player doesn't have enough credits to bet
 	else {
 		m_bActiveStatus = false;
+		cout << '\t' << m_sName << " was forced to fold. Not enough credits." << endl;
 	}
 
-	//apply bet to private data member
-	m_iCurrentBet = iBet;
 	return iBet;
 } //end of "determineBet()"
 

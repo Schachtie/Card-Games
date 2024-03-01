@@ -51,6 +51,7 @@ protected:
 	std::string m_sName;
 	unsigned int m_iCredits;
 	unsigned int m_iCurrentBet;
+	unsigned short int m_iRaisesLeft;
 	bool m_bActiveStatus;
 	//should also have some kind of hand (use a generic base class?)
 	Hand5* m_pHand;
