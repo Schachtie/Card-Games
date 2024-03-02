@@ -5,18 +5,15 @@
 * 
 * 
 *	Working Notes: 
-*		- Need to go through all code and "standardize" my variable names and {} use
-*		- Need to name NPCs to make it easier to debug
-*		- Need to make dynamic betting in 5 card draw
-*			~ Seems to have some bugs with numbers generated, though works like half the time right now
-*		- Need to make replace/draw round in game
-*			~ Seems good to go for NPCs, need to add User functionality/interaction
+*		- Need to go through all code and "standardize" my variable names and {} use, as well as code documentation
+*		- Need to add user interaction. Clean the game output before you do this. Everything seems to be functioning properly now.
 */
 
 //Header Files
 #include <iostream>
 #include <string>
 #include <array>
+#include <fstream>
 
 //Self-Made Classes Headers
 #include "DeckOfCards.h"

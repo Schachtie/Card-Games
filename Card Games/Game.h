@@ -24,7 +24,7 @@ protected:
 	DeckOfCards m_Deck;
 
 	//Protected Member Functions
-	virtual Player* createNPC(int i) = 0;
+	virtual Player* createNPC(char npcName[10]) = 0;
 	virtual Player* createUser() = 0;
 	virtual bool gameLoop() = 0;
 private:

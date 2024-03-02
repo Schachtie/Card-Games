@@ -24,7 +24,7 @@ public:
 
 protected:
 	//Protected Member Functions
-	virtual Player* createNPC(int i);
+	virtual Player* createNPC(char npcName[10]);
 	virtual Player* createUser();
 	virtual bool gameLoop();
 private:
@@ -35,6 +35,9 @@ private:
 	void resetGame();
 	void showdown(); //tested and working
 
+
+	static std::mt19937 s_RandGen;
+	unsigned int rollNumber(unsigned int low, unsigned int high);
 };
 
 #endif

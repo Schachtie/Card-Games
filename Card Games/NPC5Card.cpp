@@ -21,14 +21,14 @@ NPC5Card::NPC5Card() {
 }
 
 //TESTING
-NPC5Card::NPC5Card(int i) {
+NPC5Card::NPC5Card(char newName[10]) {
 	/*m_bActiveStatus = true;
 	m_iCredits = 2500;
 	m_iCurrentBet = 0;
 	m_iRaisesLeft = 2;
 	*/
-	m_sName = "NPC ";
-	m_sName += i + 49;
+	m_sName = newName;
+	m_sName += " (NPC)";
 }
 
 //Public Member Functions

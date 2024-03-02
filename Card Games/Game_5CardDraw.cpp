@@ -8,6 +8,7 @@
 */
 
 //Header Files
+#include <fstream>
 #include "Game_5CardDraw.h"
 #include "User5Card.h"
 #include "NPC5Card.h"
@@ -17,7 +18,7 @@ using namespace std;
 //Constructor
 Game_5CardDraw::Game_5CardDraw() {
 	//Deck should be initialized implicitly using its default constructor (might need to use new)
-	
+
 	//Set buyIn,minBet, currentPot amounts
 	m_iBuyIn = 5;
 	m_iMinBet = 1;
@@ -26,9 +27,16 @@ Game_5CardDraw::Game_5CardDraw() {
 	//Set players to max and add all players (user + NPCs)
 	numPlayers = s_iMAXPLAYERS;
 	m_ptrsPlayers.push_back(createUser());
-	while (m_ptrsPlayers.size() < numPlayers)
-	{
-		m_ptrsPlayers.push_back(createNPC(m_ptrsPlayers.size()));
+
+	//Open NPC Names file and generate 4 names
+	ifstream inNames("NPC_Names.txt", ios::in | ios::binary);
+	if (inNames) {
+		char genName[10];
+		while (m_ptrsPlayers.size() < numPlayers) {
+			inNames.seekg(rollNumber(0, 99) * sizeof(genName));
+			inNames.read(genName, sizeof(genName));
+			m_ptrsPlayers.push_back(createNPC(genName));
+		}
 	}
 } //end of default constructor
 
@@ -39,6 +47,12 @@ Game_5CardDraw::~Game_5CardDraw() {
 		m_ptrsPlayers.pop_back();
 	}
 }
+
+
+
+//Static Private Data Members
+mt19937 Game_5CardDraw::s_RandGen(chrono::steady_clock::now().time_since_epoch().count());
+
 
 //Public Member Functions
 
@@ -63,14 +77,14 @@ void Game_5CardDraw::run() {
 
 //Protected Member Functions
 
-Player* Game_5CardDraw::createNPC(int i) {
+Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
 
 	//Attempt to create new NPC
 	try
 	{
-		pNewPlayer = new NPC5Card(i);
+		pNewPlayer = new NPC5Card(npcName);
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{
@@ -293,4 +307,8 @@ void Game_5CardDraw::printHands() const {
 		cout << "Credits: " << (*itPlayer)->getCredits() << endl;
 		cout << (*itPlayer)->getHand() << endl;
 	}
+}
+
+unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
+	return uniform_int_distribution<unsigned int> {low, high}(s_RandGen);
 }
