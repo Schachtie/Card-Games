@@ -17,7 +17,7 @@ class PlayingCard
 
 public:
 	//Constructors and destructor
-	PlayingCard(int faceValue = 0, int suitIndex = 0); //Default
+	PlayingCard(unsigned short int faceValue = 0, size_t suitIndex = 0); //Default
 	PlayingCard(const PlayingCard& oldCard); //Copy
 	~PlayingCard() { }
 
@@ -27,7 +27,7 @@ public:
 
 	//Public Get Functions
 	std::string getFaceString() const;
-	int getFaceValue() const;
+	unsigned short int getFaceValue() const;
 	std::string getSuit() const;
 
 	//Public Services
@@ -45,14 +45,14 @@ public:
 
 private:
 	//Private Data Members
-	int m_iFaceValue;
+	unsigned short int m_iFaceValue;
 	std::string m_sFaceString;
 	std::string m_sSuit;
 
 	//Private Set Functions
 	void setFaceString();
-	void setFaceValue(int newFaceValue);
-	void setSuit(int suitIndex);
+	void setFaceValue(unsigned short int newFaceValue);
+	void setSuit(size_t suitIndex);
 	void setSuit(const std::string& newSuit);
 };
 

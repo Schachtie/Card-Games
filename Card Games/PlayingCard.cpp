@@ -7,7 +7,7 @@
 *				Face is stored as both a number (for comparisons; [0, 13], 0 is for empty card) and a string (for display).
 *				Suit is stored as a string.
 *
-*			Provides the following functionalities.
+*			Provides the following functionalities:
 *				- Static Public Arrays: cardFaces, cardSuits
 *				- Stream insertion
 *				- Get functions: faceValue, faceString, suit
@@ -17,7 +17,7 @@
 */
 
 
-//Header Files
+// Header Files
 #include <iostream>
 #include <stdexcept>
 #include "PlayingCard.h"
@@ -26,7 +26,7 @@ using namespace std;
 
 
 
-// Non Member Functions
+// Non Member Function
 ostream& operator<<(ostream& output, const PlayingCard& card) {
 	output << card.getFaceString() << " of " << card.getSuit();
 	return output;
@@ -46,12 +46,11 @@ ostream& operator<<(ostream& output, const PlayingCard& card) {
 *
 *	@return: Constructs an object of type PlayingCard
 */
-PlayingCard::PlayingCard(int faceValue, int suitIndex)
-{
+PlayingCard::PlayingCard(unsigned short int faceValue, size_t suitIndex) {
 	setFaceValue(faceValue);
 	setFaceString();
 	setSuit(suitIndex);
-} //end of Default Constructor
+} //end of "Default Constructor"
 
 
 /*	Copy Constructor
@@ -62,10 +61,9 @@ PlayingCard::PlayingCard(int faceValue, int suitIndex)
 * 
 *	@return: Constructs an object of type PlayingCard with attributes of parameter.
 */
-PlayingCard::PlayingCard(const PlayingCard& oldCard)
-{
+PlayingCard::PlayingCard(const PlayingCard& oldCard) {
 	*this = oldCard;
-} //end of Copy Constructor
+} //end of "Copy Constructor"
 
 
 
@@ -88,20 +86,17 @@ const array<string, 5> PlayingCard::s_CardSuits = { "", "Clubs", "Diamonds", "He
 *	@return: Respective type of each private data member.
 */
 
-string PlayingCard::getFaceString() const
-{
+string PlayingCard::getFaceString() const {
 	return m_sFaceString;
 } //end of "getFaceString"
 
 
-int PlayingCard::getFaceValue() const
-{
+unsigned short int PlayingCard::getFaceValue() const {
 	return m_iFaceValue;
 } //end of "getFaceValue"
 
 
-string PlayingCard::getSuit() const
-{
+string PlayingCard::getSuit() const {
 	return m_sSuit;
 }  //end of "getSuit"
 
@@ -118,12 +113,10 @@ string PlayingCard::getSuit() const
 *	@return: bool
 */
 bool PlayingCard::isEmpty() const {
-	if (m_sFaceString == s_CardFaces[0] || m_sSuit == s_CardSuits[0])
-	{
+	if (m_sFaceString == s_CardFaces[0] || m_sSuit == s_CardSuits[0]) {
 		return true;
 	}
-	else
-	{
+	else {
 		return false;
 	}
 } //end of "isEmpty"
@@ -137,8 +130,7 @@ bool PlayingCard::isEmpty() const {
 * 
 *	@return: string of all private data members.
 */
-string PlayingCard::toString() const 
-{
+string PlayingCard::toString() const {
 	return getFaceString().append(" of ").append(getSuit()).append("\n\tFace value is: ").append(to_string(getFaceValue()));
 }  //end of "toString"
 
@@ -156,22 +148,18 @@ string PlayingCard::toString() const
 */
 bool PlayingCard::operator<(const PlayingCard& card2) const {
 	//Check if lhs is an Ace
-	if (this->getFaceString() == s_CardFaces[1])
-	{
+	if (this->getFaceString() == s_CardFaces[1]) {
 		return false;
 	}
 	//Check if rhs is an Ace
-	else if (card2.getFaceString() == s_CardFaces[1])
-	{
+	else if (card2.getFaceString() == s_CardFaces[1]) {
 		return true;
 	}
 	//Normal comparisons
-	else if (this->getFaceValue() < card2.getFaceValue())
-	{
+	else if (this->getFaceValue() < card2.getFaceValue()) {
 		return true;
 	}
-	else
-	{
+	else {
 		return false;
 	}
 } //end of "operator<"
@@ -238,8 +226,7 @@ void PlayingCard::operator=(const PlayingCard& card2) {
 * 
 *	@return: void
 */
-void PlayingCard::setFaceString()
-{
+void PlayingCard::setFaceString() {
 	try {
 		m_sFaceString = s_CardFaces.at(getFaceValue());
 	}
@@ -259,8 +246,7 @@ void PlayingCard::setFaceString()
 *
 *	@throws: invalid_argument
 */
-void PlayingCard::setFaceValue(int newFaceValue)
-{
+void PlayingCard::setFaceValue(unsigned short int newFaceValue) {
 	if (newFaceValue >= 0 && newFaceValue <= s_CardFaces.size()) {
 		m_iFaceValue = newFaceValue;
 	}
@@ -274,18 +260,15 @@ void PlayingCard::setFaceValue(int newFaceValue)
 * 
 *	@notes: Verifies valid data. Overloaded.
 * 
-*	@params: New integer for suit, is intended to be an index of s_CardSuits.
+*	@params: Index of s_CardSuits.
 * 
 *	@return: void
 */
-void PlayingCard::setSuit(int suitIndex)
-{
-	try
-	{
+void PlayingCard::setSuit(size_t suitIndex) {
+	try {
 		m_sSuit = s_CardSuits.at(suitIndex);
 	}
-	catch (const out_of_range& e)
-	{
+	catch (const out_of_range& e) {
 		cout << "Exception occurred: " << e.what();
 	}
 } //end of "setSuit(int)"
@@ -296,14 +279,13 @@ void PlayingCard::setSuit(int suitIndex)
 *	@note: Verifies valid data. Overloaded.
 * 
 *	@params: string for suit. 
+* 
+*	@return: void
 */
-void PlayingCard::setSuit(const string& newSuit)
-{
+void PlayingCard::setSuit(const string& newSuit) {
 	//Loop through static array of suits, and check that the parameter "suit" is equal to one of the suits stored in array
-	for (const auto& currentSuit : s_CardSuits)
-	{
-		if (newSuit == currentSuit)
-		{
+	for (const auto& currentSuit : s_CardSuits) {
+		if (newSuit == currentSuit) {
 			m_sSuit = newSuit;
 			return;
 		}
