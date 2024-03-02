@@ -12,34 +12,27 @@
 
 class PlayingCard
 {
-	//Overloaded steam insertion operator
+	//Stream insertion operator
 	friend std::ostream& operator<<(std::ostream& output, const PlayingCard& card);
 
 public:
-	//Constructors
-	PlayingCard(int faceValue = 0, int suitIndex = 0); //Default Constructor
-	PlayingCard(const PlayingCard& oldCard); //Copy Constructor
-	//Destructor (no dynamic memory - not currently needed)
+	//Constructors and destructor
+	PlayingCard(int faceValue = 0, int suitIndex = 0); //Default
+	PlayingCard(const PlayingCard& oldCard); //Copy
+	~PlayingCard() { }
 
-	//Public Data Members
-		//Face and Suit arrays
+	//Public Static Face and Suit arrays
 	static const std::array<std::string, 14> s_CardFaces;
 	static const std::array<std::string, 5> s_CardSuits;
 
-	//Set and Get Functions
-	void setFaceValue(int newFaceValue);
-	int getFaceValue() const;
-	
+	//Public Get Functions
 	std::string getFaceString() const;
-		//"set" function is private - only constructors should call
-
+	int getFaceValue() const;
 	std::string getSuit() const;
-		//"set" function is private - only constructors should call
 
-
-	//Public Member Functions
-	std::string toString() const;
+	//Public Services
 	bool isEmpty() const;
+	std::string toString() const;
 
 	//Operator Overloads
 	bool operator<(const PlayingCard& card2) const;
@@ -56,10 +49,11 @@ private:
 	std::string m_sFaceString;
 	std::string m_sSuit;
 
-	//Private Member Functions
-	void setFaceString(); //Only constructors should call this
-	void setSuit(int suitIndex); //Only constructors should call this
-	void setSuit(const std::string& newSuit); //Only assignment operator should call this (along with copy constructor)
+	//Private Set Functions
+	void setFaceString();
+	void setFaceValue(int newFaceValue);
+	void setSuit(int suitIndex);
+	void setSuit(const std::string& newSuit);
 };
 
 #endif
