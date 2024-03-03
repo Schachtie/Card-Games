@@ -26,14 +26,17 @@ protected:
 	//Protected Member Functions
 	virtual Player* createNPC(char npcName[10]);
 	virtual Player* createUser();
-	virtual bool gameLoop();
+	virtual void gameLoop();
 private:
-	void buyInRound(); //tested and working
-	void dealHands(); //tested and working
-	void bettingRound(); //needs dynamic betting
+	void buyInRound();
+	void dealHands();
+	void bettingRound();
 	void replaceRound();
 	void resetGame();
-	void showdown(); //tested and working
+	void showdown();
+
+	bool playAgain();
+	
 
 
 	static std::mt19937 s_RandGen;

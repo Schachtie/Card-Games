@@ -16,7 +16,7 @@ public:
 
 protected:
 	//Protected Data Members
-	size_t numPlayers;
+	size_t m_NumPlayers;
 	std::vector<Player*> m_ptrsPlayers;
 	unsigned int m_iBuyIn;
 	unsigned int m_iMinBet;
@@ -26,7 +26,7 @@ protected:
 	//Protected Member Functions
 	virtual Player* createNPC(char npcName[10]) = 0;
 	virtual Player* createUser() = 0;
-	virtual bool gameLoop() = 0;
+	virtual void gameLoop() = 0;
 private:
 };
 

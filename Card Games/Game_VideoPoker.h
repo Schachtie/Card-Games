@@ -14,7 +14,7 @@ public:
 
 protected:
 	//Protected Member Functions
-	virtual bool gameLoop();
+	virtual void gameLoop();
 private:
 };
 

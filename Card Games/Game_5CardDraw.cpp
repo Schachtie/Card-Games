@@ -9,6 +9,7 @@
 
 //Header Files
 #include <fstream>
+#include <conio.h>
 #include "Game_5CardDraw.h"
 #include "User5Card.h"
 #include "NPC5Card.h"
@@ -25,18 +26,19 @@ Game_5CardDraw::Game_5CardDraw() {
 	m_iCurrentPot = 0;
 
 	//Set players to max and add all players (user + NPCs)
-	numPlayers = s_iMAXPLAYERS;
+	m_NumPlayers = s_iMAXPLAYERS;
 	m_ptrsPlayers.push_back(createUser());
 
 	//Open NPC Names file and generate 4 names
 	ifstream inNames("NPC_Names.txt", ios::in | ios::binary);
 	if (inNames) {
 		char genName[10];
-		while (m_ptrsPlayers.size() < numPlayers) {
+		while (m_ptrsPlayers.size() < m_NumPlayers) {
 			inNames.seekg(rollNumber(0, 99) * sizeof(genName));
 			inNames.read(genName, sizeof(genName));
 			m_ptrsPlayers.push_back(createNPC(genName));
 		}
+		inNames.close();
 	}
 } //end of default constructor
 
@@ -58,21 +60,38 @@ mt19937 Game_5CardDraw::s_RandGen(chrono::steady_clock::now().time_since_epoch()
 
 //Run Game Function
 void Game_5CardDraw::run() {
-	
-	//Welcome message
+	while (true) {
+		//Welcome message and menu
+		cout << "-=-=-=-=-=-=-=- Welcome to Five Card Draw Poker -=-=-=-=-=-=-=-" << endl;
+		cout << "\t\t\t~~~~~ Menu ~~~~~" << endl;
+		cout << "\t\t\t  (1) Play" << endl;
+		cout << "\t\t\t  (2) Rules" << endl;
+		cout << "\t\t\t  (0) Exit to Main Menu" << endl;
 
-	//Menu (Play, rules, quit)
-		//switch for menu
+		//handle user input
+		short int iInput = -1;
+		while (iInput == -1) {
+			cout << "\tPlease enter the number of your selection: ";
+			cin >> iInput;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			switch (iInput) {
+				case 1: { //Play
+					gameLoop();
+				}
+				case 2: { //Rules
 
-	//Verify settings are correct (number of players specifically)
-
-	//gameLoop call
-	while (gameLoop());
-
-	//Thanks for playing!
-
-	
-	;
+				}
+				case 0: { //Exit to main menu
+					return;
+				}
+				default: { //Input error
+					iInput = -1;
+					cout << "Please enter a valid option. ";
+					cin.clear();
+				}
+			}
+		}
+	}
 } //THIS MIGHT WANT TO USE POLYMORPHISM AND BE CALLED IN "GAME" CLASS
 
 //Protected Member Functions
@@ -113,33 +132,28 @@ Player* Game_5CardDraw::createUser() {
 
 
 //Game Loop Function: Returns true to continue, false to end
-bool Game_5CardDraw::gameLoop() {
-	//All Players buy in / blinds
-	buyInRound();
+void Game_5CardDraw::gameLoop() {
+	do {
+		cout << "\n\n\t===== Game Start =====" << endl;
+		
+		buyInRound();
+		dealHands();
 
-	//Deal cards to all players
-	dealHands();
+		bettingRound();
 
-	//Betting Round (1 time around)
-	bettingRound();
-	
-	//Draw/Replace Round (up to 5 cards per player)
-	replaceRound();
+		replaceRound();
 
-	//Betting Round (1 time around, unless down to 2 players)
-	bettingRound();
+		bettingRound();
 
-	//Showdown (determine winner & give payout)
-	showdown();
-	
-	//PRINTING ALL PLAYERS' HANDS FOR TESTING PURPOSES
-	printHands();
+		showdown();
 
-	//Prep for new game
-	resetGame();
+		//PRINTING ALL PLAYERS' HANDS FOR TESTING PURPOSES
+		cout << "\n\n ~~~~~~~~~~ PRINTING HANDS FOR TESTING PURPOSES ~~~~~~~~~~" << endl;
+		printHands();
 
-	//Ask user to continue playing (check if user can't buy in again)
-	return false;
+		//Prep for new game
+		resetGame();
+	} while (playAgain());
 } //end of "gameLoop()"
 
 
@@ -186,6 +200,8 @@ void Game_5CardDraw::dealHands() {
 } //end of "dealHands()"
 
 void Game_5CardDraw::bettingRound() {
+	
+	cout << "\n== Betting Round == Starting bet: " << m_iMinBet << endl;
 	unsigned int iMinimumBet = m_iMinBet;
 
 	//Iterate through all players backwards, if they're active have them determine bets until all bets are equalized
@@ -216,9 +232,7 @@ void Game_5CardDraw::bettingRound() {
 } //end of "bettingRound()"
 
 void Game_5CardDraw::replaceRound() {
-	cout << "\nNEED TO CODE REPLACE ROUND" << endl;
-
-	printHands();
+	cout << "\n== Draw and Replace Round ==" << endl;
 
 	//Iterate through all players backwards, if they're active have them take their replace card round turn.
 	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
@@ -232,7 +246,7 @@ void Game_5CardDraw::replaceRound() {
 				}
 			}
 
-			//announce number of cards replaced
+			//announce number of cards replaced (put this into Playing function call)
 			cout << '\t' << (*revItPlayer)->getName();
 			if (replaceCardsIndexes.size() == 0) {
 				cout << " kept all their cards." << endl;
@@ -245,8 +259,6 @@ void Game_5CardDraw::replaceRound() {
 			(*revItPlayer)->determineHandRank();
 		}
 	}
-
-	cout << endl;
 }
 
 void Game_5CardDraw::resetGame() {
@@ -262,6 +274,8 @@ void Game_5CardDraw::resetGame() {
 }
 
 void Game_5CardDraw::showdown() {
+	cout << "\n== Showdown ==" << endl;
+
 	//Find winner based on largest hand
 	auto itWinner = max_element(m_ptrsPlayers.begin(), m_ptrsPlayers.end(), [](Player* pLHS, Player* pRHS) 
 		{ return pLHS->getHand() < pRHS->getHand() && pLHS->getActiveStatus() && pRHS->getActiveStatus(); });
@@ -311,4 +325,26 @@ void Game_5CardDraw::printHands() const {
 
 unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
 	return uniform_int_distribution<unsigned int> {low, high}(s_RandGen);
+}
+
+
+bool Game_5CardDraw::playAgain() {
+	//check that user has enough credits to play again.
+	
+	while (true) {
+		cout << "Play again? (Yes/No): ";
+		string input;
+		getline(cin, input);
+
+		if (input == "yes" || input == "Yes" || input == "YES") {
+			return true;
+		}
+		else if (input == "no" || input == "No" || input == "NO") {
+			return false;
+		}
+
+		cout << "Please enter a valid option. ";
+		input.clear();
+		cin.clear();
+	}
 }

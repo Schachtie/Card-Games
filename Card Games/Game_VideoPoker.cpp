@@ -15,7 +15,7 @@
 //Protected Member Functions
 
 //Game Loop Function: Returns true to continue, false to end
-bool Game_VideoPoker::gameLoop() {
+void Game_VideoPoker::gameLoop() {
 
 	//User buy in
 
@@ -26,5 +26,5 @@ bool Game_VideoPoker::gameLoop() {
 	//Determine outcome
 
 	//Ask user to continue playing
-	return false;
+	
 }
