@@ -21,6 +21,8 @@ public:
 protected:
 
 private:
+
+	void raiseBehavior(unsigned int prevBet);
 };
 
 #endif

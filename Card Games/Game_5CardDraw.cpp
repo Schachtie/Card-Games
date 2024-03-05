@@ -77,17 +77,19 @@ void Game_5CardDraw::run() {
 			switch (iInput) {
 				case 1: { //Play
 					gameLoop();
+					break;
 				}
 				case 2: { //Rules
-
+					break;
 				}
 				case 0: { //Exit to main menu
 					return;
 				}
 				default: { //Input error
 					iInput = -1;
-					cout << "Please enter a valid option. ";
+					cout << "\tPlease enter a valid option." << endl;
 					cin.clear();
+					break;
 				}
 			}
 		}
@@ -166,10 +168,10 @@ void Game_5CardDraw::buyInRound() {
 	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 		unsigned int iBuyInRet = (*revItPlayer)->placeBuyIn(m_iBuyIn);
 		cout << '\t' << (*revItPlayer)->getName() << ((iBuyInRet != 0) ? " has bought in!" : " doesn't have enough credits to play.") << endl;
-		m_iCurrentPot += iBuyInRet;
+		m_iCurrentPot += iBuyInRet; //MOVE THE ABOVE ANNOUCEMENT INTO THE "placeBuyIn" FUNCTION!!
 	}
 
-	//Announce update pot
+	//Announce updated pot
 	cout << "The starting pot for this game is " << m_iCurrentPot << " credits." << endl;
 } //end of "buyInRound()"
 
@@ -211,7 +213,7 @@ void Game_5CardDraw::bettingRound() {
 		for (revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 			if ((*revItPlayer)->getActiveStatus()) {
 				unsigned int iCurrentBet = (*revItPlayer)->determineBet(iMinimumBet);
-				if (iCurrentBet != 0) {
+				if (iCurrentBet != 0 && iCurrentBet != iMinimumBet) {
 					iMinimumBet = iCurrentBet;
 				}
 			}
