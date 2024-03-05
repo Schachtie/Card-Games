@@ -289,7 +289,7 @@ void Game_5CardDraw::showdown() {
 
 	//Find winner based on largest hand
 	auto itWinner = max_element(m_ptrsPlayers.begin(), m_ptrsPlayers.end(), [](Player* pLHS, Player* pRHS) 
-		{ return pLHS->getHand() < pRHS->getHand() && pLHS->getActiveStatus() && pRHS->getActiveStatus(); });
+		{ return pLHS->getHand() < pRHS->getHand() && pRHS->getActiveStatus(); });
 
 	//Check if there are multiple winners
 	int iWinners = count_if(m_ptrsPlayers.cbegin(), m_ptrsPlayers.cend(), [&itWinner](Player* pOtherPlayer) 
