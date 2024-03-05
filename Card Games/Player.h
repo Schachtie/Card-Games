@@ -17,6 +17,9 @@ public:
 	Player(const Player& oldPlayer); //copy
 	virtual ~Player() { } //virtual deconstructor in case of dynamic memory
 
+	//Public Static Data Members
+	static const unsigned int s_iSTARTINGCREDITS = 2500;
+
 	//Set and Get Functions
 	void setName(std::string newName);
 	std::string getName() const;
@@ -28,6 +31,7 @@ public:
 	virtual size_t getHandSize() const = 0;
 	std::string getHandRankString() const;
 	unsigned short int getHandRankValue() const;
+	void setRaisesLeft(unsigned short int maxRaises);
 
 	//Public Member Functions
 	unsigned int placeBuyIn(unsigned int iBuyIn);
@@ -49,12 +53,20 @@ public:
 protected:
 	//Protected Data Members
 	std::string m_sName;
+	bool m_bActiveStatus;
 	unsigned int m_iCredits;
 	unsigned int m_iCurrentBet;
 	unsigned short int m_iRaisesLeft;
-	bool m_bActiveStatus;
 	//should also have some kind of hand (use a generic base class?)
 	Hand5* m_pHand;
+
+
+	void callBehavior(unsigned int prevBet);
+
+	void foldBehavior();
+	void forcedFold();
+
+	virtual void raiseBehavior(unsigned int prevBet) = 0;
 
 private:
 };

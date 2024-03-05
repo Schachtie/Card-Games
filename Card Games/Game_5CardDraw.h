@@ -14,6 +14,7 @@ public:
 
 	//Public Static Data Members
 	static const unsigned short int s_iMAXPLAYERS = 5;
+	static const unsigned short int s_iMAXRAISES = 2;
 
 	//Public Member Functions
 	virtual void run();
@@ -38,7 +39,7 @@ private:
 	bool playAgain();
 	
 
-
+	
 	static std::mt19937 s_RandGen;
 	unsigned int rollNumber(unsigned int low, unsigned int high);
 };

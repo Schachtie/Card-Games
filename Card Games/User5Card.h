@@ -14,15 +14,12 @@ public:
 
 	//Public Member Functions
 	virtual unsigned int determineBet(unsigned int minBet);
-	virtual unsigned int placeBet(unsigned int minBet) final; //incomplete: need to ask user for bet & validate
 	virtual void printCards() const;
 	virtual std::vector<size_t> determineReplaceCardsIndexes();
 
 protected:
-
+	virtual void raiseBehavior(unsigned int prevBet) final;
 private:
-
-	void raiseBehavior(unsigned int prevBet);
 };
 
 #endif

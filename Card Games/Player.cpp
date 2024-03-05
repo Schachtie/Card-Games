@@ -14,11 +14,11 @@ using namespace std;
 
 //Constructors
 Player::Player() {
-	m_sName = "Player"; //can get rid of this potentially
-	m_iCredits = 2500;
+	m_bActiveStatus = true;
+	m_iCredits = s_iSTARTINGCREDITS;
 	m_iCurrentBet = 0;
 	m_iRaisesLeft = 2;
-	m_bActiveStatus = true;
+	
 }
 
 Player::Player(const Player& oldPlayer) {
@@ -58,6 +58,10 @@ string Player::getHandRankString() const {
 
 unsigned short int Player::getHandRankValue() const {
 	return m_pHand->getRankValue();
+}
+
+void Player::setRaisesLeft(unsigned short int maxRaises) {
+	m_iRaisesLeft = maxRaises;
 }
 
 //Public Member Functions
@@ -114,4 +118,20 @@ void Player::printCards() const {
 
 Hand5 Player::getHand() const {
 	return *m_pHand;
+}
+
+
+void Player::callBehavior(unsigned int prevBet) {
+	m_iCurrentBet = prevBet;
+	cout << '\t' << m_sName << " called the previous bet (" << prevBet << ")." << endl;
+}
+
+void Player::foldBehavior() {
+	m_bActiveStatus = false;
+	cout << '\t' << m_sName << " folded." << endl;
+}
+
+void Player::forcedFold() {
+	cout << '\t' << m_sName << " doesn't have enough credits and folded." << endl;
+	m_bActiveStatus = false;
 }

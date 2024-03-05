@@ -62,7 +62,7 @@ mt19937 Game_5CardDraw::s_RandGen(chrono::steady_clock::now().time_since_epoch()
 void Game_5CardDraw::run() {
 	while (true) {
 		//Welcome message and menu
-		cout << "-=-=-=-=-=-=-=- Welcome to Five Card Draw Poker -=-=-=-=-=-=-=-" << endl;
+		cout << "\n-=-=-=-=-=-=-=- Welcome to Five Card Draw Poker -=-=-=-=-=-=-=-" << endl;
 		cout << "\t\t\t~~~~~ Menu ~~~~~" << endl;
 		cout << "\t\t\t  (1) Play" << endl;
 		cout << "\t\t\t  (2) Rules" << endl;
@@ -74,23 +74,31 @@ void Game_5CardDraw::run() {
 			cout << "\tPlease enter the number of your selection: ";
 			cin >> iInput;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			switch (iInput) {
-				case 1: { //Play
-					gameLoop();
-					break;
+			if (cin.good()) {
+				switch (iInput) {
+					case 1: { //Play
+						gameLoop();
+						break;
+					}
+					case 2: { //Rules
+						break;
+					}
+					case 0: { //Exit to main menu
+						cout << "EXITS" << endl;
+						return;
+					}
+					default: { //Input error
+						iInput = -1;
+						cout << "\tPlease enter a valid option." << endl;
+						break;
+					}
 				}
-				case 2: { //Rules
-					break;
-				}
-				case 0: { //Exit to main menu
-					return;
-				}
-				default: { //Input error
-					iInput = -1;
-					cout << "\tPlease enter a valid option." << endl;
-					cin.clear();
-					break;
-				}
+			}
+			else {
+				cout << "\tPlease enter a valid option." << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				iInput = -1;
 			}
 		}
 	}
@@ -105,7 +113,7 @@ Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	//Attempt to create new NPC
 	try
 	{
-		pNewPlayer = new NPC5Card(npcName);
+		pNewPlayer = new NPC5Card(npcName, s_iMAXRAISES);
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{
@@ -115,7 +123,7 @@ Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	return pNewPlayer;
 }
 
-Player* Game_5CardDraw::createUser() {
+Player* Game_5CardDraw::createUser() { //this may not be needed once player is created in main
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
 
@@ -211,7 +219,7 @@ void Game_5CardDraw::bettingRound() {
 	while (revItPlayer != m_ptrsPlayers.rend()) {
 		//cycle through players to bet
 		for (revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
-			if ((*revItPlayer)->getActiveStatus()) {
+			if ((*revItPlayer)->getActiveStatus() && (*revItPlayer)->getCurrentBet() != iMinimumBet) {
 				unsigned int iCurrentBet = (*revItPlayer)->determineBet(iMinimumBet);
 				if (iCurrentBet != 0 && iCurrentBet != iMinimumBet) {
 					iMinimumBet = iCurrentBet;
@@ -268,6 +276,7 @@ void Game_5CardDraw::resetGame() {
 	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
 		(*itPlayer)->clearHand();
 		(*itPlayer)->setActiveStatus(true);
+		(*itPlayer)->setRaisesLeft(s_iMAXRAISES);
 		//check for new variables added
 	}
 
@@ -346,7 +355,6 @@ bool Game_5CardDraw::playAgain() {
 		}
 
 		cout << "Please enter a valid option. ";
-		input.clear();
 		cin.clear();
 	}
 }

@@ -21,69 +21,45 @@ NPC5Card::NPC5Card() {
 }
 
 //TESTING
-NPC5Card::NPC5Card(char newName[10]) {
-	/*m_bActiveStatus = true;
-	m_iCredits = 2500;
-	m_iCurrentBet = 0;
-	m_iRaisesLeft = 2;
-	*/
+NPC5Card::NPC5Card(char newName[10], unsigned short int raisesPerGame) {
 	m_sName = newName;
 	m_sName += " (NPC)";
+	m_iRaisesLeft = raisesPerGame;
 }
 
 //Public Member Functions
 
 //returns 0 if player folds or does not need to update their bet
 unsigned int NPC5Card::determineBet(unsigned int minBet) {
-	//Check if player has already placed the appropriate bet
-	if (m_iCurrentBet == minBet) {
-		return 0;
-	}
-	
-	
 	unsigned int iBet = 0;
 	//Check if player has enough credits to bet
 	if (m_iCredits >= minBet) {
 		//If player has raises left, roll to raise (25%)
 		if (m_iRaisesLeft > 0 && rollNumber(1, 4) == 1) {
-			unsigned int lowBound = 0;
-			unsigned int highBound = 0;
-			//Roll for "high raise" (10%)
-			if (rollNumber(1, 10) == 1) {
-				lowBound = static_cast<unsigned int>(ceil(1.75 * (minBet + 1)));
-				highBound = static_cast<unsigned int>(ceil(2.00 * (minBet + 1)));
-			}
-			else {
-				lowBound = static_cast<unsigned int>(ceil(1.05 * (minBet + 1)));
-				highBound = static_cast<unsigned int>(ceil(1.10 * (minBet + 1)));
-			}
-			//Determine raise amount, decrement player's remaining raises, and announce to terminal
-			iBet = rollNumber(lowBound, highBound);
-			--m_iRaisesLeft;
-			m_iCurrentBet = iBet;
-			cout << '\t' << m_sName << " raised the bet to " << iBet << " credit" << ((iBet == 1) ? "." : "s.") << endl;
-		} //end of raise
+			//Raise behavior
+			raiseBehavior(minBet);
+			return m_iCurrentBet;
+		}
 		else {
 			//If player has a no face card roll to fold (90%)
 			if (m_pHand->getRankValue() == 0 && m_pHand->getTieBreakerAt(0)->getFaceValue() <= 9
 				&& m_pHand->getTieBreakerAt(0)->getFaceValue() != 1 && rollNumber(1, 10) != 1) {
-				m_bActiveStatus = false;
-				cout << '\t' << m_sName << " folded." << endl;
+				//fold behavior
+				foldBehavior();
+				return 0;
 			}
 			else {
-				iBet = minBet;
-				m_iCurrentBet = iBet;
-				cout << '\t' << m_sName << " called the previous bet (" << iBet << ")." << endl;
+				//call behavior
+				callBehavior(minBet);
+				return minBet;
 			}
 		}
 	}
 	//Player doesn't have enough credits to bet
 	else {
-		m_bActiveStatus = false;
-		cout << '\t' << m_sName << " was forced to fold. Not enough credits." << endl;
+		forcedFold();
+		return 0;
 	}
-
-	return iBet;
 } //end of "determineBet()"
 
 void NPC5Card::printCards() {
@@ -128,6 +104,28 @@ vector<size_t> NPC5Card::determineReplaceCardsIndexes() {
 
 	return replaceIndexes;
 }
+
+
+
+
+void NPC5Card::raiseBehavior(unsigned int prevBet) {
+	unsigned int lowBound = 0;
+	unsigned int highBound = 0;
+	//Roll for "high raise" (10%)
+	if (rollNumber(1, 10) == 1) {
+		lowBound = static_cast<unsigned int>(ceil(1.75 * (prevBet + 1)));
+		highBound = static_cast<unsigned int>(ceil(2.00 * (prevBet + 1)));
+	}
+	else {
+		lowBound = static_cast<unsigned int>(ceil(1.05 * (prevBet + 1)));
+		highBound = static_cast<unsigned int>(ceil(1.10 * (prevBet + 1)));
+	}
+	//Determine raise amount, decrement player's remaining raises, and announce to terminal
+	m_iCurrentBet = rollNumber(lowBound, highBound);
+	--m_iRaisesLeft;
+	cout << '\t' << m_sName << " raised the bet to " << m_iCurrentBet << " credit" << ((m_iCurrentBet == 1) ? "." : "s.") << endl;
+}
+
 
 
 

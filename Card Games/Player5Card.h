@@ -28,8 +28,9 @@ public:
 
 protected:
 	//Protected Data Members
-	
 
+
+	virtual void raiseBehavior(unsigned int prevBet) = 0;
 private:
 };
 

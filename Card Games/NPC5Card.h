@@ -12,7 +12,7 @@ public:
 	//Constructors and Destructors
 	NPC5Card(); //default
 	NPC5Card(const NPC5Card& oldPlayer); //copy
-	NPC5Card(char npcName[10]); //USED TO TESTING
+	NPC5Card(char npcName[10], unsigned short int raisesPerGame); //USED FOR TESTING
 	virtual ~NPC5Card() { } //virtual destructor in case of dynamic memory
 
 	//Public Member Functions
@@ -21,6 +21,8 @@ public:
 	virtual std::vector<size_t> determineReplaceCardsIndexes();
 
 protected:
+	virtual void raiseBehavior(unsigned int prevBet) final;
+
 private:
 	static std::mt19937 s_RandGen;
 

@@ -28,55 +28,41 @@ unsigned int User5Card::determineBet(unsigned int minBet) {
 	//check if user has enough credits to call or bet
 	if (m_iCredits >= minBet) {
 		while (true) {
-			cout << "\tCurrent bet is: " << minBet << ". What would you like to do? (Call/Raise/Fold): ";
+			cout << "\tCurrent bet is: " << minBet << ". What would you like to do? (Call" << ((m_iRaisesLeft > 0) ? "/Raise" : "") << "/Fold): ";
 			string input;
 			getline(cin, input);
 
 			if (input == "call" || input == "Call" || input == "CALL") {
 				//call behavior
-				m_iCurrentBet = minBet;
+				callBehavior(minBet);
 				return minBet;
 			}
-			else if (input == "raise" || input == "Raise" || input == "RAISE") {
+			else if (input == "raise" || input == "Raise" || input == "RAISE") { //add max raises here
+				if (m_iRaisesLeft == 0) {
+					cout << "\tYou can only raise twice per game." << endl;
+					continue;
+				}
 				//raise behavior
 				raiseBehavior(minBet);
 				return m_iCurrentBet;
 			}
 			else if (input == "fold" || input == "Fold" || input == "FOLD") {
 				//fold behavior
-				m_bActiveStatus = false;
+				foldBehavior();
 				return 0;
 			}
 
 			cout << "\tPlease enter a valid option. " << endl;
-			input.clear();
 			cin.clear();
 		}
 	}
 	else { //not enough credits, user must fold
-		cout << '\t' << m_sName << " doesn't have enough credits and folded." << endl;
-		m_bActiveStatus = false;
+		forcedFold();
 		return 0;
 	}
 }
 
 
-//probably delete this, unused and no need (grandparent class takes care of this functionality)
-unsigned int User5Card::placeBet(unsigned int minBet) {
-	
-	
-	
-	unsigned int bet = 0;
-
-	//ask user for bet
-	bet = minBet;
-
-	//apply bet
-	m_iCredits -= bet;
-
-	//return bet
-	return bet;
-}
 
 void User5Card::printCards() const {
 
@@ -86,6 +72,8 @@ vector<size_t> User5Card::determineReplaceCardsIndexes() {
 	vector<size_t> replaceIndexes;
 	return replaceIndexes;
 }
+
+
 
 
 
@@ -99,11 +87,14 @@ void User5Card::raiseBehavior(unsigned int prevBet) {
 
 		if (cin.good() && userBet > prevBet && userBet <= m_iCredits) {
 			m_iCurrentBet = userBet;
+			--m_iRaisesLeft;
 			cout << '\t' << m_sName << " raised the bet to " << userBet << " credit" << ((userBet == 1) ? "." : "s.") << endl;
 			return;
 		}
 		cout << "\tPlease enter a valid option. ";
-		cin.clear();
-		userBet = 0;
+		if (!cin.good()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	}
 }
