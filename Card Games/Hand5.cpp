@@ -199,6 +199,13 @@ void Hand5::replaceCardAt(size_t index, const PlayingCard& card) {
 	}
 }
 
+void Hand5::printHandNumbered() const {
+	for (size_t i = 0; i < m_Cards.size(); ++i) {
+		cout << '(' << i << ") " << m_Cards.at(i) << endl;
+	}
+	cout << "Hand rank is: " << s_HandRanks.at(m_iRank) << endl;
+}
+
 //Operator Overloads
 bool Hand5::operator<(const Hand5& secondHand) const {
 	if (this->m_iRank < secondHand.m_iRank)

@@ -35,10 +35,25 @@ unsigned int rollNumber(unsigned int low, unsigned int high);
 //Main Function
 int main()
 {
-	cout << "Now testing game object..." << endl << endl;
+	string sInput;
+	vector<string> numbers;
+	//going to bed, but try getting full line (no delimiters / default), then tokenizing the string using ' ' as a delimiter. Would still need vector which gets parsed to ints. Think about incorrect user input.
+	while (getline(cin, sInput, ' ') && (sInput != "done" || sInput != "Done" || sInput != "DONE") && numbers.size() < 5) {
+		numbers.push_back(sInput);
+	}
+	cout << sInput << endl;
+	for (const auto& i : numbers) {
+		cout << i << ' ';
+	}
+	cout << endl;
+	
+	
+	
+	
+	/*cout << "Now testing game object..." << endl << endl;
 
 	Game_5CardDraw fiveCardDraw;
-	fiveCardDraw.run();
+	fiveCardDraw.run();*/
 }
 
 //Function Bodies

@@ -38,8 +38,7 @@ public:
 	void addCard(const PlayingCard& card);
 	void clearHand();
 	unsigned short int count() const;
-	void printHandStrings() const;
-	void printHandArt() const;
+	void printHandNumbered() const;
 	void replaceCardAt(size_t index, const PlayingCard& newCard);
 	size_t size() const;
 

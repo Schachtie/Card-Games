@@ -157,8 +157,7 @@ void Game_5CardDraw::gameLoop() {
 
 		showdown();
 
-		//PRINTING ALL PLAYERS' HANDS FOR TESTING PURPOSES
-		cout << "\n\n ~~~~~~~~~~ PRINTING HANDS FOR TESTING PURPOSES ~~~~~~~~~~" << endl;
+		cout << "\n\n ~~~~~~~~~~~~~~~ PRINTING EVERYONE'S HAND BELOW ~~~~~~~~~~~~~~~" << endl;
 		printHands();
 
 		//Prep for new game
@@ -256,7 +255,7 @@ void Game_5CardDraw::replaceRound() {
 				}
 			}
 
-			//announce number of cards replaced (put this into Playing function call)
+			//announce number of cards replaced
 			cout << '\t' << (*revItPlayer)->getName();
 			if (replaceCardsIndexes.size() == 0) {
 				cout << " kept all their cards." << endl;

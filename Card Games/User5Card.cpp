@@ -70,6 +70,34 @@ void User5Card::printCards() const {
 
 vector<size_t> User5Card::determineReplaceCardsIndexes() {
 	vector<size_t> replaceIndexes;
+	
+	//print hand for user
+	cout << '\n' << m_sName << "'s cards: " << endl;
+	m_pHand->printHandNumbered();
+	cout << '\t';
+
+	//handle user input
+	while (true) {
+		cout << "\tYou may replace up to five cards. Enter \"All\", or the numbers of the cards you'd like to replace with spaces in between.\nEnter \"Done\" when you are finished or want to keep all your cards: ";
+		string input;
+		getline(cin, input);
+		if (input == "all" || input == "All" || input == "ALL") {
+			for (size_t i = 0; i < m_pHand->count(); ++i) {
+				replaceIndexes.push_back(i);
+			}
+		}
+		else if (input == "done" || input == "Done" || input == "DONE") {
+
+		}
+
+
+		cout << "\tPlease enter a valid option. " << endl;
+		cin.clear();
+	}
+
+	
+
+
 	return replaceIndexes;
 }
 
