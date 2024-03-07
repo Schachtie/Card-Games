@@ -157,6 +157,8 @@ void Game_5CardDraw::gameLoop() {
 
 		showdown();
 
+		pauseForUser("Hit \"Enter\" to show every player's cards.");
+
 		cout << "\n\n ~~~~~~~~~~~~~~~ PRINTING EVERYONE'S HAND BELOW ~~~~~~~~~~~~~~~" << endl;
 		printHands();
 
@@ -337,8 +339,15 @@ unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
 	return uniform_int_distribution<unsigned int> {low, high}(s_RandGen);
 }
 
+void Game_5CardDraw::pauseForUser(const string& prompt) const {
+	cout << '\n' << prompt << ' ';
+	string str;
+	getline(cin, str);
+}
 
-bool Game_5CardDraw::playAgain() {
+
+//MAKE THIS A UTILITY FUNCTION!! (askUserYesNo) param could be prompt as a string
+bool Game_5CardDraw::playAgain() const {
 	//check that user has enough credits to play again.
 	
 	while (true) {

@@ -4,6 +4,7 @@
 
 //Header Files
 #include "User5Card.h"
+#include <sstream>
 
 using namespace std;
 
@@ -71,34 +72,60 @@ void User5Card::printCards() const {
 vector<size_t> User5Card::determineReplaceCardsIndexes() {
 	vector<size_t> replaceIndexes;
 	
-	//print hand for user
-	cout << '\n' << m_sName << "'s cards: " << endl;
-	m_pHand->printHandNumbered();
-	cout << '\t';
 
 	//handle user input
 	while (true) {
-		cout << "\tYou may replace up to five cards. Enter \"All\", or the numbers of the cards you'd like to replace with spaces in between.\nEnter \"Done\" when you are finished or want to keep all your cards: ";
+		//print hand for user
+		cout << '\n' << m_sName << "'s cards: " << endl;
+		m_pHand->printHandNumbered();
+		cout << "\n\tYou may replace up to five cards. Enter \"All\", \"None\", or the numbers of\n\tthe cards you'd like to replace with spaces in between.\n\tHit \"Enter\" when you are finished: ";
 		string input;
 		getline(cin, input);
 		if (input == "all" || input == "All" || input == "ALL") {
-			for (size_t i = 0; i < m_pHand->count(); ++i) {
+			for (size_t i = 0; i < 5; ++i) {
 				replaceIndexes.push_back(i);
 			}
 		}
-		else if (input == "done" || input == "Done" || input == "DONE") {
+		else if (input == "none" || input == "None" || input == "NONE") {
+		}
+		else {
+			stringstream sStream(input);
+			while (!sStream.eof()) {
+				string token;
+				sStream >> token;
+				size_t sz = 0;
+				try {
+					int i = stoi(token, &sz);
+					if (i >= 1 && i <= 5 && sz == token.size()) {
+						replaceIndexes.push_back(i - 1);
+					}
+				}
+				catch (const exception& e) {}
+			}
 
 		}
-
-
-		cout << "\tPlease enter a valid option. " << endl;
-		cin.clear();
+		while (true) {
+			cout << "\tCard numbers to replace: ";
+			if (replaceIndexes.empty()) {
+				cout << "NONE";
+			}
+			else {
+				for (const auto& i : replaceIndexes) {
+					cout << i + 1 << " ";
+				}
+			}
+			cout << "\n\tAre these correct? (Yes/No): ";
+			string input;
+			getline(cin, input);
+			if (input == "yes" || input == "Yes" || input == "YES") {
+				return replaceIndexes;
+			}
+			else if (input == "no" || input == "No" || input == "NO") {
+				break;
+			}
+			cout << "\tInvalid input. Try again." << endl;
+		}
 	}
-
-	
-
-
-	return replaceIndexes;
 }
 
 

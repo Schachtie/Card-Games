@@ -36,7 +36,9 @@ private:
 	void resetGame();
 	void showdown();
 
-	bool playAgain();
+	void pauseForUser(const std::string& prompt) const;
+
+	bool playAgain() const;
 	
 
 	
