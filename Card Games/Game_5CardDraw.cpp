@@ -84,7 +84,6 @@ void Game_5CardDraw::run() {
 						break;
 					}
 					case 0: { //Exit to main menu
-						cout << "EXITS" << endl;
 						return;
 					}
 					default: { //Input error

@@ -22,44 +22,56 @@
 #include "Game_5CardDraw.h"
 #include "Game_VideoPoker.h"
 
-
-
 //Using Statements
 using namespace std;
 
-//Generators
-static mt19937 randGen(chrono::steady_clock::now().time_since_epoch().count());
-
-//Function Prototypes
-void dealFullHand(DeckOfCards& deck, Hand5& hand);
-unsigned int rollNumber(unsigned int low, unsigned int high);
 
 //Main Function
 int main()
 {
-	
+	while (true) {
+		//Main Menu
+		cout << "\n-=-=-=-=-=-=-=-=-=-=-=-=-= Card Games =-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
+		cout << "\t\t     ~~~~~ Main Menu ~~~~~" << endl;
+		cout << "\t\t       (1) Five Card Draw Poker" << endl;
+		cout << "\t\t       (2) Video Poker" << endl;
+		cout << "\t\t       (0) Close Program" << endl;
 
-
-
-	cout << "Now testing game object..." << endl << endl;
-
-	Game_VideoPoker videoPoker;
-	videoPoker.run();
-
-	/*Game_5CardDraw fiveCardDraw;
-	fiveCardDraw.run();*/
-}
-
-//Function Bodies
-
-	//This works great! Should put this inside a game class like VideoPoker,  tweak for other games
-void dealFullHand(DeckOfCards& deck, Hand5& hand) {
-	while (hand.count() < hand.size())
-	{
-		hand.addCard(deck.popNextCard());
+		//Handle user input
+		short int iInput = -1;
+		while (iInput == -1) {
+			cout << "\tPlease enter the number of your selection: ";
+			cin >> iInput;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			if (cin.good()) {
+				switch (iInput) {
+					case 1: { //FCD
+						Game_5CardDraw fiveCardDraw;
+						fiveCardDraw.run();
+						break;
+					}
+					case 2: { //VP
+						Game_VideoPoker videoPoker;
+						videoPoker.run();
+						break;
+					}
+					case 0: { //Close
+						cout << "\nThank you for playing!" << endl;
+						return 0;
+					}
+					default: { //Input error
+						iInput = -1;
+						cout << "\tPlease enter a valid option." << endl;
+						break;
+					}
+				}
+			}
+			else {
+				cout << "\tPlease enter a valid option." << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				iInput = -1;
+			}
+		}
 	}
-}
-
-unsigned int rollNumber(unsigned int low, unsigned int high) {
-	return uniform_int_distribution<unsigned int> {low, high} (randGen);
 }
