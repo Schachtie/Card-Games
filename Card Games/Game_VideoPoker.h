@@ -16,6 +16,11 @@ protected:
 	//Protected Member Functions
 	virtual void gameLoop();
 private:
+	void buyIn();
+	void dealHand();
+	void replaceRound();
+	void determinePayout();
+	bool playAgain();
 };
 
 #endif

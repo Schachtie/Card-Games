@@ -99,9 +99,9 @@ void Player::givePayout(unsigned int payout) {
 
 }
 
-//needs to validate buyIn (player must have twice the buyIn so they can bet)
+//needs to validate buyIn 
 unsigned int Player::placeBuyIn(unsigned int iBuyIn) {
-	if (m_iCredits >= 2 * iBuyIn) {
+	if (m_iCredits >= iBuyIn) {
 		m_iCredits -= iBuyIn;
 	}
 	else {

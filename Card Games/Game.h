@@ -27,6 +27,12 @@ protected:
 	virtual Player* createNPC(char npcName[10]) = 0;
 	virtual Player* createUser() = 0;
 	virtual void gameLoop() = 0;
+		
+
+	virtual void replaceRound() = 0;
+	virtual void resetGame() = 0;
+	bool playAgain() const;
+
 private:
 };
 

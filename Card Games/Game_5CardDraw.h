@@ -32,14 +32,11 @@ private:
 	void buyInRound();
 	void dealHands();
 	void bettingRound();
-	void replaceRound();
-	void resetGame();
-	void showdown();
+	void replaceRound(); //same name in VP
+	void resetGame(); //same name in VP
+	void showdown(); 
 
 	void pauseForUser(const std::string& prompt) const;
-
-	bool playAgain() const;
-	
 
 	
 	static std::mt19937 s_RandGen;

@@ -177,7 +177,7 @@ void Game_5CardDraw::buyInRound() {
 	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 		unsigned int iBuyInRet = (*revItPlayer)->placeBuyIn(m_iBuyIn);
 		cout << '\t' << (*revItPlayer)->getName() << ((iBuyInRet != 0) ? " has bought in!" : " doesn't have enough credits to play.") << endl;
-		m_iCurrentPot += iBuyInRet; //MOVE THE ABOVE ANNOUCEMENT INTO THE "placeBuyIn" FUNCTION!!
+		m_iCurrentPot += iBuyInRet;
 	}
 
 	//Announce updated pot
@@ -346,23 +346,3 @@ void Game_5CardDraw::pauseForUser(const string& prompt) const {
 }
 
 
-//MAKE THIS A UTILITY FUNCTION!! (askUserYesNo) param could be prompt as a string
-bool Game_5CardDraw::playAgain() const {
-	//check that user has enough credits to play again.
-	
-	while (true) {
-		cout << "Play again? (Yes/No): ";
-		string input;
-		getline(cin, input);
-
-		if (input == "yes" || input == "Yes" || input == "YES") {
-			return true;
-		}
-		else if (input == "no" || input == "No" || input == "NO") {
-			return false;
-		}
-
-		cout << "Please enter a valid option. ";
-		cin.clear();
-	}
-}
