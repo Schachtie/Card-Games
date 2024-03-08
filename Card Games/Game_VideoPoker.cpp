@@ -130,7 +130,7 @@ void Game_VideoPoker::run() {
 void Game_VideoPoker::gameLoop() {
 	do {
 		//print payout table (Jacks or Better)
-
+		printPayTable();
 		
 		//User buy in
 		buyInRound();
@@ -238,4 +238,24 @@ void Game_VideoPoker::determinePayout() {
 	cout << '\n' << m_ptrsPlayers[0]->getName() << endl;
 	cout << "Credits: " << m_ptrsPlayers[0]->getCredits() << endl;
 	cout << m_ptrsPlayers[0]->getHand() << endl;
+}
+
+
+void Game_VideoPoker::printPayTable() const {
+	cout << endl;
+	cout << "\t********************************" << endl;
+	cout << "\t*       Bet Multipliers        *" << endl;
+	cout << "\t*------------------------------*" << endl;
+	cout << "\t* Pair of Jacks or Higher...x" << s_PayoutMultipliers[1] << " *" << endl;
+	cout << "\t* Two Pair..................x" << s_PayoutMultipliers[2] << " *" << endl;
+	cout << "\t* Three of a Kind...........x" << s_PayoutMultipliers[3] << " *" << endl;
+	cout << "\t* Straight..................x" << s_PayoutMultipliers[4] << " *" << endl;
+	cout << "\t* Flush.....................x" << s_PayoutMultipliers[5] << " *" << endl;
+	cout << "\t* Full House................x" << s_PayoutMultipliers[6] << " *" << endl;
+	cout << "\t* Four of a Kind...........x" << s_PayoutMultipliers[7] << " *" << endl; //2 digits
+	cout << "\t* Straight Flush...........x" << s_PayoutMultipliers[8] << " *" << endl; //2 digits
+	cout << "\t* Royal Flush.............x" << s_PayoutMultipliers[9] << " *" << endl; //3 digits
+	cout << "\t* Anything Else...........LOSS *" << endl;
+	cout << "\t********************************" << endl;
+	cout << endl;
 }

@@ -29,6 +29,8 @@ private:
 	void dealHand();
 	void replaceRound();
 	void determinePayout();
+
+	void printPayTable() const;
 };
 
 #endif
