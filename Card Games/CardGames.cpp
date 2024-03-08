@@ -20,6 +20,7 @@
 #include "DeckOfCards.h"
 #include "Hand5.h"
 #include "Game_5CardDraw.h"
+#include "Game_VideoPoker.h"
 
 
 
@@ -36,14 +37,17 @@ unsigned int rollNumber(unsigned int low, unsigned int high);
 //Main Function
 int main()
 {
+	
 
-	
-	
-	
+
+
 	cout << "Now testing game object..." << endl << endl;
 
-	Game_5CardDraw fiveCardDraw;
-	fiveCardDraw.run();
+	Game_VideoPoker videoPoker;
+	videoPoker.run();
+
+	/*Game_5CardDraw fiveCardDraw;
+	fiveCardDraw.run();*/
 }
 
 //Function Bodies

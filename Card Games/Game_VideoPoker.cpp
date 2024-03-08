@@ -10,8 +10,71 @@
 //Header Files
 #include <iostream>
 #include "Game_VideoPoker.h"
+#include "User5Card.h"
 
 using namespace std;
+
+
+const array<unsigned int, 10> Game_VideoPoker::s_PayoutMultipliers = { 0, 1, 2, 3, 4, 6, 9, 25, 50, 800 };
+
+
+
+
+
+
+
+
+
+
+
+
+//Constructor
+Game_VideoPoker::Game_VideoPoker() {
+	//Deck should be initialized implicitly using its default constructor (might need to use new)
+
+	//Set buyIn,minBet, currentPot amounts
+	m_iBuyIn = 5;
+	m_iMinBet = 1;
+	m_iCurrentPot = 0;
+
+	//Set players to max and add all players (user + NPCs)
+	m_NumPlayers = 1;
+	m_ptrsPlayers.push_back(createUser());
+} //end of default constructor
+
+
+
+
+Player* Game_VideoPoker::createNPC(char npcName[10]) {
+	//Create Player pointer
+	Player* pNewPlayer = nullptr;
+	return pNewPlayer;
+}
+
+Player* Game_VideoPoker::createUser() { //this may not be needed once player is created in main
+	//Create Player pointer
+	Player* pNewPlayer = nullptr;
+
+	//Attempt to create new user
+	try
+	{
+		pNewPlayer = new User5Card();
+	}
+	catch (bad_alloc& memoryAllocEx)
+	{
+		//PUT ERROR MESSAGE HERE OR SOMETHING
+	}
+
+	return pNewPlayer;
+}
+
+void Game_VideoPoker::resetGame() {
+	;
+}
+
+
+
+
 
 
 //potentially put this in "Game" and just have code written once, it is essentially identical to fiveCardDraw, barring the title of the game and the rules that get pulled (can have a virtual function that pulls rules according to game)
@@ -70,7 +133,7 @@ void Game_VideoPoker::gameLoop() {
 
 		
 		//User buy in
-		m_ptrsPlayers[0]->placeBuyIn(m_iBuyIn);
+		buyInRound();
 
 		//Deal 5 cards to user
 		dealHand();
@@ -79,9 +142,31 @@ void Game_VideoPoker::gameLoop() {
 		replaceRound();
 
 		//Determine outcome
-
+		determinePayout();
 
 	} while (playAgain());
+}
+
+
+void Game_VideoPoker::buyInRound() {
+	while (true) {
+		cout << "\tHow much would you like to bet?" << endl;
+		cout << "\t(Must be between " << (m_iMinBet) << " and " << m_ptrsPlayers[0]->getCredits() << "): ";
+		unsigned int userBet = 0;
+		cin >> userBet;
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		if (cin.good() && userBet > m_iMinBet && userBet <= m_ptrsPlayers[0]->getCredits()) {
+			m_iCurrentPot = m_ptrsPlayers[0]->placeBuyIn(userBet);
+			cout << '\t' << m_ptrsPlayers[0]->getName() << " bet " << userBet << " credit" << ((userBet == 1) ? "." : "s.") << endl;
+			return;
+		}
+		cout << "\tPlease enter a valid option. ";
+		if (!cin.good()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
 }
 
 
@@ -126,4 +211,31 @@ void Game_VideoPoker::replaceRound() {
 
 	//update hand rank
 	m_ptrsPlayers[0]->determineHandRank();
+}
+
+
+void Game_VideoPoker::determinePayout() {
+	//apply multiplier
+	PlayingCard jack(11);
+	if (m_ptrsPlayers[0]->getHandRankString() == "Pair" && *(m_ptrsPlayers[0]->getHand().getTieBreakerAt(0)) < jack) {
+		m_iCurrentPot = 0;
+	}
+	else {
+		m_iCurrentPot *= s_PayoutMultipliers.at(m_ptrsPlayers[0]->getHandRankValue());
+	}
+
+	//announce result
+	cout << "\n\t" << "You ";
+	if (m_iCurrentPot == 0) {
+		cout << "lost. Try again!" << endl;
+	}
+	else {
+		cout << "won " << m_iCurrentPot << " credits!" << endl;
+		m_ptrsPlayers[0]->givePayout(m_iCurrentPot);
+	}
+
+	//print user data
+	cout << '\n' << m_ptrsPlayers[0]->getName() << endl;
+	cout << "Credits: " << m_ptrsPlayers[0]->getCredits() << endl;
+	cout << m_ptrsPlayers[0]->getHand() << endl;
 }

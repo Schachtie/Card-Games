@@ -121,6 +121,7 @@ vector<size_t> User5Card::determineReplaceCardsIndexes() {
 				return replaceIndexes;
 			}
 			else if (input == "no" || input == "No" || input == "NO") {
+				replaceIndexes.clear();
 				break;
 			}
 			cout << "\tInvalid input. Try again." << endl;

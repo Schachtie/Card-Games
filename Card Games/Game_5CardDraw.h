@@ -29,7 +29,7 @@ protected:
 	virtual Player* createUser();
 	virtual void gameLoop();
 private:
-	void buyInRound();
+	void buyInRound(); //same name in VP
 	void dealHands();
 	void bettingRound();
 	void replaceRound(); //same name in VP
