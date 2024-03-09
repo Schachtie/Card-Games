@@ -68,7 +68,7 @@ mt19937 Game_5CardDraw::s_RandGen(chrono::steady_clock::now().time_since_epoch()
 /*	Public Service - run
 * 
 *	@notes: Has a menu that allows user to choose interaction, switch statement controls whether 
-			gameLoop is entered, rules are displayed, or exit back to main menu.
+*			gameLoop is entered, rules are displayed, or exit back to main menu.
 * 
 *	@params: void
 * 
