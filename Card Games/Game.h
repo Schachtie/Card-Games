@@ -9,9 +9,11 @@
 class Game
 {
 public:
-	//Constructors & Deconstructor
+	//Constructors and Destructor
+	Game(); //Default
+	virtual ~Game(); //Virtual Destructor
 
-	//Public Member Functions
+	//Public Services
 	virtual void run() = 0;
 
 protected:
@@ -24,14 +26,16 @@ protected:
 	DeckOfCards m_Deck;
 
 	//Protected Member Functions
+	bool playAgain() const;
+
+	//Protected Virtual Member Functions
+	virtual void buyInRound() = 0;
 	virtual Player* createNPC(char npcName[10]) = 0;
 	virtual Player* createUser() = 0;
+	virtual void dealCards() = 0;
 	virtual void gameLoop() = 0;
-		
-
 	virtual void replaceRound() = 0;
 	virtual void resetGame() = 0;
-	bool playAgain() const;
 
 private:
 };

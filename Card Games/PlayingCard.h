@@ -16,7 +16,7 @@ class PlayingCard
 	friend std::ostream& operator<<(std::ostream& output, const PlayingCard& card);
 
 public:
-	//Constructors and destructor
+	//Constructors and Destructor
 	PlayingCard(unsigned short int faceValue = 0, size_t suitIndex = 0); //Default
 	PlayingCard(const PlayingCard& oldCard); //Copy
 	~PlayingCard() { }

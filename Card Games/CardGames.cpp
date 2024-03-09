@@ -1,12 +1,11 @@
 /*
 *	Author: Trenton Schacht
 *
-*	Simulates select Card Games on Console/Terminal
+*	Simulates select Five Card Draw and Video Poker on Console/Terminal
 * 
 * 
 *	Working Notes: 
 *		- Need to go through all code and "standardize" my variable names and {} use, as well as code documentation
-*		- Need to add user interaction. Clean the game output before you do this. Everything seems to be functioning properly now.
 */
 
 //Header Files

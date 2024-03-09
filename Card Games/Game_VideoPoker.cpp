@@ -135,7 +135,7 @@ void Game_VideoPoker::gameLoop() {
 		buyInRound();
 
 		//Deal 5 cards to user
-		dealHand();
+		dealCards();
 
 		//Draw/Replace (up to 5 cards)
 		replaceRound();
@@ -169,7 +169,7 @@ void Game_VideoPoker::buyInRound() {
 }
 
 
-void Game_VideoPoker::dealHand() {
+void Game_VideoPoker::dealCards() {
 	//Shuffle deck
 	cout << "Shuffling deck... ";
 	m_Deck.shuffle();

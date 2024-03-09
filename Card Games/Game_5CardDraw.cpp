@@ -1,11 +1,14 @@
 /*
-*	Class Definitions: Hand5
+*	Class Definitions: Game_5CardDraw
+*
+*	@author: Trenton Schacht
+*
+*	@purpose:	Simulates a game of Five Card Draw Poker with 4 non-player characters and the user.
+*
+*			Provides the following functionalities:
+*				- run (runs game once object is created)
 */
 
-/*
-*	Working Notes:
-*		Currently working on game loop - bettingRound
-*/
 
 //Header Files
 #include <fstream>
@@ -15,6 +18,8 @@
 #include "NPC5Card.h"
 
 using namespace std;
+
+
 
 //Constructor
 Game_5CardDraw::Game_5CardDraw() {
@@ -40,7 +45,7 @@ Game_5CardDraw::Game_5CardDraw() {
 		}
 		inNames.close();
 	}
-} //end of default constructor
+} //end of "Default Constructor"
 
 Game_5CardDraw::~Game_5CardDraw() {
 	//Deallocate memory for each player
@@ -48,17 +53,27 @@ Game_5CardDraw::~Game_5CardDraw() {
 		delete m_ptrsPlayers.back();
 		m_ptrsPlayers.pop_back();
 	}
-}
+} //end of "Virtual Destructor"
 
 
 
-//Static Private Data Members
+/*	Private Static Random Generator
+*
+*	@notes: Uses a Mersenne Twister Engine seeded with the current time.
+*/
 mt19937 Game_5CardDraw::s_RandGen(chrono::steady_clock::now().time_since_epoch().count());
 
 
-//Public Member Functions
 
-//Run Game Function
+/*	Public Service - run
+* 
+*	@notes: Has a menu that allows user to choose interaction, switch statement controls whether 
+			gameLoop is entered, rules are displayed, or exit back to main menu.
+* 
+*	@params: void
+* 
+*	@return: void
+*/
 void Game_5CardDraw::run() {
 	while (true) {
 		//Welcome message and menu
@@ -68,7 +83,7 @@ void Game_5CardDraw::run() {
 		cout << "\t\t\t  (2) Rules" << endl;
 		cout << "\t\t\t  (0) Exit to Main Menu" << endl;
 
-		//handle user input
+		//Handle user input
 		short int iInput = -1;
 		while (iInput == -1) {
 			cout << "\tPlease enter the number of your selection: ";
@@ -101,10 +116,42 @@ void Game_5CardDraw::run() {
 			}
 		}
 	}
-} //THIS MIGHT WANT TO USE POLYMORPHISM AND BE CALLED IN "GAME" CLASS
+} //end of "run"
 
-//Protected Member Functions
 
+
+// Protected Virtual Member Functions
+
+/*	buyInRound
+* 
+*	@notes: Announces buy in amount as well as updated pot.
+* 
+*	@params: void
+*
+*	@return: void
+*/
+void Game_5CardDraw::buyInRound() {
+	cout << "Buy-in for this game is " << m_iBuyIn << " credits." << endl;
+
+	//Iterate through all players backwards, have them place bets of the buyIn amounts, add to pot
+	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
+		unsigned int iBuyInRet = (*revItPlayer)->placeBuyIn(m_iBuyIn);
+		cout << '\t' << (*revItPlayer)->getName() << ((iBuyInRet != 0) ? " has bought in!" : " doesn't have enough credits to play.") << endl;
+		m_iCurrentPot += iBuyInRet;
+	}
+
+	cout << "The starting pot for this game is " << m_iCurrentPot << " credits." << endl;
+} //end of "buyInRound"
+
+
+/*	createNPC
+* 
+*	@notes:	If allocation fails, returns null pointer.
+* 
+*	@params: NPC's name as a C-style string.
+* 
+*	@return: pointer to dynamically allocated NPC.
+*/
 Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
@@ -116,12 +163,21 @@ Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{
-		//PUT ERROR MESSAGE HERE OR SOMETHING
+		cout << "Error allocating memory for NPC: " << npcName << endl;
 	}
 
 	return pNewPlayer;
-}
+} //end of "createNPC"
 
+
+/*	createUser
+*
+*	@notes: MAY NEED TO CHANGE THIS, USER IS STILL NOT BEING PASSED BETWEEN GAMES
+* 
+*	@params:
+* 
+*	@return:
+*/
 Player* Game_5CardDraw::createUser() { //this may not be needed once player is created in main
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
@@ -137,54 +193,20 @@ Player* Game_5CardDraw::createUser() { //this may not be needed once player is c
 	}
 
 	return pNewPlayer;
-}
+} //end of "createUser"
 
 
-//Game Loop Function: Returns true to continue, false to end
-void Game_5CardDraw::gameLoop() {
-	do {
-		cout << "\n\n\t===== Game Start =====" << endl;
-		
-		buyInRound();
-		dealHands();
-
-		bettingRound();
-
-		replaceRound();
-
-		bettingRound();
-
-		showdown();
-
-		pauseForUser("Hit \"Enter\" to show every player's cards.");
-
-		cout << "\n\n ~~~~~~~~~~~~~~~ PRINTING EVERYONE'S HAND BELOW ~~~~~~~~~~~~~~~" << endl;
-		printHands();
-
-		//Prep for new game
-		resetGame();
-	} while (playAgain());
-} //end of "gameLoop()"
-
-
-//Private Member Functions
-void Game_5CardDraw::buyInRound() {
-	//Announce buy in amount for game
-	cout << "Buy-in for this game is " << m_iBuyIn << " credits." << endl;
-	
-	//Iterate through all players backwards, have them place bets of the buyIn amounts, add to pot
-	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
-		unsigned int iBuyInRet = (*revItPlayer)->placeBuyIn(m_iBuyIn);
-		cout << '\t' << (*revItPlayer)->getName() << ((iBuyInRet != 0) ? " has bought in!" : " doesn't have enough credits to play.") << endl;
-		m_iCurrentPot += iBuyInRet;
-	}
-
-	//Announce updated pot
-	cout << "The starting pot for this game is " << m_iCurrentPot << " credits." << endl;
-} //end of "buyInRound()"
-
-void Game_5CardDraw::dealHands() {
-	//Shuffle deck
+/*	dealCards
+* 
+*	@notes:	Simulates real dealing where players get one card at a time. 
+*			Also takes care of shuffling the initialized deck, and
+*			setting each player's initial hand rank.
+* 
+*	@params: void
+* 
+*	@return: void
+*/
+void Game_5CardDraw::dealCards() {
 	cout << "Shuffling deck... ";
 	m_Deck.shuffle();
 	cout << "Deck shuffled." << endl;
@@ -207,17 +229,120 @@ void Game_5CardDraw::dealHands() {
 			(*itPlayer)->determineHandRank();
 		}
 	}
-} //end of "dealHands()"
+} //end of "dealCards"
 
+
+/*	gameLoop
+* 
+*	@notes:	Relies on "playAgain" function to terminate loop.
+* 
+*	@params: void
+* 
+*	@return: void
+*/
+void Game_5CardDraw::gameLoop() {
+	do {
+		cout << "\n\n\t===== Game Start =====" << endl;
+		
+		buyInRound();
+		dealCards();
+
+		bettingRound();
+
+		replaceRound();
+
+		bettingRound();
+
+		showdown();
+
+		pauseForUser("Hit \"Enter\" to show every player's cards.");
+		cout << "\n\n ~~~~~~~~~~~~~~~ PRINTING EVERYONE'S HAND BELOW ~~~~~~~~~~~~~~~" << endl;
+		printAllHands();
+
+		//Prep for new game
+		resetGame();
+	} while (playAgain());
+} //end of "gameLoop"
+
+
+/*	replaceRound
+* 
+*	@notes: Takes care of updating hand rank once cards have been replaced.
+* 
+*	@params: void
+* 
+*	@return: void
+*/
+void Game_5CardDraw::replaceRound() {
+	cout << "\n== Draw and Replace Round ==" << endl;
+
+	//Iterate through all players backwards, if they're active have them take their replace card round turn.
+	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
+		if ((*revItPlayer)->getActiveStatus()) {
+			vector<size_t> replaceCardsIndexes = (*revItPlayer)->determineReplaceCardsIndexes();
+
+			//Replace cards
+			if (replaceCardsIndexes.size() > 0) {
+				for (auto it = replaceCardsIndexes.cbegin(); it != replaceCardsIndexes.cend(); ++it) {
+					(*revItPlayer)->replaceCardAt(*it, m_Deck.popNextCard());
+				}
+				(*revItPlayer)->determineHandRank();
+			}
+
+			//Announce number of cards replaced
+			cout << '\t' << (*revItPlayer)->getName();
+			if (replaceCardsIndexes.size() == 0) {
+				cout << " kept all their cards." << endl;
+			}
+			else {
+				cout << " replaced " << replaceCardsIndexes.size() << " card" << ((replaceCardsIndexes.size() == 1) ? "." : "s.") << endl;
+			}
+		}
+	}
+} //end of "replaceRound"
+
+
+/*	resetGame
+* 
+*	@notes: Each player's hand is cleared, active status reset to true, and raises reset.
+*			Also has to reset deck.
+* 
+*	@params: void
+* 
+*	@return: void
+*/
+void Game_5CardDraw::resetGame() {
+	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
+		(*itPlayer)->clearHand();
+		(*itPlayer)->setActiveStatus(true);
+		(*itPlayer)->setRaisesLeft(s_iMAXRAISES);
+	}
+
+	m_Deck.initDeck();
+} //end of "resetGame"
+
+
+
+//Private Member Functions
+
+/*	bettingRound
+* 
+*	@notes: Mimics betting structure of a real poker match. Allows players to raise and
+*			other players must either match the bet or raise again. Players actually "commit"
+*			to bets they make. Even if they fold, the highest bet they've agreed to gets applied.
+* 
+*	@params: void
+* 
+*	@return: void
+*/
 void Game_5CardDraw::bettingRound() {
-	
 	cout << "\n== Betting Round == Starting bet: " << m_iMinBet << endl;
 	unsigned int iMinimumBet = m_iMinBet;
 
 	//Iterate through all players backwards, if they're active have them determine bets until all bets are equalized
 	auto revItPlayer = m_ptrsPlayers.rbegin();
 	while (revItPlayer != m_ptrsPlayers.rend()) {
-		//cycle through players to bet
+		//Cycle through players that don't have an updated bet
 		for (revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
 			if ((*revItPlayer)->getActiveStatus() && (*revItPlayer)->getCurrentBet() != iMinimumBet) {
 				unsigned int iCurrentBet = (*revItPlayer)->determineBet(iMinimumBet);
@@ -239,51 +364,48 @@ void Game_5CardDraw::bettingRound() {
 
 	//Announce the updated pot
 	cout << "The pot is now " << m_iCurrentPot << " credits." << endl;
-} //end of "bettingRound()"
+} //end of "bettingRound"
 
-void Game_5CardDraw::replaceRound() {
-	cout << "\n== Draw and Replace Round ==" << endl;
 
-	//Iterate through all players backwards, if they're active have them take their replace card round turn.
-	for (auto revItPlayer = m_ptrsPlayers.rbegin(); revItPlayer != m_ptrsPlayers.rend(); ++revItPlayer) {
-		if ((*revItPlayer)->getActiveStatus()) {
-			vector<size_t> replaceCardsIndexes = (*revItPlayer)->determineReplaceCardsIndexes();
-
-			//replace cards here
-			if (replaceCardsIndexes.size() > 0) {
-				for (auto it = replaceCardsIndexes.cbegin(); it != replaceCardsIndexes.cend(); ++it) {
-					(*revItPlayer)->replaceCardAt(*it, m_Deck.popNextCard());
-				}
-			}
-
-			//announce number of cards replaced
-			cout << '\t' << (*revItPlayer)->getName();
-			if (replaceCardsIndexes.size() == 0) {
-				cout << " kept all their cards." << endl;
-			}
-			else {
-				cout << " replaced " << replaceCardsIndexes.size() << " card" << ((replaceCardsIndexes.size() == 1) ? "." : "s.") << endl;
-			}
-
-			//update hand rank
-			(*revItPlayer)->determineHandRank();
-		}
+/*	printAllHands
+* 
+*	@notes: Prints player's name, credits, and their hand. Hand rank is printed alongside hand.
+*
+*	@params: void
+* 
+*	@return: void
+*/
+void Game_5CardDraw::printAllHands() const {
+	for (auto itPlayer = m_ptrsPlayers.cbegin(); itPlayer != m_ptrsPlayers.cend(); ++itPlayer) {
+		cout << endl;
+		cout << (*itPlayer)->getName() << endl;
+		cout << "Credits: " << (*itPlayer)->getCredits() << endl;
+		cout << (*itPlayer)->getHand() << endl;
 	}
-}
+} //end of "printAllHands"
 
-void Game_5CardDraw::resetGame() {
-	//Reset each player's hands and active status
-	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
-		(*itPlayer)->clearHand();
-		(*itPlayer)->setActiveStatus(true);
-		(*itPlayer)->setRaisesLeft(s_iMAXRAISES);
-		//check for new variables added
-	}
 
-	//Reinitialize the deck
-	m_Deck.initDeck();
-}
+/*	rollNumber
+* 
+*	@notes:	Specifically for unsigned int. 
+* 
+*	@params: Lower and upper bounds.
+* 
+*	@return: Randomly generated number within provided range.
+*/
+unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
+	return uniform_int_distribution<unsigned int> {low, high}(s_RandGen);
+} //end of "rollNumber"
 
+
+/*	showDown
+* 
+*	@notes: Any leftover credits in pot from integer rounding will be rolled over into next pot
+* 
+*	@params: void
+* 
+*	@return: void
+*/
 void Game_5CardDraw::showdown() {
 	cout << "\n== Showdown ==" << endl;
 
@@ -318,30 +440,19 @@ void Game_5CardDraw::showdown() {
 		//Give payout
 		(*itWinner)->givePayout(payout);
 	} 
-	
-	//Any leftover credits in pot from integer rounding will be rolled over into next pot
-} //end of "showdown()"
+} //end of "showdown"
 
-//Testing Functions
 
-//Prints name, credits, cards, hand rank
-void Game_5CardDraw::printHands() const {
-	for (auto itPlayer = m_ptrsPlayers.cbegin(); itPlayer != m_ptrsPlayers.cend(); ++itPlayer) {
-		cout << endl;
-		cout << (*itPlayer)->getName() << endl;
-		cout << "Credits: " << (*itPlayer)->getCredits() << endl;
-		cout << (*itPlayer)->getHand() << endl;
-	}
-}
 
-unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
-	return uniform_int_distribution<unsigned int> {low, high}(s_RandGen);
-}
 
+
+
+
+
+
+//MIGHT MOVE THIS?
 void Game_5CardDraw::pauseForUser(const string& prompt) const {
 	cout << '\n' << prompt << ' ';
 	string str;
 	getline(cin, str);
 }
-
-
