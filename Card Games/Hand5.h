@@ -10,57 +10,41 @@
 #include <array>
 #include <vector>
 #include "PlayingCard.h"
+#include "Hand.h"
 
-class Hand5
+class Hand5 : public Hand
 {
-	//Overloaded stream insertion operator
-	friend std::ostream& operator<<(std::ostream& output, const Hand5& hand);
-
 public:
 	//Constructors
 	Hand5(); //default
 	Hand5(const Hand5& oldHand); //copy
-	//Destructor
+	virtual ~Hand5(); //Destructor
 
-	//Public Data Members
-	static const std::array<std::string, 10> s_HandRanks;
+	//Public Virtual Set and Get Functions
+	virtual const PlayingCard* getCPtrCardAt(size_t index) const;
+	virtual void setRank();
+	virtual std::vector<const PlayingCard*> getTieBreakersAll() const;
+	virtual const PlayingCard* getTieBreakerAt(size_t index) const;
+	virtual size_t getNumOfTieBreakers() const;
 
-	//Set and Get Functions
-	const PlayingCard* getCPtrCardAt(size_t index) const;
-	unsigned short int getRankValue() const;
-	std::string getRankString() const;
-	void setRank();
-	std::vector<const PlayingCard*> getTieBreakersAll() const;
-	const PlayingCard* getTieBreakerAt(size_t index) const;
-	size_t getNumOfTieBreakers() const;
+	//Public Virtual Services
+	virtual void addCard(const PlayingCard& card);
+	virtual void clearHand();
+	virtual unsigned short int count() const;
+	virtual void printHandNumbered() const;
+	virtual void replaceCardAt(size_t index, const PlayingCard& newCard);
+	virtual size_t size() const;
+	virtual void print(std::ostream& output) const;
 
-	//Public Member Functions
-	void addCard(const PlayingCard& card);
-	void clearHand();
-	unsigned short int count() const;
-	void printHandNumbered() const;
-	void replaceCardAt(size_t index, const PlayingCard& newCard);
-	size_t size() const;
-
-
-	//Operator Overloads - these will need testing once determineRank has been written. currently all hands are equal as each hand's rank is 0 and all ptrsTieBreakers point to NULL
-	bool operator<(const Hand5& secondHand) const;
-	bool operator<=(const Hand5& secondHand) const;
-	bool operator>(const Hand5& secondHand) const;
-	bool operator>=(const Hand5& secondHand) const;
-	bool operator==(const Hand5& secondHand) const;
-	bool operator!=(const Hand5& secondHand) const;
-
-	
+	//Operator Overloads
+	virtual bool operator<(const Hand& secondHand) const;
 
 private:
 	//Private Data Members
-	unsigned short int m_iRank;
 	std::array<PlayingCard, 5> m_Cards;
-	std::vector<const PlayingCard*> m_ptrsTieBreakers;
 
 	//Private Member Functions
-	const Hand5* breakTie(const Hand5* hand1, const Hand5* hand2) const;
+	int breakTie(const Hand5* hand1, const Hand5* hand2) const; //change return type to int
 	std::vector<std::pair<const PlayingCard*, unsigned short int>> findMatches() const;
 	bool checkStraight() const;
 	bool checkFlush() const;

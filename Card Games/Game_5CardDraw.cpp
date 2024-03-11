@@ -10,7 +10,7 @@
 */
 
 
-//Header Files
+// Header Files
 #include <fstream>
 #include <conio.h>
 #include "Game_5CardDraw.h"
@@ -323,7 +323,7 @@ void Game_5CardDraw::resetGame() {
 
 
 
-//Private Member Functions
+// Private Member Functions
 
 /*	bettingRound
 * 
@@ -380,7 +380,7 @@ void Game_5CardDraw::printAllHands() const {
 		cout << endl;
 		cout << (*itPlayer)->getName() << endl;
 		cout << "Credits: " << (*itPlayer)->getCredits() << endl;
-		cout << (*itPlayer)->getHand() << endl;
+		cout << *(*itPlayer)->getHandPtr() << endl;
 	}
 } //end of "printAllHands"
 
@@ -409,21 +409,29 @@ unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
 void Game_5CardDraw::showdown() {
 	cout << "\n== Showdown ==" << endl;
 
+	//Put active players into a vector to later find winner
+	vector<Player*> activePlayers;
+	for (auto itPlayer = m_ptrsPlayers.begin(); itPlayer != m_ptrsPlayers.end(); ++itPlayer) {
+		if ((*itPlayer)->getActiveStatus()) {
+			activePlayers.push_back(*itPlayer);
+		}
+	}
+
 	//Find winner based on largest hand
-	auto itWinner = max_element(m_ptrsPlayers.begin(), m_ptrsPlayers.end(), [](Player* pLHS, Player* pRHS) 
-		{ return pLHS->getHand() < pRHS->getHand() && pRHS->getActiveStatus(); });
+	auto itWinner = max_element(activePlayers.begin(), activePlayers.end(), [](Player* pLHS, Player* pRHS)
+		{ return *(pLHS->getHandPtr()) < *(pRHS->getHandPtr()); });
 
 	//Check if there are multiple winners
-	int iWinners = count_if(m_ptrsPlayers.cbegin(), m_ptrsPlayers.cend(), [&itWinner](Player* pOtherPlayer) 
-		{ return (*itWinner)->getHand() == pOtherPlayer->getHand() && pOtherPlayer->getActiveStatus(); });
+	int iWinners = count_if(activePlayers.begin(), activePlayers.end(), [&itWinner](Player* pOtherPlayer)
+		{ return *((*itWinner)->getHandPtr()) == *(pOtherPlayer->getHandPtr()); });
 	
 	//Add all winners to vector of Player*
 	vector<Player*> ptrsWinners;
-	auto itCurrentPlayer = m_ptrsPlayers.begin();
+	auto itCurrentPlayer = activePlayers.begin();
 	for (int i = 0; i < iWinners; ++i) {
-		itCurrentPlayer = find_if(itCurrentPlayer, m_ptrsPlayers.end(), [&itWinner](Player* pOtherPlayer) 
-			{ return (*itWinner)->getHand() == pOtherPlayer->getHand() && pOtherPlayer->getActiveStatus(); });
-		if (itCurrentPlayer != m_ptrsPlayers.end()) {
+		itCurrentPlayer = find_if(itCurrentPlayer, activePlayers.end(), [&itWinner](Player* pOtherPlayer)
+			{ return *((*itWinner)->getHandPtr()) == *(pOtherPlayer->getHandPtr()); });
+		if (itCurrentPlayer != activePlayers.end()) {
 			ptrsWinners.push_back(&(**itCurrentPlayer));
 		}
 	}

@@ -48,7 +48,7 @@ public:
 	virtual std::vector<size_t> determineReplaceCardsIndexes() = 0;
 
 
-	Hand5 getHand() const;
+	const Hand* getHandPtr() const;
 
 protected:
 	//Protected Data Members
@@ -58,7 +58,7 @@ protected:
 	unsigned int m_iCurrentBet;
 	unsigned short int m_iRaisesLeft;
 	//should also have some kind of hand (use a generic base class?)
-	Hand5* m_pHand;
+	Hand* m_pHand;
 
 
 	void callBehavior(unsigned int prevBet);

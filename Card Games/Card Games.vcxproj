@@ -132,6 +132,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game_5CardDraw.cpp" />
     <ClCompile Include="Game_VideoPoker.cpp" />
+    <ClCompile Include="Hand.cpp" />
     <ClCompile Include="Hand5.cpp" />
     <ClCompile Include="NPC5Card.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game_5CardDraw.h" />
     <ClInclude Include="Game_VideoPoker.h" />
+    <ClInclude Include="Hand.h" />
     <ClInclude Include="Hand5.h" />
     <ClInclude Include="NPC5Card.h" />
     <ClInclude Include="Player.h" />

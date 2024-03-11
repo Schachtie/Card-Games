@@ -10,7 +10,7 @@
 */
 
 
-//Header Files
+// Header Files
 #include <iostream>
 #include "Game_VideoPoker.h"
 #include "User5Card.h"
@@ -27,10 +27,14 @@ Game_VideoPoker::Game_VideoPoker() {
 	m_iMinBet = 1;
 	m_iCurrentPot = 0;
 
-	//Set players to max and add all players (user + NPCs)
+	//Set players to one and add all players (user + NPCs)
 	m_NumPlayers = 1;
 	m_ptrsPlayers.push_back(createUser());
 } //end of default constructor
+
+Game_VideoPoker::~Game_VideoPoker() {
+	;
+}
 
 
 
@@ -98,7 +102,7 @@ void Game_VideoPoker::run() {
 
 
 
-//Protected Virtual Member Functions
+// Protected Virtual Member Functions
 
 /*	buyInRound
 * 
@@ -264,7 +268,7 @@ void Game_VideoPoker::resetGame() {
 
 
 
-//Private Member Functions
+// Private Member Functions
 
 /*	determinePayout
 * 
@@ -278,7 +282,7 @@ void Game_VideoPoker::resetGame() {
 void Game_VideoPoker::determinePayout() {
 	//Apply multiplier
 	PlayingCard jack(11);
-	if (m_ptrsPlayers[0]->getHandRankString() == "Pair" && *(m_ptrsPlayers[0]->getHand().getTieBreakerAt(0)) < jack) {
+	if (m_ptrsPlayers[0]->getHandRankString() == "Pair" && *((*m_ptrsPlayers[0]->getHandPtr()).getTieBreakerAt(0)) < jack) {
 		m_iCurrentPot = 0;
 	}
 	else {
@@ -298,7 +302,7 @@ void Game_VideoPoker::determinePayout() {
 	//Print user data
 	cout << '\n' << m_ptrsPlayers[0]->getName() << endl;
 	cout << "Credits: " << m_ptrsPlayers[0]->getCredits() << endl;
-	cout << m_ptrsPlayers[0]->getHand() << endl;
+	cout << *m_ptrsPlayers[0]->getHandPtr() << endl;
 } //end of "determinePayout"
 
 

@@ -14,17 +14,7 @@
 
 using namespace std;
 
-//Non Member Functions
-ostream& operator<<(ostream& output, const Hand5& hand) {
-	for (PlayingCard card : hand.m_Cards)
-	{
-		output << card << endl;
-	}
 
-	cout << "Hand rank is: " << Hand5::s_HandRanks[hand.m_iRank] << endl;
-
-	return output;
-}
 
 //Constructors
 Hand5::Hand5() {
@@ -38,8 +28,12 @@ Hand5::Hand5(const Hand5& oldHand) {
 	this->m_ptrsTieBreakers = oldHand.m_ptrsTieBreakers;
 }
 
+Hand5::~Hand5() {
+	;
+}
+
 //Public Data Members
-const array<string, 10> Hand5::s_HandRanks = { "High Card", "Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush" };
+
 
 //Public Set and Get Functions
 const PlayingCard* Hand5::getCPtrCardAt(size_t index) const {
@@ -52,13 +46,7 @@ const PlayingCard* Hand5::getCPtrCardAt(size_t index) const {
 	}
 }
 
-unsigned short int Hand5::getRankValue() const {
-	return m_iRank;
-}
 
-string Hand5::getRankString() const {
-	return s_HandRanks[m_iRank];
-}
 
 void Hand5::setRank() {
 	//Variables used for determining rank
@@ -206,18 +194,28 @@ void Hand5::printHandNumbered() const {
 	cout << "Hand rank is: " << s_HandRanks.at(m_iRank) << endl;
 }
 
+void Hand5::print(ostream& output) const {
+	for (PlayingCard card : m_Cards)
+	{
+		output << card << endl;
+	}
+
+	output << "Hand rank is: " << Hand::s_HandRanks[m_iRank] << endl;
+}
+
+
 //Operator Overloads
-bool Hand5::operator<(const Hand5& secondHand) const {
-	if (this->m_iRank < secondHand.m_iRank)
+bool Hand5::operator<(const Hand& secondHand) const {
+	const Hand5& secondHandCast = dynamic_cast<const Hand5&>(secondHand);
+
+	if (this->m_iRank < secondHandCast.m_iRank)
 	{
 		return true;
 	}
-	else if (this->m_iRank == secondHand.m_iRank)
+	else if (this->m_iRank == secondHandCast.m_iRank)
 	{
 		//Tie needs to be broken
-		const Hand5* breakResult = breakTie(this, &secondHand);
-		
-		if (breakResult == &secondHand)
+		if (breakTie(this, &secondHandCast) == 1)
 		{
 			return true;
 		}
@@ -232,35 +230,17 @@ bool Hand5::operator<(const Hand5& secondHand) const {
 	}
 }
 
-bool Hand5::operator<=(const Hand5& secondHand) const {
-	return !(secondHand < *this);
-}
 
-bool Hand5::operator>(const Hand5& secondHand) const {
-	return secondHand < *this;
-}
-
-bool Hand5::operator>=(const Hand5& secondHand) const {
-	return !(*this < secondHand);
-}
-
-bool Hand5::operator==(const Hand5& secondHand) const {
-	return !(*this < secondHand) && !(secondHand < *this);
-}
-
-bool Hand5::operator!=(const Hand5& secondHand) const {
-	return (*this < secondHand) || (secondHand < *this);
-}
 
 //Private Member Functions
 
 //Returns a pointer to the "greater" hand, NULL if hands tieBreakers are equal
 //UNTESTED
-const Hand5* Hand5::breakTie(const Hand5* hand1, const Hand5* hand2) const {
+int Hand5::breakTie(const Hand5* hand1, const Hand5* hand2) const {
 	//Check for empty tieBreakers vector (Royal Flush Tie)
 	if (hand1->m_ptrsTieBreakers.size() == 0)
 	{
-		return nullptr;
+		return 0;
 	}
 	
 	//Check for all other ties
@@ -270,17 +250,17 @@ const Hand5* Hand5::breakTie(const Hand5* hand1, const Hand5* hand2) const {
 						hand2->m_ptrsTieBreakers.cbegin(), hand2->m_ptrsTieBreakers.cend(), 
 						[](auto lhs, auto rhs) { return *lhs == *rhs; });
 	
-	if (get<0>(mmRet) == hand1->m_ptrsTieBreakers.cend())
+	if (get<0>(mmRet) == hand1->m_ptrsTieBreakers.cend() || get<1>(mmRet) == hand2->m_ptrsTieBreakers.cend())
 	{
-		return nullptr;
+		return 0;
 	}
 	else if (*get<0>(mmRet) < *get<1>(mmRet))
 	{
-		return hand2;
+		return 1;
 	}
 	else
 	{
-		return hand1;
+		return -1;
 	}
 }
 

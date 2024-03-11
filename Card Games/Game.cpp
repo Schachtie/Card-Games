@@ -13,6 +13,17 @@
 
 using namespace std;
 
+
+
+Game::Game() {
+	;
+}
+
+Game::~Game() {
+	;
+}
+
+
 bool Game::playAgain() const {
 	while (true) {
 		cout << "Play again? (Yes/No): ";

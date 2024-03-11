@@ -116,8 +116,8 @@ void Player::printCards() const {
 }
 
 
-Hand5 Player::getHand() const {
-	return *m_pHand;
+const Hand* Player::getHandPtr() const {
+	return m_pHand;
 }
 
 

@@ -16,8 +16,6 @@
 #include <sstream>
 
 //Self-Made Classes Headers
-#include "DeckOfCards.h"
-#include "Hand5.h"
 #include "Game_5CardDraw.h"
 #include "Game_VideoPoker.h"
 
