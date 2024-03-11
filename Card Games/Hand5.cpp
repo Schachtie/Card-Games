@@ -248,13 +248,13 @@ int Hand5::breakTie(const Hand5* hand1, const Hand5* hand2) const {
 		vector<const PlayingCard*>::const_iterator> mmRet 
 			= mismatch(hand1->m_ptrsTieBreakers.cbegin(), hand1->m_ptrsTieBreakers.cend(), 
 						hand2->m_ptrsTieBreakers.cbegin(), hand2->m_ptrsTieBreakers.cend(), 
-						[](auto lhs, auto rhs) { return *lhs == *rhs; });
+						[](const PlayingCard* lhs, const PlayingCard* rhs) { return *lhs == *rhs; });
 	
 	if (get<0>(mmRet) == hand1->m_ptrsTieBreakers.cend() || get<1>(mmRet) == hand2->m_ptrsTieBreakers.cend())
 	{
 		return 0;
 	}
-	else if (*get<0>(mmRet) < *get<1>(mmRet))
+	else if (**get<0>(mmRet) < **get<1>(mmRet))
 	{
 		return 1;
 	}
