@@ -12,13 +12,13 @@ class Game
 public:
 	//Constructors and Destructor
 	Game(); //Default
-	virtual ~Game() { } //Virtual Destructor
+	virtual ~Game() { } //virtual destructor in case of dynamic memory
 
-	//Public Services
+	// Public Virtual Services
 	virtual void run() = 0;
 
 protected:
-	//Protected Data Members
+	// Protected Data Members
 	User* m_pOutsideUser;
 	size_t m_NumPlayers;
 	std::vector<Player*> m_ptrsPlayers;
@@ -27,10 +27,10 @@ protected:
 	unsigned int m_iCurrentPot;
 	DeckOfCards m_Deck;
 
-	//Protected Member Functions
+	// Protected Member Functions
 	bool playAgain() const;
 
-	//Protected Virtual Member Functions
+	// Protected Virtual Member Functions
 	virtual void buyInRound() = 0;
 	virtual Player* createNPC(char npcName[10]) = 0;
 	virtual Player* createUser() = 0;
