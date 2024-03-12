@@ -41,7 +41,6 @@ Hand5::~Hand5() {
 	;
 }
 
-//Public Data Members
 
 
 // Public Set and Get Functions

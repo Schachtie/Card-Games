@@ -18,6 +18,7 @@
 //Self-Made Classes Headers
 #include "Game_5CardDraw.h"
 #include "Game_VideoPoker.h"
+#include "User.h"
 
 //Using Statements
 using namespace std;
@@ -26,49 +27,57 @@ using namespace std;
 //Main Function
 int main()
 {
-	while (true) {
-		//Main Menu
-		cout << "\n-=-=-=-=-=-=-=-=-=-=-=-=-= Card Games =-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
-		cout << "\t\t     ~~~~~ Main Menu ~~~~~" << endl;
-		cout << "\t\t       (1) Five Card Draw Poker" << endl;
-		cout << "\t\t       (2) Video Poker" << endl;
-		cout << "\t\t       (0) Close Program" << endl;
+	User defaultUser;
+	User trentUser("Trent");
 
-		//Handle user input
-		short int iInput = -1;
-		while (iInput == -1) {
-			cout << "\tPlease enter the number of your selection: ";
-			cin >> iInput;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			if (cin.good()) {
-				switch (iInput) {
-					case 1: { //FCD
-						Game_5CardDraw fiveCardDraw;
-						fiveCardDraw.run();
-						break;
-					}
-					case 2: { //VP
-						Game_VideoPoker videoPoker;
-						videoPoker.run();
-						break;
-					}
-					case 0: { //Close
-						cout << "\nThank you for playing!" << endl;
-						return 0;
-					}
-					default: { //Input error
-						iInput = -1;
-						cout << "\tPlease enter a valid option." << endl;
-						break;
-					}
-				}
-			}
-			else {
-				cout << "\tPlease enter a valid option." << endl;
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				iInput = -1;
-			}
-		}
-	}
+	cout << defaultUser.getUserName() << " has " << defaultUser.getCredits() << " credits." << endl;
+	cout << trentUser.getUserName() << " has " << trentUser.getCredits() << " credits." << endl;
+
+
+
+	//while (true) {
+	//	//Main Menu
+	//	cout << "\n-=-=-=-=-=-=-=-=-=-=-=-=-= Card Games =-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
+	//	cout << "\t\t     ~~~~~ Main Menu ~~~~~" << endl;
+	//	cout << "\t\t       (1) Five Card Draw Poker" << endl;
+	//	cout << "\t\t       (2) Video Poker" << endl;
+	//	cout << "\t\t       (0) Close Program" << endl;
+
+	//	//Handle user input
+	//	short int iInput = -1;
+	//	while (iInput == -1) {
+	//		cout << "\tPlease enter the number of your selection: ";
+	//		cin >> iInput;
+	//		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//		if (cin.good()) {
+	//			switch (iInput) {
+	//				case 1: { //FCD
+	//					Game_5CardDraw fiveCardDraw;
+	//					fiveCardDraw.run();
+	//					break;
+	//				}
+	//				case 2: { //VP
+	//					Game_VideoPoker videoPoker;
+	//					videoPoker.run();
+	//					break;
+	//				}
+	//				case 0: { //Close
+	//					cout << "\nThank you for playing!" << endl;
+	//					return 0;
+	//				}
+	//				default: { //Input error
+	//					iInput = -1;
+	//					cout << "\tPlease enter a valid option." << endl;
+	//					break;
+	//				}
+	//			}
+	//		}
+	//		else {
+	//			cout << "\tPlease enter a valid option." << endl;
+	//			cin.clear();
+	//			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//			iInput = -1;
+	//		}
+	//	}
+	//}
 }
