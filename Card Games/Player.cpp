@@ -17,8 +17,8 @@ Player::Player() {
 	m_bActiveStatus = true;
 	m_iCredits = s_iSTARTINGCREDITS;
 	m_iCurrentBet = 0;
-	m_iRaisesLeft = 2;
-	
+	m_iRaisesLeft = 0;
+	m_pHand = nullptr;
 }
 
 Player::Player(const Player& oldPlayer) {

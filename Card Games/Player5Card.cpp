@@ -9,7 +9,6 @@ using namespace std;
 
 //Default Constructor
 Player5Card::Player5Card() {
-	m_sName = "Player 5 Card"; //can get rid of this potentially
 	m_pHand = new Hand5();
 }
 

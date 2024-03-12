@@ -21,10 +21,9 @@ NPC5Card::NPC5Card() {
 }
 
 //TESTING
-NPC5Card::NPC5Card(char newName[10], unsigned short int raisesPerGame) {
+NPC5Card::NPC5Card(char newName[10]) {
 	m_sName = newName;
 	m_sName += " (NPC)";
-	m_iRaisesLeft = raisesPerGame;
 }
 
 //Public Member Functions

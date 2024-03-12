@@ -9,6 +9,7 @@ class Game_5CardDraw : public Game
 public:
 	//Constructors and Destructor
 	Game_5CardDraw(); //Default
+	Game_5CardDraw(User* pOutsideUser); //Outside User
 	virtual ~Game_5CardDraw(); //Virtual Destructor
 
 	//Public Static Data Members
@@ -27,6 +28,7 @@ protected:
 	virtual void gameLoop();
 	virtual void replaceRound();
 	virtual void resetGame();
+	virtual void updateOutsideUser();
 
 private:
 	//Private Member Functions

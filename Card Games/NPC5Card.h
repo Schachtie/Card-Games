@@ -12,7 +12,7 @@ public:
 	//Constructors and Destructors
 	NPC5Card(); //default
 	NPC5Card(const NPC5Card& oldPlayer); //copy
-	NPC5Card(char npcName[10], unsigned short int raisesPerGame); //USED FOR TESTING
+	NPC5Card(char npcName[10]); //USED FOR TESTING
 	virtual ~NPC5Card() { } //virtual destructor in case of dynamic memory
 
 	//Public Member Functions

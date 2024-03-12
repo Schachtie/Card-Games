@@ -5,19 +5,21 @@
 #include <vector>
 #include "Player.h"
 #include "DeckOfCards.h"
+#include "User.h"
 
 class Game
 {
 public:
 	//Constructors and Destructor
 	Game(); //Default
-	virtual ~Game(); //Virtual Destructor
+	virtual ~Game() { } //Virtual Destructor
 
 	//Public Services
 	virtual void run() = 0;
 
 protected:
 	//Protected Data Members
+	User* m_pOutsideUser;
 	size_t m_NumPlayers;
 	std::vector<Player*> m_ptrsPlayers;
 	unsigned int m_iBuyIn;
@@ -36,6 +38,7 @@ protected:
 	virtual void gameLoop() = 0;
 	virtual void replaceRound() = 0;
 	virtual void resetGame() = 0;
+	virtual void updateOutsideUser() = 0;
 
 private:
 };

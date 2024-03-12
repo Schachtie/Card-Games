@@ -25,8 +25,8 @@ User::User() {
 
 
 User::User(const string& name) {
+	this->User::User();
 	setUserName(name);
-	setCredits(s_iSTARTINGCREDITS);
 } //end of "Name Constructor"
 
 

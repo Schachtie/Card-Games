@@ -13,6 +13,11 @@ User5Card::User5Card() {
 	m_sName = "USER";
 }
 
+User5Card::User5Card(const User* const pOutsideUser) {
+	m_sName = pOutsideUser->getUserName();
+	m_iCredits = pOutsideUser->getCredits();
+} //end of "Outside User Constructor"
+
 //Copy Constructor
 
 
@@ -23,7 +28,7 @@ User5Card::User5Card() {
 unsigned int User5Card::determineBet(unsigned int minBet) {
 	//print user data
 	cout << '\n' << m_sName << endl;
-	cout << "Credits: " << m_iCredits << endl;
+	cout << "Credits: " << m_iCredits - m_iCurrentBet << endl;
 	cout << (*m_pHand) << endl;
 
 	//check if user has enough credits to call or bet

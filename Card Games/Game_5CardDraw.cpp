@@ -23,12 +23,9 @@ using namespace std;
 
 //Constructor
 Game_5CardDraw::Game_5CardDraw() {
-	//Deck should be initialized implicitly using its default constructor (might need to use new)
-
 	//Set buyIn,minBet, currentPot amounts
 	m_iBuyIn = 5;
 	m_iMinBet = 1;
-	m_iCurrentPot = 0;
 
 	//Set players to max and add all players (user + NPCs)
 	m_NumPlayers = s_iMAXPLAYERS;
@@ -46,6 +43,31 @@ Game_5CardDraw::Game_5CardDraw() {
 		inNames.close();
 	}
 } //end of "Default Constructor"
+
+
+Game_5CardDraw::Game_5CardDraw(User* pOutsideUser) {
+	//Set buyIn,minBet, currentPot amounts
+	m_iBuyIn = 5;
+	m_iMinBet = 1;
+
+	//Set players to max and add all players (user + NPCs)
+	m_NumPlayers = s_iMAXPLAYERS;
+	m_pOutsideUser = pOutsideUser;
+	m_ptrsPlayers.push_back(createUser());
+
+	//Open NPC Names file and generate 4 names
+	ifstream inNames("NPC_Names.txt", ios::in | ios::binary);
+	if (inNames) {
+		char genName[10];
+		while (m_ptrsPlayers.size() < m_NumPlayers) {
+			inNames.seekg(rollNumber(0, 99) * sizeof(genName));
+			inNames.read(genName, sizeof(genName));
+			m_ptrsPlayers.push_back(createNPC(genName));
+		}
+		inNames.close();
+	}
+} //end of "Outside User Constructor"
+
 
 Game_5CardDraw::~Game_5CardDraw() {
 	//Deallocate memory for each player
@@ -159,7 +181,8 @@ Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	//Attempt to create new NPC
 	try
 	{
-		pNewPlayer = new NPC5Card(npcName, s_iMAXRAISES);
+		pNewPlayer = new NPC5Card(npcName);
+		pNewPlayer->setRaisesLeft(s_iMAXRAISES);
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{
@@ -182,10 +205,16 @@ Player* Game_5CardDraw::createUser() { //this may not be needed once player is c
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
 
-	//Attempt to create new user
+	//Attempt to create new user / default constructor if there is no outside user of the program (testing/building phase)
 	try
 	{
-		pNewPlayer = new User5Card();
+		if (m_pOutsideUser == nullptr) {
+			pNewPlayer = new User5Card();
+		}
+		else {
+			pNewPlayer = new User5Card(m_pOutsideUser);
+		}
+		pNewPlayer->setRaisesLeft(s_iMAXRAISES);
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{
@@ -235,6 +264,7 @@ void Game_5CardDraw::dealCards() {
 /*	gameLoop
 * 
 *	@notes:	Relies on "playAgain" function to terminate loop.
+*			Updates outside player's credits once user stops playing.
 * 
 *	@params: void
 * 
@@ -262,6 +292,7 @@ void Game_5CardDraw::gameLoop() {
 		//Prep for new game
 		resetGame();
 	} while (playAgain());
+	updateOutsideUser();
 } //end of "gameLoop"
 
 
@@ -320,6 +351,22 @@ void Game_5CardDraw::resetGame() {
 
 	m_Deck.initDeck();
 } //end of "resetGame"
+
+
+/*	updateOutsideUser
+*
+*	@note:	User's Player pointer was put in index 0 in this game.
+*			Updates outside user's credits.
+*
+*	@param: void
+*
+*	@return: void
+*/
+void Game_5CardDraw::updateOutsideUser() {
+	if (m_pOutsideUser != nullptr) {
+		m_pOutsideUser->setCredits(m_ptrsPlayers[0]->getCredits());
+	}
+} //end of "updateOutsideUser"
 
 
 

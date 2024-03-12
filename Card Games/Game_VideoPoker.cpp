@@ -20,17 +20,16 @@ using namespace std;
 
 //Constructor
 Game_VideoPoker::Game_VideoPoker() {
-	//Deck should be initialized implicitly using its default constructor (might need to use new)
-
-	//Set buyIn,minBet, currentPot amounts
-	m_iBuyIn = 5;
 	m_iMinBet = 1;
-	m_iCurrentPot = 0;
-
-	//Set players to one and add all players (user + NPCs)
-	m_NumPlayers = 1;
 	m_ptrsPlayers.push_back(createUser());
 } //end of default constructor
+
+
+Game_VideoPoker::Game_VideoPoker(User* pOutsideUser) {
+	m_iMinBet = 1;
+	m_pOutsideUser = pOutsideUser;
+	m_ptrsPlayers.push_back(createUser());
+} //end of "Outside User Constructor"
 
 Game_VideoPoker::~Game_VideoPoker() {
 	;
@@ -163,7 +162,12 @@ Player* Game_VideoPoker::createUser() { //this may not be needed once player is 
 	//Attempt to create new user
 	try
 	{
-		pNewPlayer = new User5Card();
+		if (m_pOutsideUser == nullptr) {
+			pNewPlayer = new User5Card();
+		}
+		else {
+			pNewPlayer = new User5Card(m_pOutsideUser);
+		}
 	}
 	catch (bad_alloc& memoryAllocEx)
 	{
@@ -200,6 +204,7 @@ void Game_VideoPoker::dealCards() {
 /*	gameLoop
 *
 *	@notes:	Relies on "playAgain" function to terminate loop.
+*			Updates outside player's credits once user stops playing.
 *
 *	@params: void
 *
@@ -219,6 +224,7 @@ void Game_VideoPoker::gameLoop() {
 		//Reset for new game
 		resetGame();
 	} while (playAgain());
+	updateOutsideUser();
 } //end of "gameLoop"
 
 
@@ -263,8 +269,25 @@ void Game_VideoPoker::replaceRound() {
 *	@return:
 */
 void Game_VideoPoker::resetGame() {
-	;
+	m_ptrsPlayers[0]->clearHand();
+	m_iCurrentPot = 0;
 } //end of "resetGame"
+
+
+/*	updateOutsideUser
+* 
+*	@note:	User's Player pointer was put in index 0 in this game.
+*			Updates outside user's credits.
+* 
+*	@param: void
+* 
+*	@return: void
+*/
+void Game_VideoPoker::updateOutsideUser() {
+	if (m_pOutsideUser != nullptr) {
+		m_pOutsideUser->setCredits(m_ptrsPlayers[0]->getCredits());
+	}
+} //end of "updateOutsideUser"
 
 
 

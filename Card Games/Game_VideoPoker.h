@@ -9,6 +9,7 @@ class Game_VideoPoker : public Game
 public:
 	//Constructors and Destructor
 	Game_VideoPoker(); //Default
+	Game_VideoPoker(User* pOutsideUser); //Outside User
 	virtual ~Game_VideoPoker(); //Virtual Destructor
 
 
@@ -27,6 +28,7 @@ protected:
 	virtual void gameLoop();
 	virtual void replaceRound();
 	virtual void resetGame();
+	virtual void updateOutsideUser();
 
 private:
 	//Private Member Functions

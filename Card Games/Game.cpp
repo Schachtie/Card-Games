@@ -16,12 +16,15 @@ using namespace std;
 
 
 Game::Game() {
-	;
-}
+	m_NumPlayers = 1;
+	m_iBuyIn = 0;
+	m_iCurrentPot = 0;
+	m_iMinBet = 0;
+	m_pOutsideUser = nullptr;
+} //end of "Default Constructor"
 
-Game::~Game() {
-	;
-}
+
+
 
 
 bool Game::playAgain() const {
