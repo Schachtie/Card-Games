@@ -11,7 +11,7 @@ public:
 	//Constructors and Destructor
 	User5Card(); //Default
 	User5Card(const User* const pOutsideUser); //Outside User
-	virtual ~User5Card() { } //virtual deconstructor in case of dynamic memory
+	virtual ~User5Card() { } //virtual destructor in case of dynamic memory
 
 	// Public Virtual Services
 	virtual unsigned int determineBet(unsigned int minBet) final;

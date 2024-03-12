@@ -3,8 +3,8 @@
 * 
 *	@author: Trenton Schacht
 * 
-*	@purpose:	Derived class of "Player and Player5Card"
-*				Allows use to interact with games that require a Hand5 Hand type.
+*	@purpose:	Derived class of "Player and Player5Card".
+*				Allows user interaction with games that require a Hand5 Hand type.
 * 
 *			Provides the following functionalities:
 *				- Virtual final Public Services: determineBet, determineReplaceCardsIndexes
@@ -92,7 +92,8 @@ unsigned int User5Card::determineBet(unsigned int minBet) {
 
 /*	determineReplaceCardsIndexes
 * 
-*	@note:
+*	@note:	Allows user to select which cards to replace.
+*			Handles user input and invalid input.
 *
 *	@param: void
 * 
@@ -128,7 +129,9 @@ vector<size_t> User5Card::determineReplaceCardsIndexes() {
 						replaceIndexes.push_back(i - 1);
 					}
 				}
-				catch (const exception& e) {}
+				catch (const exception& e) {
+					cout << "ERROR: " << e.what() << endl;
+				}
 			}
 
 		}
