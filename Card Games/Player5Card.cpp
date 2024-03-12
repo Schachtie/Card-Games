@@ -7,7 +7,7 @@
 *				Written for players that have a hand that contains 5 card objects.
 *				Defines common services between NPC and User players.
 * 
-*			Provides the following functionalities
+*			Provides the following functionalities:
 *				- Virtual final Get functions: handCount, handSize
 *				- Virtual final Public services: addCard, determineHandRank
 */

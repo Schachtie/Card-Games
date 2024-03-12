@@ -7,7 +7,7 @@
 *				Written to be extensible to different types of players
 *					such as user/npc or different hand sizes.
 * 
-*			Provides the following functionalities
+*			Provides the following functionalities:
 *				- Get functions: activeStatus, credits, currentBet, handPtr,
 *									handRankString, handRankValue, name
 *				- Virtual Get functions: handCount, handSize

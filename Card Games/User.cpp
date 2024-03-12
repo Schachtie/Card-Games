@@ -5,7 +5,7 @@
 * 
 *	@purpose:	Holds user's data between games and in main program.
 * 
-*			Provides the following functionalities
+*			Provides the following functionalities:
 *				- Set and Get functions: credits, userName
 */
 

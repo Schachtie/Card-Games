@@ -13,12 +13,12 @@ public:
 	User5Card(const User* const pOutsideUser); //Outside User
 	virtual ~User5Card() { } //virtual deconstructor in case of dynamic memory
 
-	//Public Virtual Services
+	// Public Virtual Services
 	virtual unsigned int determineBet(unsigned int minBet) final;
 	virtual std::vector<size_t> determineReplaceCardsIndexes() final;
 
 protected:
-	//Protected Virtual Member Functions
+	// Protected Virtual Member Functions
 	virtual void raiseBehavior(unsigned int prevBet) final;
 
 private:
