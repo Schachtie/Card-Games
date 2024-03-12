@@ -62,6 +62,7 @@ const PlayingCard* Hand5::getCPtrCardAt(size_t index) const {
 		return retPtr;
 	}
 	catch (const out_of_range& e) {
+		cout << "ERROR: " << e.what() << endl;
 		return nullptr;
 	}
 } //end of "getCPtrCardAt"
@@ -77,6 +78,7 @@ const PlayingCard* Hand5::getTieBreakerAt(size_t index) const {
 		return m_ptrsTieBreakers.at(index);
 	}
 	catch (const out_of_range& e) {
+		cout << "ERROR: " << e.what() << endl;
 		return nullptr;
 	}
 } //end of "getTieBreakerAt"
@@ -457,7 +459,7 @@ bool Hand5::checkStraight() const {
 		}
 		catch (const out_of_range& e) {
 			//this is if there is an error with the "at()" function
-			cout << "ERROR2" << endl;
+			cout << "ERROR: " << e.what() << endl;
 		}
 	}
 
