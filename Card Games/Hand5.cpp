@@ -12,8 +12,9 @@
 *									tieBreakerAt, tieBreakersAll
 *				- Set functions: setRank
 *				- Public services: addCard, clearHand, count, print, printHandNumbered, 
-									replaceCardAt, size
+*									replaceCardAt, size
 */
+
 
 // Header Files
 #include <algorithm>

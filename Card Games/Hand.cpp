@@ -3,10 +3,17 @@
 *
 *	@author: Trenton Schacht
 *
-*	@purpose:	asdf
+*	@purpose:	Abstract class used to allow potential expansion of program.
+*				New hand types can be defined and inherit this class for new games.
 *
 *			Provides the following functionalities:
-*				- 
+*				- Stream insertion via polymorphic behavior in derived classes.
+*				- Get functions: rankString, rankValue, 
+*				- Virtual Get Functions: cardPtrAt, numOfTieBreakers, 
+*											tieBreakerAt, tieBreakersAll
+*				- Virtual Set functions: setRank
+*				- Virtual Public services: addCard, clearHand, count, print, printHandNumbered, 
+*											replaceCardAt, size
 */
 
 
