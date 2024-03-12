@@ -154,7 +154,7 @@
     <ClInclude Include="User5Card.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Names.txt" />
+    <Text Include="NPC_Names.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
