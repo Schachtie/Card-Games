@@ -38,6 +38,8 @@ ostream& operator<<(ostream& output, const DeckOfCards& deck) {
 
 
 
+// Constructors
+
 /*	Default Constructor
 * 
 *	@note: Uses initDeck to create valid (and unique) cards to simulate a standard deck of playing cards.

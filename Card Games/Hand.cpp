@@ -49,6 +49,8 @@ const array<string, 10> Hand::s_HandRanks = { "High Card", "Pair", "Two Pair", "
 
 
 
+// Public Get Functions
+
 /*	Public Get Functions
 *
 *	@notes: All get functions have the following parameters and respective return types.

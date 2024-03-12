@@ -34,6 +34,8 @@ ostream& operator<<(ostream& output, const PlayingCard& card) {
 
 
 
+// Constructors
+
 /*	Default Constructor
 *	
 *	@note: Uses private set functions which verify valid data.
@@ -76,6 +78,7 @@ const array<string, 14> PlayingCard::s_CardFaces = { "", "Ace", "Duece", "Three"
 const array<string, 5> PlayingCard::s_CardSuits = { "", "Clubs", "Diamonds", "Hearts", "Spades" };
 
 
+// Public Get Functions
 
 /*	Public Get Functions
 * 
