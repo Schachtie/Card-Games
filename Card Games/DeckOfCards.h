@@ -42,7 +42,6 @@ private:
 	
 	//Private Member Functions
 	void addCard(PlayingCard newCard);
-	void setCardAt(size_t index, PlayingCard newCard); //Currently unused (delete if not needed)
 };
 
 #endif

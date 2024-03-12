@@ -36,13 +36,13 @@ ostream& operator<<(ostream& output, const PlayingCard& card) {
 
 /*	Default Constructor
 *	
-*	@notes: Uses private set functions which verify valid data.
+*	@note: Uses private set functions which verify valid data.
 * 
 *	@preconditions: faceValue range: [1, 13] (indicate 1 for Ace, 2 for 2, etc...)
 *					suitIndex range: [1, 4]  (indicate 1 for Clubs, 2 for Diamonds, 3 for Hearts, 4 for Spades)
 *					Note: using 0's will create a "blank" card
 * 
-*	@params: Integers for face and suit. See preconditions.
+*	@param: Integers for face and suit. See preconditions.
 *
 *	@return: Constructs an object of type PlayingCard
 */
@@ -55,9 +55,9 @@ PlayingCard::PlayingCard(unsigned short int faceValue, size_t suitIndex) {
 
 /*	Copy Constructor
 * 
-*	@notes: Uses assignment operator which calls private set functions which verify valid data.
+*	@note: Uses assignment operator which calls private set functions which verify valid data.
 * 
-*	@params: Constant reference to another playing card. 
+*	@param: Constant reference to another playing card. 
 * 
 *	@return: Constructs an object of type PlayingCard with attributes of parameter.
 */
@@ -69,7 +69,7 @@ PlayingCard::PlayingCard(const PlayingCard& oldCard) {
 
 /*	Public Static Arrays for Faces & Suits
 *	
-*	@notes: Both use an empty string at index 0. Aligns logical faceValue as an index for its array.
+*	@note: Both use an empty string at index 0. Aligns logical faceValue as an index for its array.
 *			This allows "blank" cards to be initialized with no face/suit.
 */
 const array<string, 14> PlayingCard::s_CardFaces = { "", "Ace", "Duece", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
@@ -79,9 +79,9 @@ const array<string, 5> PlayingCard::s_CardSuits = { "", "Clubs", "Diamonds", "He
 
 /*	Public Get Functions
 * 
-*	@notes: All get functions have the following parameters and respective return types.
+*	@note: All get functions have the following parameters and respective return types.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: Respective type of each private data member.
 */
@@ -106,9 +106,9 @@ string PlayingCard::getSuit() const {
 
 /*	isEmpty
 *
-*	@notes: If either face or suit is a "blank" string the card is considered empty.
+*	@note: If either face or suit is a "blank" string the card is considered empty.
 *
-*	@params: void
+*	@param: void
 *
 *	@return: bool
 */
@@ -124,9 +124,9 @@ bool PlayingCard::isEmpty() const {
 
 /*	toString
 *	
-*	@notes: Primarly used for debugging.
+*	@note: Primarly used for debugging.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: string of all private data members.
 */
@@ -140,9 +140,9 @@ string PlayingCard::toString() const {
 
 /*	Relational Operator: <
 *	
-*	@notes: Accounts for Aces as highest card.
+*	@note: Accounts for Aces as highest card.
 * 
-*	@params: Constant reference to another card. 
+*	@param: Constant reference to another card. 
 * 
 *	@return: bool
 */
@@ -167,7 +167,7 @@ bool PlayingCard::operator<(const PlayingCard& card2) const {
 
 /*	Relational Operators (<=, >, >=, ==, !=)
 *	
-*	@notes: All are defined in terms of <. See logic in respective function.
+*	@note: All are defined in terms of <. See logic in respective function.
 */
 
 bool PlayingCard::operator<=(const PlayingCard& card2) const {
@@ -197,9 +197,9 @@ bool PlayingCard::operator!=(const PlayingCard& card2) const {
 
 /*	Assignment Operator
 * 
-*	@notes: Checks for self assignment. Calls private set functions that validate data.
+*	@note: Checks for self assignment. Calls private set functions that validate data.
 * 
-*	@params: Constant reference to another card.
+*	@param: Constant reference to another card.
 * 
 *	@return: void
 */
@@ -220,9 +220,9 @@ void PlayingCard::operator=(const PlayingCard& card2) {
 
 /*	Set: m_sFaceString
 * 
-*	@notes: Verifies valid data.
+*	@note: Verifies valid data.
 * 
-*	@params: void (uses stored faceValue)
+*	@param: void (uses stored faceValue)
 * 
 *	@return: void
 */
@@ -238,13 +238,13 @@ void PlayingCard::setFaceString() {
 
 /*	Set: m_iFaceValue
 *
-*	@notes: Verifies valid data.
+*	@note: Verifies valid data.
 *
-*	@params: New integer for faceValue.
+*	@param: New integer for faceValue.
 *
 *	@return: void
 *
-*	@throws: invalid_argument
+*	@throw: invalid_argument
 */
 void PlayingCard::setFaceValue(unsigned short int newFaceValue) {
 	if (newFaceValue >= 0 && newFaceValue <= s_CardFaces.size()) {
@@ -258,9 +258,9 @@ void PlayingCard::setFaceValue(unsigned short int newFaceValue) {
 
 /*	Set: m_sSuit
 * 
-*	@notes: Verifies valid data. Overloaded.
+*	@note: Verifies valid data. Overloaded.
 * 
-*	@params: Index of s_CardSuits.
+*	@param: Index of s_CardSuits.
 * 
 *	@return: void
 */
@@ -278,7 +278,7 @@ void PlayingCard::setSuit(size_t suitIndex) {
 * 
 *	@note: Verifies valid data. Overloaded.
 * 
-*	@params: string for suit. 
+*	@param: string for suit. 
 * 
 *	@return: void
 */

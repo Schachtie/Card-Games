@@ -40,9 +40,9 @@ ostream& operator<<(ostream& output, const DeckOfCards& deck) {
 
 /*	Default Constructor
 * 
-*	@notes: Uses initDeck to create valid (and unique) cards to simulate a standard deck of playing cards.
+*	@note: Uses initDeck to create valid (and unique) cards to simulate a standard deck of playing cards.
 *	
-*	@params: void
+*	@param: void
 * 
 *	@return: Constructs an object of type DeckOfCards
 */
@@ -53,11 +53,11 @@ DeckOfCards::DeckOfCards() {
 
 /*	Copy Constructor
 * 
-*	@notes: Copies each card from previous deck to new deck.
+*	@note: Copies each card from previous deck to new deck.
 * 
 *	@preconditions: Assumes all cards in old deck are valid.
 * 
-*	@params: Constant reference to another deck of cards.
+*	@param: Constant reference to another deck of cards.
 * 
 *	@return: Constructs an object of type DeckOfCards
 */
@@ -73,11 +73,11 @@ DeckOfCards::DeckOfCards(const DeckOfCards& oldDeck) {
 
 /*	getCardAt
 * 
-*	@notes: Uses bounds checking on supplied index.
+*	@note: Uses bounds checking on supplied index.
 * 
-*	@params: index
+*	@param: index
 * 
-*	@returns: If index is valid returns card at indicated position. Otherwise returns empty card.
+*	@return: If index is valid returns card at indicated position. Otherwise returns empty card.
 */
 PlayingCard DeckOfCards::getCardAt(size_t index) const {
 	try {
@@ -96,9 +96,9 @@ PlayingCard DeckOfCards::getCardAt(size_t index) const {
 
 /*	initDeck
 * 
-*	@notes: Initializes each unique card for a standard deck of playing cards and adds to m_Cards.
+*	@note: Initializes each unique card for a standard deck of playing cards and adds to m_Cards.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void (adds cards directly to private m_Cards data member)
 */
@@ -117,9 +117,9 @@ void DeckOfCards::initDeck() {
 
 /*	peekNextCard
 *
-*	@notes: Card is not removed from deck.
+*	@note: Card is not removed from deck.
 *
-*	@params: void
+*	@param: void
 *
 *	@return: Card at "top" of deck.
 */
@@ -130,9 +130,9 @@ PlayingCard DeckOfCards::peekNextCard() const {
 
 /*	popNextCard
 *
-*	@notes: Removes card from deck completely. Return value should NOT be ignored!
+*	@note: Removes card from deck completely. Return value should NOT be ignored!
 *
-*	@params: void
+*	@param: void
 *
 *	@return: Card that was removed from deck.
 */
@@ -145,9 +145,9 @@ PlayingCard DeckOfCards::popNextCard() {
 
 /*	printDeck
 * 
-*	@notes: Primarily used for debugging.
+*	@note: Primarily used for debugging.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void (Prints deck directly)
 */
@@ -161,11 +161,11 @@ void DeckOfCards::printDeck() const {
 
 /*	shuffle
 * 
-*	@notes: Uses STL shuffle algorithm directly on cards container.
+*	@note: Uses STL shuffle algorithm directly on cards container.
 * 
-*	@params: void
+*	@param: void
 * 
-*	@params: void
+*	@return: void
 */
 void DeckOfCards::shuffle() {
 	std::shuffle(m_Cards.begin(), m_Cards.end(), s_RandGen);
@@ -174,9 +174,9 @@ void DeckOfCards::shuffle() {
 
 /*	size
 * 
-*	@notes: NOT capacity.
+*	@note: NOT capacity.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: Number of cards currently in deck.
 */
@@ -190,28 +190,10 @@ size_t DeckOfCards::size() const {
 
 /*	addCard
 * 
-*	@params: Card to be added to deck.
+*	@param: Card to be added to deck.
 * 
 *	@return: void
 */
 void DeckOfCards::addCard(PlayingCard newCard) {
 	m_Cards.push_back(newCard);
 } //end of "addCard"
-
-
-/*	setCardAt
-* 
-*	@notes: Uses bounds checking on index. 
-* 
-*	@params: index, card to be added
-* 
-*	@return: void
-*/
-void DeckOfCards::setCardAt(size_t index, PlayingCard newCard) {
-	try {
-		m_Cards.at(index) = newCard;
-	}
-	catch (const out_of_range& e) {
-		cout << "Exception occurred: " << e.what();
-	}
-} //end of "setCardAt"
