@@ -16,10 +16,10 @@ public:
 	User(const std::string& name); //name provided
 	~User() { }
 
-	//Public Static Data Members
+	// Public Static Data Members
 	static const unsigned int s_iSTARTINGCREDITS = 2500;
 
-	//Public Set and Get Functions
+	// Public Get and Set Functions
 	unsigned int getCredits() const;
 	std::string getUserName() const;
 	void setCredits(unsigned int newValue);
@@ -27,6 +27,7 @@ public:
 
 protected:
 private:
+	// Private Data Members
 	std::string m_sUserName;
 	unsigned int m_iCredits;
 };

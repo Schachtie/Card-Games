@@ -31,7 +31,7 @@ User::User(const string& name) {
 
 
 
-// Public Set and Get Functions
+// Public Get and Set Functions
 
 /*	Public Get Functions
 *

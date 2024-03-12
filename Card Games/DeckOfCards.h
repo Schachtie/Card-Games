@@ -15,7 +15,7 @@
 
 class DeckOfCards
 {
-	//Stream insertion operator
+	// Stream insertion operator
 	friend std::ostream& operator<<(std::ostream& output, const DeckOfCards& deck);
 
 public:
@@ -24,23 +24,19 @@ public:
 	DeckOfCards(const DeckOfCards& oldDeck); //Copy
 	~DeckOfCards() { }
 
-	//Public Get Functions
-	PlayingCard getCardAt(size_t index) const; //Currently unused (delete if not needed)
-
-	//Public Services
+	// Public Services
 	void initDeck();
-	PlayingCard peekNextCard() const; //Currently unused (delete if not needed)
 	PlayingCard popNextCard();
 	void printDeck() const;
 	void shuffle();
 	size_t size() const;
 
 private:
-	//Private Data Members
+	// Private Data Members
 	std::deque<PlayingCard> m_Cards;
 	static std::mt19937 s_RandGen;
 	
-	//Private Member Functions
+	// Private Member Functions
 	void addCard(PlayingCard newCard);
 };
 

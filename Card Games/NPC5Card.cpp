@@ -61,9 +61,7 @@ unsigned int NPC5Card::determineBet(unsigned int minBet) {
 	}
 } //end of "determineBet()"
 
-void NPC5Card::printCards() {
 
-}
 
 // add appropriate header comments
 vector<size_t> NPC5Card::determineReplaceCardsIndexes() {

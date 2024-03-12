@@ -70,9 +70,6 @@ unsigned int User5Card::determineBet(unsigned int minBet) {
 
 
 
-void User5Card::printCards() const {
-
-}
 
 vector<size_t> User5Card::determineReplaceCardsIndexes() {
 	vector<size_t> replaceIndexes;

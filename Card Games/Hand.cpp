@@ -9,7 +9,7 @@
 *			Provides the following functionalities:
 *				- Stream insertion via polymorphic behavior in derived classes.
 *				- Get functions: rankString, rankValue, 
-*				- Virtual Get Functions: cardPtrAt, numOfTieBreakers, 
+*				- Virtual Get functions: cardPtrAt, numOfTieBreakers, 
 *											tieBreakerAt, tieBreakersAll
 *				- Virtual Set functions: setRank
 *				- Virtual Public services: addCard, clearHand, count, print, printHandNumbered, 

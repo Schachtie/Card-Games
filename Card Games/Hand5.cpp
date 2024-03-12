@@ -43,7 +43,7 @@ Hand5::~Hand5() {
 
 
 
-// Public Set and Get Functions
+// Public Get and Set Functions
 
 /*	Public Get Functions
 *

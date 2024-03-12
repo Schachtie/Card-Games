@@ -8,29 +8,26 @@
 class Player5Card : public Player
 {
 public:
-	//Constructors & Deconstructor
-	Player5Card(); //default
-	Player5Card(const Player5Card& oldPlayer); //copy
+	//Constructors and Destructor
+	Player5Card(); //Default
 	virtual ~Player5Card(); //virtual destructor in case of dynamic memory
 
-	//Public Member Functions (virtual)
-	virtual void addCard(const PlayingCard& card) final;
-	virtual unsigned int determineBet(unsigned int minBet) = 0;
-	virtual void determineHandRank() final;
+	//Public Virtual Get Services
 	virtual unsigned short int getHandCount() const final;
 	virtual size_t getHandSize() const final;
-	virtual void givePayout(unsigned int payout) final;
-	virtual void printCards() const;
+
+	//Public Virtual Services
+	virtual void addCard(const PlayingCard& card) final;
+	virtual void determineHandRank() final;
+
+	//Public Pure Virtual Services
+	virtual unsigned int determineBet(unsigned int minBet) = 0;
 	virtual std::vector<size_t> determineReplaceCardsIndexes() = 0;
 
-	//Public Member Functions
-	
-
 protected:
-	//Protected Data Members
-
-
+	//Protected Pure Virtual Functions
 	virtual void raiseBehavior(unsigned int prevBet) = 0;
+
 private:
 };
 

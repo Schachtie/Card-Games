@@ -8,8 +8,7 @@
 * 
 *			Provides the following functionalities:
 *				- Stream insertion
-*				- Get functions: getCardAt
-*				- Public services: initialize deck, peekNextCard, popNextCard, printing deck,
+*				- Public services: initialize deck, popNextCard, printing deck,
 *									shuffle, determine size
 */
 
@@ -70,30 +69,7 @@ DeckOfCards::DeckOfCards(const DeckOfCards& oldDeck) {
 
 
 
-// Public Get Functions
-
-/*	getCardAt
-* 
-*	@note: Uses bounds checking on supplied index.
-* 
-*	@param: index
-* 
-*	@return: If index is valid returns card at indicated position. Otherwise returns empty card.
-*/
-PlayingCard DeckOfCards::getCardAt(size_t index) const {
-	try {
-		return m_Cards.at(index);
-	}
-	catch (const out_of_range& e) {
-		cout << "Exception occurred: " << e.what();
-		PlayingCard emptyCard;
-		return emptyCard;
-	}
-} //end of "getCardAt"
-
-
-
-//Public Services
+// Public Services
 
 /*	initDeck
 * 
@@ -114,19 +90,6 @@ void DeckOfCards::initDeck() {
 		}
 	}
 } //end of "initDeck"
-
-
-/*	peekNextCard
-*
-*	@note: Card is not removed from deck.
-*
-*	@param: void
-*
-*	@return: Card at "top" of deck.
-*/
-PlayingCard DeckOfCards::peekNextCard() const {
-	return m_Cards.back();
-} //end of "peekNextCard"
 
 
 /*	popNextCard
@@ -187,7 +150,7 @@ size_t DeckOfCards::size() const {
 
 
 
-//Private Member Functions
+// Private Member Functions
 
 /*	addCard
 * 

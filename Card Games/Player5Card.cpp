@@ -28,15 +28,7 @@ void Player5Card::determineHandRank() {
 	m_pHand->setRank();
 }
 
-void Player5Card::givePayout(unsigned int payout) {
-	//should have validation of maximum / overflow
 
-	m_iCredits += payout;
-}
-
-void Player5Card::printCards() const {
-
-}
 
 //Public Member Functions
 unsigned short int Player5Card::getHandCount() const {
