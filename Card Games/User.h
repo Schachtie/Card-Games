@@ -5,8 +5,10 @@
 #ifndef USER_H
 #define USER_H
 
-//Header Files
+
+// Header Files
 #include <string>
+
 
 class User
 {

@@ -10,15 +10,10 @@
 
 //Header Files
 #include <iostream>
-#include <string>
-#include <array>
-#include <fstream>
-#include <sstream>
 
-//Self-Made Classes Headers
+#include "User.h"
 #include "Game_5CardDraw.h"
 #include "Game_VideoPoker.h"
-#include "User.h"
 
 //Using Statements
 using namespace std;

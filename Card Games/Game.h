@@ -1,11 +1,18 @@
+/*
+*	Class Header: Game
+*/
+
 #ifndef GAME_H
 #define GAME_H
 
-//Header Files
+
+// Header Files
 #include <vector>
+
 #include "Player.h"
 #include "DeckOfCards.h"
 #include "User.h"
+
 
 class Game
 {

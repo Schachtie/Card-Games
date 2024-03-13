@@ -17,6 +17,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
+
 #include "DeckOfCards.h"
 
 using namespace std;

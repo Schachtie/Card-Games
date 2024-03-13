@@ -5,12 +5,15 @@
 #ifndef HAND5_H
 #define HAND5_H
 
-//Header Files
+
+// Header Files
 #include <iostream>
 #include <array>
 #include <vector>
+
 #include "PlayingCard.h"
 #include "Hand.h"
+
 
 class Hand5 : public Hand
 {

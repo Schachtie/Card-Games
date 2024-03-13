@@ -5,9 +5,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-//Header Files
+
+// Header Files
 #include <string>
+
 #include "Hand5.h"
+
 
 class Player
 {

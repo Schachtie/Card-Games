@@ -1,9 +1,15 @@
+/*
+*	Class Header: Player5Card
+*/
+
 #ifndef PLAYER5CARD_H
 #define PLAYER5CARD_H
 
-//Header Files
+
+// Header Files
 #include "Player.h"
 #include "Hand5.h"
+
 
 class Player5Card : public Player
 {

@@ -1,10 +1,17 @@
+/*
+*	Class Header: NPC5Card
+*/
+
 #ifndef NPC5CARD_H
 #define NPC5CARD_H
 
-//Header Files
+
+// Header Files
 #include <random>
 #include <chrono>
+
 #include "Player5Card.h"
+
 
 class NPC5Card : public Player5Card
 {

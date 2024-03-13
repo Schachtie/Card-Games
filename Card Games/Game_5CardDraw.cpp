@@ -12,7 +12,7 @@
 
 // Header Files
 #include <fstream>
-#include <conio.h>
+
 #include "Game_5CardDraw.h"
 #include "User5Card.h"
 #include "NPC5Card.h"

@@ -1,8 +1,14 @@
+/*
+*	Class Header: Game_5CardDraw
+*/
+
 #ifndef FIVECARDDRAW_H
 #define FIVECARDDRAW_H
 
-//Header Files
+
+// Header Files
 #include "Game.h"
+
 
 class Game_5CardDraw : public Game
 {

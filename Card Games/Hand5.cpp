@@ -19,6 +19,7 @@
 // Header Files
 #include <algorithm>
 #include <stdexcept>
+
 #include "Hand5.h"
 
 using namespace std;

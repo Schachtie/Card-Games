@@ -1,5 +1,5 @@
 /*
-*	Class Header: Hand5
+*	Class Header: Hand
 * 
 *			@note: Any derived classes must add their own container for cards.
 */
@@ -7,10 +7,12 @@
 #ifndef HAND_H
 #define HAND_H
 
-//Header Files
+
+// Header Files
 #include <array>
 #include <vector>
 #include <string>
+
 #include "PlayingCard.h"
 
 

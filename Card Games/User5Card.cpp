@@ -12,8 +12,9 @@
 
 
 // Header Files
-#include "User5Card.h"
 #include <sstream>
+
+#include "User5Card.h"
 
 using namespace std;
 

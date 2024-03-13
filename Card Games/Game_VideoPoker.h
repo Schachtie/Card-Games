@@ -1,8 +1,14 @@
+/*
+*	Class Header: Game_VideoPoker
+*/
+
 #ifndef VIDEOPOKER_H
 #define VIDEOPOKER_H
 
-//Header Files
+
+// Header Files
 #include "Game.h"
+
 
 class Game_VideoPoker : public Game
 {
