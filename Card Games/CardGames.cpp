@@ -1,11 +1,8 @@
 /*
-*	Author: Trenton Schacht
+*	@author: Trenton Schacht
 *
-*	Simulates select Five Card Draw and Video Poker on Console/Terminal
-* 
-* 
-*	Working Notes: 
-*		- Need to go through all code and "standardize" my variable names and {} use, as well as code documentation
+*	@note:	Simulates Five Card Draw and Video Poker on Console/Terminal.
+*			Classes written to be extensible so new card games could be added.
 */
 
 //Header Files
@@ -76,4 +73,4 @@ int main()
 			}
 		}
 	}
-}
+} //end of "main"
