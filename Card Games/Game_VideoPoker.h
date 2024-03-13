@@ -12,11 +12,10 @@ public:
 	Game_VideoPoker(User* pOutsideUser); //Outside User
 	virtual ~Game_VideoPoker(); //Virtual Destructor
 
-
 	//Public Static Payout array
 	static const std::array<unsigned int, 10> s_PayoutMultipliers;
 
-	//Public Services
+	//Public Virtual Services
 	virtual void run();
 
 protected:

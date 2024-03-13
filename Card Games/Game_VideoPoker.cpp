@@ -18,22 +18,35 @@
 using namespace std;
 
 
-//Constructor
+
+// Constructors
+
+/*
+*/
 Game_VideoPoker::Game_VideoPoker() {
 	m_iMinBet = 1;
 	m_ptrsPlayers.push_back(createUser());
 } //end of default constructor
 
 
+/*
+*/
 Game_VideoPoker::Game_VideoPoker(User* pOutsideUser) {
 	m_iMinBet = 1;
 	m_pOutsideUser = pOutsideUser;
 	m_ptrsPlayers.push_back(createUser());
 } //end of "Outside User Constructor"
 
+
+/*
+*/
 Game_VideoPoker::~Game_VideoPoker() {
-	;
-}
+	//Deallocate memory for each player
+	while (!m_ptrsPlayers.empty()) {
+		delete m_ptrsPlayers.back();
+		m_ptrsPlayers.pop_back();
+	}
+} //end of "Destructor"
 
 
 
@@ -45,6 +58,8 @@ Game_VideoPoker::~Game_VideoPoker() {
 const array<unsigned int, 10> Game_VideoPoker::s_PayoutMultipliers = { 0, 1, 2, 3, 4, 6, 9, 25, 50, 800 };
 
 
+
+// Public Virtual Services
 
 /*	Public Service - run
 *
@@ -148,20 +163,20 @@ Player* Game_VideoPoker::createNPC(char npcName[10]) {
 
 
 /*	createUser
-* 
-*	@notes:
-* 
-*	@params:
-* 
-*	@return:
+*
+*	@note:	Creates either a default user or outside user of type User5Card.
+*			Returns a null pointer if allocation fails.
+*
+*	@param:	void
+*
+*	@return: Player pointer to created user.
 */
-Player* Game_VideoPoker::createUser() { //this may not be needed once player is created in main
+Player* Game_VideoPoker::createUser() {
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
 
 	//Attempt to create new user
-	try
-	{
+	try {
 		if (m_pOutsideUser == nullptr) {
 			pNewPlayer = new User5Card();
 		}
@@ -169,9 +184,9 @@ Player* Game_VideoPoker::createUser() { //this may not be needed once player is 
 			pNewPlayer = new User5Card(m_pOutsideUser);
 		}
 	}
-	catch (bad_alloc& memoryAllocEx)
-	{
-		//PUT ERROR MESSAGE HERE OR SOMETHING
+	catch (bad_alloc& memoryAllocEx) {
+		cout << "Error allocating memory for USER: " << endl;
+		cout << "ERROR: " << memoryAllocEx.what() << endl;
 	}
 
 	return pNewPlayer;
@@ -261,12 +276,13 @@ void Game_VideoPoker::replaceRound() {
 
 
 /*	resetGame
-* 
-*	@notes:
-* 
-*	@params:
-* 
-*	@return:
+*
+*	@note:  Player's hand is cleared and pot is reset to 0.
+*			Also has to reset deck.
+*
+*	@param: void
+*
+*	@return: void
 */
 void Game_VideoPoker::resetGame() {
 	m_ptrsPlayers[0]->clearHand();

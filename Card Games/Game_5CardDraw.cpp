@@ -343,7 +343,7 @@ void Game_5CardDraw::replaceRound() {
 
 /*	resetGame
 * 
-*	@note: Each player's hand is cleared, active status reset to true, and raises reset.
+*	@note:	Each player's hand is cleared, active status reset to true, and raises reset.
 *			Also has to reset deck.
 * 
 *	@param: void
