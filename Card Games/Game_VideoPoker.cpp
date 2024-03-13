@@ -6,7 +6,7 @@
 *	@purpose:	Simulates a game of Video Poker with user interaction.
 *
 *			Provides the following functionalities:
-*				- run (runs game once object is created)
+*				- Virtual Public services: run (runs game once object is created)
 */
 
 

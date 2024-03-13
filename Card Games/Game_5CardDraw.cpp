@@ -6,7 +6,7 @@
 *	@purpose:	Simulates a game of Five Card Draw Poker with 4 non-player characters and the user.
 *
 *			Provides the following functionalities:
-*				- run (runs game once object is created)
+*				- Virtual Public services: run (runs game once object is created)
 */
 
 
@@ -21,7 +21,10 @@ using namespace std;
 
 
 
-//Constructor
+// Constructors and Destructor
+
+/*
+*/
 Game_5CardDraw::Game_5CardDraw() {
 	//Set buyIn,minBet, currentPot amounts
 	m_iBuyIn = 5;
@@ -45,6 +48,8 @@ Game_5CardDraw::Game_5CardDraw() {
 } //end of "Default Constructor"
 
 
+/*
+*/
 Game_5CardDraw::Game_5CardDraw(User* pOutsideUser) {
 	//Set buyIn,minBet, currentPot amounts
 	m_iBuyIn = 5;
@@ -69,6 +74,8 @@ Game_5CardDraw::Game_5CardDraw(User* pOutsideUser) {
 } //end of "Outside User Constructor"
 
 
+/*
+*/
 Game_5CardDraw::~Game_5CardDraw() {
 	//Deallocate memory for each player
 	while (!m_ptrsPlayers.empty()) {
@@ -81,18 +88,20 @@ Game_5CardDraw::~Game_5CardDraw() {
 
 /*	Private Static Random Generator
 *
-*	@notes: Uses a Mersenne Twister Engine seeded with the current time.
+*	@note: Uses a Mersenne Twister Engine seeded with the current time.
 */
 mt19937 Game_5CardDraw::s_RandGen(chrono::steady_clock::now().time_since_epoch().count());
 
 
 
+// Public Virtual Services
+
 /*	Public Service - run
 * 
-*	@notes: Has a menu that allows user to choose interaction, switch statement controls whether 
+*	@note: Has a menu that allows user to choose interaction, switch statement controls whether 
 *			gameLoop is entered, rules are displayed, or exit back to main menu.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -146,9 +155,9 @@ void Game_5CardDraw::run() {
 
 /*	buyInRound
 * 
-*	@notes: Announces buy in amount as well as updated pot.
+*	@note: Announces buy in amount as well as updated pot.
 * 
-*	@params: void
+*	@param: void
 *
 *	@return: void
 */
@@ -168,9 +177,9 @@ void Game_5CardDraw::buyInRound() {
 
 /*	createNPC
 * 
-*	@notes:	If allocation fails, returns null pointer.
+*	@note:	If allocation fails, returns null pointer.
 * 
-*	@params: NPC's name as a C-style string.
+*	@param: NPC's name as a C-style string.
 * 
 *	@return: pointer to dynamically allocated NPC.
 */
@@ -179,14 +188,13 @@ Player* Game_5CardDraw::createNPC(char npcName[10]) {
 	Player* pNewPlayer = nullptr;
 
 	//Attempt to create new NPC
-	try
-	{
+	try {
 		pNewPlayer = new NPC5Card(npcName);
 		pNewPlayer->setRaisesLeft(s_iMAXRAISES);
 	}
-	catch (bad_alloc& memoryAllocEx)
-	{
+	catch (bad_alloc& memoryAllocEx) {
 		cout << "Error allocating memory for NPC: " << npcName << endl;
+		cout << "ERROR: " << memoryAllocEx.what() << endl;
 	}
 
 	return pNewPlayer;
@@ -195,19 +203,19 @@ Player* Game_5CardDraw::createNPC(char npcName[10]) {
 
 /*	createUser
 *
-*	@notes: MAY NEED TO CHANGE THIS, USER IS STILL NOT BEING PASSED BETWEEN GAMES
+*	@note:	Creates either a default user or outside user of type User5Card.
+*			Returns a null pointer if allocation fails.
 * 
-*	@params:
+*	@param:	void
 * 
-*	@return:
+*	@return: Player pointer to created user.
 */
 Player* Game_5CardDraw::createUser() { //this may not be needed once player is created in main
 	//Create Player pointer
 	Player* pNewPlayer = nullptr;
 
-	//Attempt to create new user / default constructor if there is no outside user of the program (testing/building phase)
-	try
-	{
+	//Attempt to create new user
+	try {
 		if (m_pOutsideUser == nullptr) {
 			pNewPlayer = new User5Card();
 		}
@@ -216,9 +224,9 @@ Player* Game_5CardDraw::createUser() { //this may not be needed once player is c
 		}
 		pNewPlayer->setRaisesLeft(s_iMAXRAISES);
 	}
-	catch (bad_alloc& memoryAllocEx)
-	{
-		//PUT ERROR MESSAGE HERE OR SOMETHING
+	catch (bad_alloc& memoryAllocEx) {
+		cout << "Error allocating memory for USER: " << endl;
+		cout << "ERROR: " << memoryAllocEx.what() << endl;
 	}
 
 	return pNewPlayer;
@@ -227,11 +235,11 @@ Player* Game_5CardDraw::createUser() { //this may not be needed once player is c
 
 /*	dealCards
 * 
-*	@notes:	Simulates real dealing where players get one card at a time. 
+*	@note:	Simulates real dealing where players get one card at a time. 
 *			Also takes care of shuffling the initialized deck, and
 *			setting each player's initial hand rank.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -263,10 +271,10 @@ void Game_5CardDraw::dealCards() {
 
 /*	gameLoop
 * 
-*	@notes:	Relies on "playAgain" function to terminate loop.
+*	@note:	Relies on "playAgain" function to terminate loop.
 *			Updates outside player's credits once user stops playing.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -298,9 +306,9 @@ void Game_5CardDraw::gameLoop() {
 
 /*	replaceRound
 * 
-*	@notes: Takes care of updating hand rank once cards have been replaced.
+*	@note: Takes care of updating hand rank once cards have been replaced.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -335,10 +343,10 @@ void Game_5CardDraw::replaceRound() {
 
 /*	resetGame
 * 
-*	@notes: Each player's hand is cleared, active status reset to true, and raises reset.
+*	@note: Each player's hand is cleared, active status reset to true, and raises reset.
 *			Also has to reset deck.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -374,11 +382,11 @@ void Game_5CardDraw::updateOutsideUser() {
 
 /*	bettingRound
 * 
-*	@notes: Mimics betting structure of a real poker match. Allows players to raise and
+*	@note: Mimics betting structure of a real poker match. Allows players to raise and
 *			other players must either match the bet or raise again. Players actually "commit"
 *			to bets they make. Even if they fold, the highest bet they've agreed to gets applied.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -414,11 +422,26 @@ void Game_5CardDraw::bettingRound() {
 } //end of "bettingRound"
 
 
+/*	pauseForUser
+*
+*	@note: Used to prompt user to enter a key to continue output printing.
+* 
+*	@param: Prompt for user.
+* 
+*	@return: void
+*/
+void Game_5CardDraw::pauseForUser(const string& prompt) const {
+	cout << '\n' << prompt << ' ';
+	string str;
+	getline(cin, str);
+} //end of "pauseForUser"
+
+
 /*	printAllHands
 * 
-*	@notes: Prints player's name, credits, and their hand. Hand rank is printed alongside hand.
+*	@note: Prints player's name, credits, and their hand. Hand rank is printed alongside hand.
 *
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -434,9 +457,9 @@ void Game_5CardDraw::printAllHands() const {
 
 /*	rollNumber
 * 
-*	@notes:	Specifically for unsigned int. 
+*	@note:	Specifically for unsigned int. 
 * 
-*	@params: Lower and upper bounds.
+*	@param: Lower and upper bounds.
 * 
 *	@return: Randomly generated number within provided range.
 */
@@ -447,9 +470,10 @@ unsigned int Game_5CardDraw::rollNumber(unsigned int low, unsigned int high) {
 
 /*	showDown
 * 
-*	@notes: Any leftover credits in pot from integer rounding will be rolled over into next pot
+*	@note:	Showdown will determine the winner(s) of the game and distribute pot accordingly.
+			Any leftover credits in pot from integer rounding will be rolled over into next pot.
 * 
-*	@params: void
+*	@param: void
 * 
 *	@return: void
 */
@@ -496,18 +520,3 @@ void Game_5CardDraw::showdown() {
 		(*itWinner)->givePayout(payout);
 	} 
 } //end of "showdown"
-
-
-
-
-
-
-
-
-
-//MIGHT MOVE THIS?
-void Game_5CardDraw::pauseForUser(const string& prompt) const {
-	cout << '\n' << prompt << ' ';
-	string str;
-	getline(cin, str);
-}

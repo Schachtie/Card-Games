@@ -16,7 +16,7 @@ public:
 	static const unsigned short int s_iMAXPLAYERS = 5;
 	static const unsigned short int s_iMAXRAISES = 2;
 
-	//Public Services
+	//Public Virtual Services
 	virtual void run();
 
 protected:
@@ -33,12 +33,10 @@ protected:
 private:
 	//Private Member Functions
 	void bettingRound();
+	void pauseForUser(const std::string& prompt) const;
 	void printAllHands() const;
 	unsigned int rollNumber(unsigned int low, unsigned int high);
 	void showdown();
-
-
-	void pauseForUser(const std::string& prompt) const; //might use this in another place, check video poker if needed
 
 	//Private Data Members
 	static std::mt19937 s_RandGen;
