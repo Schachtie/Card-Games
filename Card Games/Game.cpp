@@ -23,8 +23,7 @@ using namespace std;
 
 // Constructors
 
-/*
-*/
+//Default Constructor
 Game::Game() {
 	m_NumPlayers = 1;
 	m_iBuyIn = 0;

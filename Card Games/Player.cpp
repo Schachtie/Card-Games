@@ -27,6 +27,8 @@ using namespace std;
 
 
 // Constructors
+
+//Default Constructor
 Player::Player() {
 	m_bActiveStatus = true;
 	m_iCredits = s_iSTARTINGCREDITS;

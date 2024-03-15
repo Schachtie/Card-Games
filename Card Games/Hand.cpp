@@ -30,14 +30,15 @@ ostream& operator<<(ostream& output, const Hand& hand) {
 	return output;
 }
 
-// Constructors and Destructors
-Hand::Hand() {
-	;
-}
 
-Hand::~Hand() {
-	;
-}
+
+// Constructors
+
+//Default Constructor
+Hand::Hand() {
+	m_iRank = 0;
+} //end of "Default Constructor"
+
 
 
 /*	Public Static Array for Hand Ranks

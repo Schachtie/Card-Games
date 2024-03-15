@@ -23,8 +23,7 @@ using namespace std;
 
 // Constructors and Destructor
 
-/*
-*/
+//Default Constructor
 Game_5CardDraw::Game_5CardDraw() {
 	//Set buyIn,minBet, currentPot amounts
 	m_iBuyIn = 5;
@@ -48,8 +47,7 @@ Game_5CardDraw::Game_5CardDraw() {
 } //end of "Default Constructor"
 
 
-/*
-*/
+//Outside User Constructor
 Game_5CardDraw::Game_5CardDraw(User* pOutsideUser) {
 	//Set buyIn,minBet, currentPot amounts
 	m_iBuyIn = 5;
@@ -74,8 +72,7 @@ Game_5CardDraw::Game_5CardDraw(User* pOutsideUser) {
 } //end of "Outside User Constructor"
 
 
-/*
-*/
+//Destructor
 Game_5CardDraw::~Game_5CardDraw() {
 	//Deallocate memory for each player
 	while (!m_ptrsPlayers.empty()) {

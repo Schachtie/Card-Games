@@ -20,17 +20,18 @@ using namespace std;
 
 
 
+// Constructor and Destructor
+
 //Default Constructor
 Player5Card::Player5Card() {
 	m_pHand = new Hand5();
-}
+} //end of "Default Constructor"
 
-//Copy Constructor
 
 //Destructor
 Player5Card::~Player5Card() {
 	delete m_pHand;
-}
+} //end of "Destructor"
 
 
 

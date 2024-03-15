@@ -26,21 +26,19 @@ using namespace std;
 
 
 
-//Constructors
+// Constructors
+
+//Default Constructor
 Hand5::Hand5() {
-	m_iRank = 0;
-} //dont use set function, the hand will be empty initially
+} //end of "Default Constructor"
+
 
 //Copy Constructor
 Hand5::Hand5(const Hand5& oldHand) {
 	this->m_iRank = oldHand.m_iRank;
 	this->m_Cards = oldHand.m_Cards;
 	this->m_ptrsTieBreakers = oldHand.m_ptrsTieBreakers;
-}
-
-Hand5::~Hand5() {
-	;
-}
+} //end of "Copy Constructor"
 
 
 

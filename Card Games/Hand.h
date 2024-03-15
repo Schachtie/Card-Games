@@ -24,7 +24,7 @@ class Hand
 public:
 	//Constructors and Destructor
 	Hand(); //default
-	virtual ~Hand();
+	virtual ~Hand() { }
 
 	// Public Static Hand Rank array
 	static const std::array<std::string, 10> s_HandRanks;

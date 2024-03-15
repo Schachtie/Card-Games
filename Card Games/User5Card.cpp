@@ -28,6 +28,7 @@ User5Card::User5Card() {
 } //end of "Default Constructor"
 
 
+//Outside User Constructor
 User5Card::User5Card(const User* const pOutsideUser) {
 	m_sName = pOutsideUser->getUserName();
 	m_iCredits = pOutsideUser->getCredits();

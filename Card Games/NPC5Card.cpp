@@ -23,17 +23,15 @@ mt19937 NPC5Card::s_RandGen(chrono::steady_clock::now().time_since_epoch().count
 
 
 
-// Constructors and Destructors
+// Constructors and Destructor
 
-/*
-*/
+//Default Constructor
 NPC5Card::NPC5Card() {
 	m_sName = "NPC";
 } //end of "Default Constructor"
 
 
-/*
-*/
+//Name Provided Constructor
 NPC5Card::NPC5Card(char newName[10]) {
 	m_sName = newName;
 	m_sName += " (NPC)";

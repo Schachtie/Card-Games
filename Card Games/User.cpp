@@ -19,11 +19,13 @@ using namespace std;
 
 // Constructors
 
+//Default Constructor
 User::User() {
 	setCredits(s_iSTARTINGCREDITS);
 } //end of "Default Constructor"
 
 
+//Name Constructor
 User::User(const string& name) {
 	this->User::User();
 	setUserName(name);

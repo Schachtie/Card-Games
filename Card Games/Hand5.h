@@ -21,7 +21,7 @@ public:
 	//Constructors and Destructor
 	Hand5(); //default
 	Hand5(const Hand5& oldHand); //copy
-	virtual ~Hand5();
+	virtual ~Hand5() { }
 
 	// Public Virtual Get and Set Functions
 	virtual const PlayingCard* getCPtrCardAt(size_t index) const;

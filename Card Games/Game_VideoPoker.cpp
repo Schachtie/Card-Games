@@ -20,18 +20,16 @@ using namespace std;
 
 
 
-// Constructors
+// Constructors and Destructor
 
-/*
-*/
+//Default Constructor
 Game_VideoPoker::Game_VideoPoker() {
 	m_iMinBet = 1;
 	m_ptrsPlayers.push_back(createUser());
-} //end of default constructor
+} //end of "Default Constructor"
 
 
-/*
-*/
+//Outside User Constructor
 Game_VideoPoker::Game_VideoPoker(User* pOutsideUser) {
 	m_iMinBet = 1;
 	m_pOutsideUser = pOutsideUser;
@@ -39,8 +37,7 @@ Game_VideoPoker::Game_VideoPoker(User* pOutsideUser) {
 } //end of "Outside User Constructor"
 
 
-/*
-*/
+//Destructor
 Game_VideoPoker::~Game_VideoPoker() {
 	//Deallocate memory for each player
 	while (!m_ptrsPlayers.empty()) {
