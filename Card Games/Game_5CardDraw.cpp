@@ -127,6 +127,7 @@ void Game_5CardDraw::run() {
 						break;
 					}
 					case 2: { //Rules
+						printRules("Rules_FiveCardDraw.txt");
 						break;
 					}
 					case 0: { //Exit to main menu

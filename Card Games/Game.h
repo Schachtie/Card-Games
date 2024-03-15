@@ -8,6 +8,7 @@
 
 // Header Files
 #include <vector>
+#include <string>
 
 #include "Player.h"
 #include "DeckOfCards.h"
@@ -36,6 +37,7 @@ protected:
 
 	// Protected Member Functions
 	bool playAgain() const;
+	void printRules(const std::string& fileName);
 
 	// Protected Virtual Member Functions
 	virtual void buyInRound() = 0;

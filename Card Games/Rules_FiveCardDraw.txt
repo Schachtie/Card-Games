@@ -1,0 +1,38 @@
+		]======[ RULES ]======[
+		\___ Five Card Draw __/
+
+	Once the user selects to play, all players 
+agree to place a buy in of credits to create the
+initial pot. Everyone who bought in is then dealt
+five cards each. A betting round then occurs.
+During the betting round, each player gets a turn
+to either call the previous bet, raise the bet,
+or fold. If the bet is raised, any players
+who have placed lower bets must call to that bet
+as well. Once all players have agreed to the same
+bet or folded, each player is allowed to discard
+and redraw any, all, or none of their cards.
+After the redraw phase, another betting round
+takes place. Finally, a showdown occurs with all
+players that are still playing. The player with
+the highest hand rank wins the pot. If any players
+have the same rank, ties will be broken based on
+the face value of the cards that contribute to 
+their rank then any remaining cards.
+	
+	All hand ranks are the same as in standard poker
+as well as the Video Poker game inside this program.
+Hand ranks are ordered from best to worst as follows:
+	- Royal Flush (10, J, Q, K, A)
+	- Straight Flush
+	- Four of a Kind
+	- Full House (A Three of a Kind and a Pair)
+	- Flush (5 cards of the same suit)
+	- Straight (A run of 5 consecutive face values)
+	- Three of a Kind
+	- Two Pair
+	- A Pair
+	- High Card
+
+	More information for five card draw poker can be found
+	at https://en.wikipedia.org/wiki/Five-card_draw.

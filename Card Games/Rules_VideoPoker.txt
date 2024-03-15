@@ -1,0 +1,31 @@
+		]======[ RULES ]======[
+		\____ Video Poker ____/
+
+	Once the user selects to play, they begin by
+placing a bet of credits. The player is then dealt
+five standard playing cards. The player can then
+choose to discard any, all, or none of their cards
+and redraw new ones. Once the redraw phase is
+complete, the program pays out the associated 
+amount of credits to the user.
+	
+	All hand ranks are the same as in standard poker
+as well as the Five Card Draw game inside this program.
+Hand ranks are ordered from best to worst as follows:
+	- Royal Flush (10, J, Q, K, A)
+	- Straight Flush
+	- Four of a Kind
+	- Full House (A Three of a Kind and a Pair)
+	- Flush (5 cards of the same suit)
+	- Straight (A run of 5 consecutive face values)
+	- Three of a Kind
+	- Two Pair
+	- A Pair
+	- High Card
+
+	This video poker program follows the Jacks or
+Better variation. The payout table is listed before
+each game.
+
+	More information for video poker can be found 
+directly at https://en.wikipedia.org/wiki/Video_poker.

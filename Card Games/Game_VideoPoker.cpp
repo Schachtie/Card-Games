@@ -93,6 +93,7 @@ void Game_VideoPoker::run() {
 					break;
 				}
 				case 2: { //Rules
+					printRules("Rules_VideoPoker.txt");
 					break;
 				}
 				case 0: { //Exit to main menu

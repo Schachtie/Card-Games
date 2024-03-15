@@ -13,6 +13,7 @@
 
 // Header Files
 #include <iostream>
+#include <fstream>
 
 #include "Game.h"
 
@@ -62,3 +63,27 @@ bool Game::playAgain() const {
 		cin.clear();
 	}
 } //end of "playAgain"
+
+
+/*	printRules
+* 
+*	@note: Opens file and prints rules to terminal.
+* 
+*	@param: File name in string format, must have extension.
+* 
+*	@return: void
+*/
+void Game::printRules(const std::string& fileName) {
+	ifstream inRulesFile(fileName, ios::in);
+	if (inRulesFile) {
+		cout << endl;
+		string sLine;
+		while (getline(inRulesFile, sLine)) {
+			cout << sLine << endl;
+		}
+		cout << endl;
+	}
+	else {
+		cout << "\nError opening rules file.\n" << endl;
+	}
+} //end of "printRules"

@@ -97,5 +97,11 @@
     <Text Include="NPC_Names.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="Rules_VideoPoker.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Rules_FiveCardDraw.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
